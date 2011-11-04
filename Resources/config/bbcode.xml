@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="twig_extensions.BBCodeHelper.class">FM\BbCodeBundle\Twig\Extension\BbCodeHelperExtension</parameter>
+		<parameter key="twig_extensions.BBCodeHelper.BBCodeAlias" />
+	</parameters>
+
+	<services>
+		<!-- BBCodeHelperExtension -->
+		<service id="twig.extension.BBCodeHelper" class="%twig_extensions.BBCodeHelper.class%">
+			<tag name="twig.extension" />
+            <argument type="service" id="service_container"></argument>
+			<call method="setAlias">
+				<argument>%twig_extensions.BBCodeHelper.BBCodeAlias%</argument>
+			</call>
+		</service>
+	</services>
+
+</container>
