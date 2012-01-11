@@ -29,6 +29,7 @@ class Configuration
         $treeBuilder->root('fm_bb_code')
             ->children()
                 ->scalarNode('locale')->cannotBeEmpty()->defaultValue('en-US')->end()
+                ->scalarNode('xhtml')->defaultValue(true)->end()
                 ->arrayNode('filters')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('default')->cannotBeEmpty()->defaultValue('enabled')->end()

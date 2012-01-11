@@ -30,6 +30,8 @@ class FMBbCodeExtension extends Extension {
         $loader->load('bbcode.xml');
         
         $container->setParameter('fm_bb_code.locale', $config['locale']);
+        
+        $container->setParameter('fm_bb_code.xhtml', $config['xhtml']);
 
         $container->setParameter('fm_bb_code.filters.default', $config['filters']['default']);
         $container->setParameter('fm_bb_code.filters.block', $config['filters']['block']);
