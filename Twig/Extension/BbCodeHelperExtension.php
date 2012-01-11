@@ -12,6 +12,8 @@ use Decoda;
 class BbCodeHelperExtension extends \Twig_Extension {
 
     protected $locale;
+    
+    protected $xhtml;
 
     protected $default;
     protected $block;
@@ -32,6 +34,7 @@ class BbCodeHelperExtension extends \Twig_Extension {
     public function __construct(ContainerInterface $container)
     {
         $this->locale  = $container->getParameter('fm_bb_code.locale');
+        $this->xhtml  = $container->getParameter('fm_bb_code.xhtml');
         $this->default = $container->getParameter('fm_bb_code.filters.default');
         $this->block   = $container->getParameter('fm_bb_code.filters.block');
         $this->code    = $container->getParameter('fm_bb_code.filters.code');
@@ -91,6 +94,10 @@ class BbCodeHelperExtension extends \Twig_Extension {
 
 		$code = new Decoda($value);
         $code->setLocale($this->locale);
+        
+        if (true === $this->xhtml) {
+			$code->setXhtml(true);
+		}
 
         if ($this->default=='enabled')
             $code->addFilter(new \DefaultFilter());

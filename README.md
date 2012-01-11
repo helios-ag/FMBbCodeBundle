@@ -100,6 +100,7 @@ Run the vendors script::
 
     fm_bb_code:
       locale: ru-ru
+      xhtml: true
       filters:
         default: enabled
         block: enabled
