@@ -3,7 +3,8 @@
 namespace FM\BbCodeBundle\Twig\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Decoda;
+use FM\BbCodeBundle\Decoda\Decoda;
+
 /**
  * Twig extension providing useful array handling filters.
  *
@@ -11,6 +12,8 @@ use Decoda;
  */
 class BbCodeHelperExtension extends \Twig_Extension {
 
+    protected $container;
+    
     protected $locale;
     
     protected $xhtml;
@@ -33,6 +36,8 @@ class BbCodeHelperExtension extends \Twig_Extension {
      */
     public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
+        
         $this->locale  = $container->getParameter('fm_bb_code.locale');
         $this->xhtml  = $container->getParameter('fm_bb_code.xhtml');
         $this->default = $container->getParameter('fm_bb_code.filters.default');
@@ -87,13 +92,28 @@ class BbCodeHelperExtension extends \Twig_Extension {
 	 * @param mixed $without Entries to be removed.
 	 * @return array Remaining entries of {@code $value} after removing the entries of {@code $without}.
 	 */
-	public function BBCode($value) {
+	public function BBCode($value, $locale = null) {
 		if (!is_string($value)) {
 			throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
 		}
 
 		$code = new Decoda($value);
-        $code->setLocale($this->locale);
+        
+        if (empty($locale)) {
+            
+            // apply locale from the session
+            if ('default' == $this->locale) {
+                $code->setLocale($this->container->get('session')->getLocale());
+                
+            // apply locale defined in the configuration
+            } else {
+                
+                // apply locale from the template
+                $code->setLocale($this->locale);
+            }
+        } else {
+            $code->setLocale($locale);
+        }
         
         if (true === $this->xhtml) {
 			$code->setXhtml(true);
