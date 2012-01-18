@@ -99,6 +99,7 @@ Run the vendors script::
 ## Full tree of parameters
 
     fm_bb_code:
+      \# language code or 'default' to set it from the session 
       locale: ru-ru
       xhtml: true
       filters:

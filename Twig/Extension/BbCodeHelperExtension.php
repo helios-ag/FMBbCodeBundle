@@ -3,7 +3,8 @@
 namespace FM\BbCodeBundle\Twig\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Decoda;
+use FM\BbCodeBundle\Decoda\Decoda;
+
 /**
  * Twig extension providing useful array handling filters.
  *
