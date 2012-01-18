@@ -11,6 +11,8 @@ use Decoda;
  */
 class BbCodeHelperExtension extends \Twig_Extension {
 
+    protected $container;
+    
     protected $locale;
     
     protected $xhtml;
@@ -33,6 +35,8 @@ class BbCodeHelperExtension extends \Twig_Extension {
      */
     public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
+        
         $this->locale  = $container->getParameter('fm_bb_code.locale');
         $this->xhtml  = $container->getParameter('fm_bb_code.xhtml');
         $this->default = $container->getParameter('fm_bb_code.filters.default');
@@ -94,8 +98,18 @@ class BbCodeHelperExtension extends \Twig_Extension {
 
 		$code = new Decoda($value);
         
-        if(empty($locale)) {
-            $code->setLocale($this->locale);
+        if (empty($locale)) {
+            
+            // apply locale from the session
+            if ('default' == $this->locale) {
+                $code->setLocale($this->container->get('session')->getLocale());
+                
+            // apply locale defined in the configuration
+            } else {
+                
+                // apply locale from the template
+                $code->setLocale($this->locale);
+            }
         } else {
             $code->setLocale($locale);
         }
