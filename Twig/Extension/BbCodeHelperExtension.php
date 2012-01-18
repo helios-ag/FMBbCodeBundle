@@ -87,13 +87,18 @@ class BbCodeHelperExtension extends \Twig_Extension {
 	 * @param mixed $without Entries to be removed.
 	 * @return array Remaining entries of {@code $value} after removing the entries of {@code $without}.
 	 */
-	public function BBCode($value) {
+	public function BBCode($value, $locale = null) {
 		if (!is_string($value)) {
 			throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
 		}
 
 		$code = new Decoda($value);
-        $code->setLocale($this->locale);
+        
+        if(empty($locale)) {
+            $code->setLocale($this->locale);
+        } else {
+            $code->setLocale($locale);
+        }
         
         if (true === $this->xhtml) {
 			$code->setXhtml(true);
