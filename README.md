@@ -44,8 +44,8 @@ Using the vendors script
 
 Add the following lines in your ``deps`` file::
 
-    [php-decoda]
-    git=http://github.com/milesj/php-decoda.git
+    [FMBbCodeBundle]
+    git=http://github.com/helios-ag/FMBbCodeBundle.git
 
 Run the vendors script::
 
