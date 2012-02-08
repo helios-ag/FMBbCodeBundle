@@ -1,0 +1,22 @@
+{
+    "name": "helios-ag/FMBbCodeBundle",
+    "type": "symfony-bundle",
+    "description": "Symfony FMBbCodeBundle",
+    "keywords": ["bbcode"],
+    "homepage": "https://github.com/helios-ag/FMBbCodeBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Albert Ganiev",
+            "email": "helios.ag@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "php-decoda": "=3.1"
+    },
+    "autoload": {
+        "psr-0": { "FM\\BBCodeBundle": "" }
+    },
+    "target-dir": "FM/BbCodeBundle"
+}
