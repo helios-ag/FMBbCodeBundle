@@ -36,9 +36,9 @@ Run the vendors script::
 
 #### Download
 
-With submodule: `git submodule add git://github.com/helios-ag/FMBbCodeBundle.git bundles/FM/BbCodeBundle`
+With submodule: `git submodule add git://github.com/helios-ag/FMBbCodeBundle.git vendor/bundles/FM/BbCodeBundle`
 
-With clone: `git clone git://github.com/helios-ag/FMBbCodeBundle bundles/FM/BbCodeBundle`
+With clone: `git clone git://github.com/helios-ag/FMBbCodeBundle vendor/bundles/FM/BbCodeBundle`
 
 Using the vendors script
 
