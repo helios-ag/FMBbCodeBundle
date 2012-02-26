@@ -88,13 +88,13 @@ Run the vendors script::
 
 # Examples to use the extension in your Twig template
 
-     {{'[b]Bold text[/b]'|BBCode}}<br />
-     {{'[u]Underlined text[/u]'|BBCode}}<br />
-     {{'[i]Italic text[/i]'|BBCode}}<br />
+     {{'[b]Bold text[/b]'|BBCode}}
+     {{'[u]Underlined text[/u]'|BBCode}}
+     {{'[i]Italic text[/i]'|BBCode}}
 
      After enabling "quote" filter, you can do such things:
 
-      {{'[quote="helios"]My quote[/quote]'|BBCode}}<br />
+      {{'[quote="helios"]My quote[/quote]'|BBCode}}
      
 ## Full tree of parameters
 
