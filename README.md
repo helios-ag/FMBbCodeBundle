@@ -1,4 +1,4 @@
-[PHP-Decoda](milesj/php-decoda) integration in Symfony2
+[PHP-Decoda](/milesj/php-decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
 
