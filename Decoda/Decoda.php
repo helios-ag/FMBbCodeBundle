@@ -1,6 +1,6 @@
 <?php
 
-namespace FM\BbCodeBundle\Decoda;
+namespace FM\BBCodeBundle\Decoda;
 
 use Decoda as BaseDecoda;
 

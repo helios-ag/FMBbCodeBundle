@@ -14,5 +14,13 @@
 		"link": "enlace",
 		"mail": "correo",
 		"quoteBy": "{author} escribió:"
-	}
+	},
+    "ru": {
+   		"spoiler": "Спойлер",
+   		"hide": "Скрыть",
+   		"show": "Показать",
+   		"link": "ссылка",
+   		"mail": "электронная почта",
+   		"quoteBy": "{author} написал:"
+   	}
 }

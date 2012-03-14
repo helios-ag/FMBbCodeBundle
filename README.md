@@ -1,119 +1,133 @@
-[PHP-Decoda](http://milesj.me/code/php/decoda) integration in Symfony2
+[PHP-Decoda](milesj/php-decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
 
 ## Installation
 
-### Install PHP-Decoda
+To install this bundle, you'll need both the [Decoda library](/milesj/php-decoda)
+and this bundle. Installation depends on how your project is setup:
 
-#### Download
+### Step 1: Installation
 
-With submodule: `git submodule add git://github.com/milesj/php-decoda.git vendor/php-decoda`
+Add the following lines to your ``deps`` file
 
-With clone: `git clone git://github.com/milesj/php-decoda.git vendor/php-decoda`
-
-Using the vendors script
-
-Add the following lines in your ``deps`` file::
-
-    [php-decoda]
+```
+[php-decoda]
     git=http://github.com/milesj/php-decoda.git
 
-Run the vendors script::
-
-    ./bin/vendors install
-
-#### Register autoloading
-
-    // app/autoload.php
-
-    $loader->registerPrefixes(array(
-        ...
-        'Decoda' => __DIR__.'/../vendor/php-decoda/decoda',
-    ));
-
-### Install FMBbCodeBundle
-
-#### Download
-
-With submodule: `git submodule add git://github.com/helios-ag/FMBbCodeBundle.git vendor/bundles/FM/BbCodeBundle`
-
-With clone: `git clone git://github.com/helios-ag/FMBbCodeBundle vendor/bundles/FM/BbCodeBundle`
-
-Using the vendors script
-
-Add the following lines in your ``deps`` file::
-
-    [FMBbCodeBundle]
+[FMBBCodeBundle]
     git=http://github.com/helios-ag/FMBbCodeBundle.git
+    target=bundles/FM/BBCodeBundle
+```
 
 Run the vendors script::
 
     ./bin/vendors install
 
-#### Register autoloading
+Or you can use git submodules:
 
-    // app/autoload.php
+### Step 2: Configure the autoloader
 
-    $loader->registerNamespaces(array(
-        ...
-        'FM' => __DIR__.'/../vendor/bundles',
+Add the following entries to your autoloader:
+
+``` php
+<?php
+// app/autoload.php
+
+$loader->registerNamespaces(array(
+    // ...
+       'FM' => __DIR__.'/../vendor/bundles',
         // your other namespaces
     ));
 
-#### Register the bundle
+$loader->registerPrefixes(array(
+    //...
+       'Decoda' => __DIR__.'/../vendor/php-decoda/decoda',
+    // your other libraries
+    ));
+```
 
-    // app/AppKernel.php
+### Step 3: Enable the bundle
 
-    public function registerBundles()
-    {
-        return array(
-            // ...
-            new FM\BbCodeBundle\FMBbCodeBundle(),
-            // ...
-        );
-    }
+Finally, enable the bundle in the kernel:
+
+``` php
+<?php
+// app/AppKernel.php
+
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new FM\BBCodeBundle\FMBBCodeBundle(),
+    );
+}
+```
 
 ### Basic configuration
 
 ## Make the Twig extensions available by updating your configuration:
 
-   this is mandatory parameters:
-
-   fm_bb_code:
-      locale: ru-ru
-
     By default only "default" filter enabled, which provide support
     for [b], [i], [u], [s], [sub], [sup] BBCodes
 
+
 # Examples to use the extension in your Twig template
 
-     {{'[b]Bold text[/b]'|BBCode}}
-     {{'[u]Underlined text[/u]'|BBCode}}
-     {{'[i]Italic text[/i]'|BBCode}}
+Define BBCode filter in your config.yml:
+
+``` yaml
+    fm_bbcode:
+      filter_sets:
+        my_default_filter:
+          locale: ru
+          xhtml: true
+          filters: [ default ]
+```
+
+And you can do the following:
+
+``` jinja
+     {{'[b]Bold text[/b]'|bbcode_filter('my_default_filter')}}
+     {{'[u]Underlined text[/u]'|bbcode_filter('my_default_filter')}}
+     {{'[i]Italic text[/i]'|bbcode_filter('my_default_filter')}}
+```
+
+``` yaml
+    fm_bbcode:
+      filter_sets:
+        my_default_filter:
+          locale: ru
+          xhtml: true
+          filters: [ default, quote ]
+          whitelist: [ b, quote ]
+```
 
      After enabling "quote" filter, you can do such things:
 
-      {{'[quote="helios"]My quote[/quote]'|BBCode}}
-     
-## Full tree of parameters
+``` jinja
+      {{'[quote="helios"]My quote[/quote]'|bbcode_filter('my_default_filter')}}
+```
 
-    fm_bb_code:
-      # language code or 'default' to set it from the session 
-      locale: ru-ru
-      xhtml: true
-      filters:
-        default: enabled
-        block: enabled
-        code: enabled
-        email: enabled
-        image: enabled
-        list: enabled
-        quote: enabled
-        text: enabled
-        url: enabled
-        video: enabled
+Also you can define multiple filter sets to under filter_sets parameter like this:
 
-### TODO:
+``` yaml
+    fm_bbcode:
+      filter_sets:
+        my_forum_filter:
+          locale: ru
+          xhtml: true
+          filters: [ default, quote ]
+          whitelist: [ b, quote ]
+        my_comment_filter:
+          locale: ru
+          xhtml: true
+          filters: [ default, block, code, email, image, list, quote, text, url, video ]
+```
 
-    Add support of whitelist tags and hooks.
+``` jinja
+      {{'[quote="helios"]My quote[/quote]'|bbcode_filter('my_forum_filter')}}
+      {{'[code="helios"]My source code[/code]'|bbcode_filter('my_comment_filter')}}
+```
+
+Please keep in mind, that whitelist tags overrides filters configuration.

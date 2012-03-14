@@ -1,9 +1,9 @@
 <?php
 
-namespace FM\BbCodeBundle\DependencyInjection;
+namespace FM\BbcodeBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * This class contains the configuration information for the bundle
@@ -15,41 +15,44 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-class Configuration
+class Configuration implements ConfigurationInterface
 {
     /**
      * Generates the configuration tree.
      *
-     * @return NodeInterface
+     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
      */
-    public function getConfigTree()
+    public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('fm_bbcode', 'array');
 
-        $treeBuilder->root('fm_bb_code')
+        $rootNode
             ->children()
-                ->scalarNode('locale')->cannotBeEmpty()->defaultValue('en-US')->end()
-                ->scalarNode('xhtml')->defaultValue(true)->end()
-                ->arrayNode('filters')->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('default')->cannotBeEmpty()->defaultValue('enabled')->end()
-                        ->scalarNode('block')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('code')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('email')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('image')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('list')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('quote')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('image')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('list')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('quote')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('text')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('url')->cannotBeEmpty()->defaultValue('disabled')->end()
-                        ->scalarNode('video')->cannotBeEmpty()->defaultValue('disabled')->end()
+                ->arrayNode('filter_sets')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('locale')->defaultValue('ru-ru')->end()
+                            ->scalarNode('xhtml')->defaultValue(true)->end()
+                            ->arrayNode('filters')
+                                ->useAttributeAsKey('name')
+                                ->prototype('variable')->end()
+                            ->end()
+                            ->arrayNode('hooks')
+                                ->useAttributeAsKey('name')
+                                ->prototype('variable')->end()
+                            ->end()
+                            ->arrayNode('whitelist')
+                                ->useAttributeAsKey('name')
+                                ->prototype('variable')->end()
+                            ->end()
+                           ->end()
+                        ->end()
                     ->end()
-                ->end()
             ->end()
         ->end();
 
-        return $treeBuilder->buildTree();
+        return $treeBuilder;
     }
 }
