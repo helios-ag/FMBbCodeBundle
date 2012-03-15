@@ -103,13 +103,13 @@ And you can do the following:
           whitelist: [ b, quote ]
 ```
 
-     After enabling "quote" filter, you can do such things:
+After enabling "quote" filter, you can do such things:
 
 ``` jinja
       {{'[quote="helios"]My quote[/quote]'|bbcode_filter('my_default_filter')}}
 ```
 
-Also you can define multiple filter sets to under filter_sets parameter like this:
+Also you can define multiple filter sets under filter_sets parameter like this:
 
 ``` yaml
     fm_bbcode:
@@ -127,7 +127,7 @@ Also you can define multiple filter sets to under filter_sets parameter like thi
 
 ``` jinja
       {{'[quote="helios"]My quote[/quote]'|bbcode_filter('my_forum_filter')}}
-      {{'[code="helios"]My source code[/code]'|bbcode_filter('my_comment_filter')}}
+      {{'[code]My source code[/code]'|bbcode_filter('my_comment_filter')}}
 ```
 
 Please keep in mind, that whitelist tags overrides filters configuration.
