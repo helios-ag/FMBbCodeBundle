@@ -15,9 +15,9 @@ Add the following lines to your ``deps`` file
 [php-decoda]
     git=http://github.com/milesj/php-decoda.git
 
-[FMBBCodeBundle]
+[FMBbcodeBundle]
     git=http://github.com/helios-ag/FMBbCodeBundle.git
-    target=bundles/FM/BBCodeBundle
+    target=bundles/FM/BbcodeBundle
 ```
 
 Run the vendors script::
@@ -59,7 +59,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new FM\BBCodeBundle\FMBBCodeBundle(),
+        new FM\BbcodeBundle\FMBbcodeBundle(),
     );
 }
 ```
