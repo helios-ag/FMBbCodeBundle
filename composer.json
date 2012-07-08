@@ -1,5 +1,5 @@
 {
-    "name": "helios-ag/FMBbCodeBundle",
+    "name": "helios-ag/fm-bbcode-bundle",
     "type": "symfony-bundle",
     "description": "Symfony FMBbCodeBundle",
     "keywords": ["bbcode"],
