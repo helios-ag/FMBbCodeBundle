@@ -24,7 +24,23 @@ Run the vendors script::
 
     ./bin/vendors install
 
-Or you can use git submodules:
+Or you can use composer to install this bundle:
+Add FMBbcodeBundle in your composer.json:
+
+```js
+{
+    "require": {
+        "helios-ag/fm-bbcode-bundle": "*"
+    }
+}
+```
+
+Now tell composer to download the bundle by running the command:
+
+``` bash
+$ php composer.phar update helios-ag/fm-bbcode-bundle
+```
+
 
 ### Step 2: Configure the autoloader
 
