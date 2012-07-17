@@ -16,7 +16,7 @@
         "mjohnson/decoda": "3.*"
     },
     "autoload": {
-        "psr-0": { "FM\\BBCodeBundle": "" }
+        "psr-0": { "FM\\BbcodeBundle": "" }
     },
-    "target-dir": "FM/BbCodeBundle"
+    "target-dir": "FM/BbcodeBundle"
 }
