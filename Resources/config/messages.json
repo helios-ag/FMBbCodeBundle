@@ -22,5 +22,13 @@
    		"link": "ссылка",
    		"mail": "электронная почта",
    		"quoteBy": "{author} написал:"
-   	}
+   	},
+    "de": {
+		"spoiler": "Spoiler",
+		"hide": "Verstecke",
+		"show": "Zeige",
+		"link": "link",
+		"mail": "mail",
+		"quoteBy": "{author} schrieb:"
+    }
 }
