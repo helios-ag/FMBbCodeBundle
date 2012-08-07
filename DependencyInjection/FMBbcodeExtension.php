@@ -29,5 +29,8 @@ class FMBbcodeExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('bbcode.xml');
         $container->setParameter('fm_bbcode.filter_sets', $config['filter_sets']);
+        $container->setParameter('fm_bbcode.config.filters', $config['config']['filters']);
+        $container->setParameter('fm_bbcode.config.hooks', $config['config']['hooks']);
+        $container->setParameter('fm_bbcode.config.messages', $config['config']['messages']);
     }
 }

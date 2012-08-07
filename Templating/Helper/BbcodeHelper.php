@@ -4,8 +4,9 @@ namespace FM\BbcodeBundle\Templating\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Templating\Helper\Helper;
-use FM\BbcodeBundle\Decoda\Decoda;
-use FM\BbcodeBundle\Decoda\DecodaManager;
+use FM\BbcodeBundle\Decoda\Decoda as Decoda;
+use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
+
 /**
  * @author Al Ganiev <helios.ag@gmail.com>
  * @copyright 2012 Al Ganiev
@@ -31,8 +32,21 @@ class BbcodeHelper extends Helper
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        $code = new Decoda($value);
+        $messages = json_decode(\file_get_contents($this->container->getParameter('fm_bbcode.config.messages')), true);
         $filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
+
+        $extra_filters = $this->container->getParameter('fm_bbcode.config.filters');
+        $extra_hooks   = $this->container->getParameter('fm_bbcode.config.hooks');
+
+        $code = new Decoda($value,$messages);
+
+        foreach($extra_filters as $extra_filter){
+            DecodaManager::add_filter($extra_filter['classname'], $extra_filter['class'] );
+        }
+        foreach($extra_hooks as $extra_hook){
+            DecodaManager::add_hook($extra_hook['classname'], $extra_hook['class'] );
+        }
+
         $current_filter = $filter_sets[$filter];
 
         $locale = $current_filter['locale'];
@@ -55,9 +69,10 @@ class BbcodeHelper extends Helper
             $code->setXhtml(true);
         }
 
+
         $decoda_manager = new DecodaManager($code, $current_filter['filters'], $current_filter['hooks'], $current_filter['whitelist']);
 
-        return $decoda_manager->getResult()->parse(true);
+        return $decoda_manager->getResult()->parse();
     }
 
     public function getName()

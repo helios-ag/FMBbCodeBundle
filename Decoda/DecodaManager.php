@@ -17,6 +17,8 @@ class DecodaManager
     protected $whitelist;
     protected $value;
 
+    protected static $extra_filters;
+    protected static $extra_hooks;
     /**
      * @param Decoda $value
      * @param array $filters
@@ -29,7 +31,18 @@ class DecodaManager
         $this->filters = $filters;
         $this->hooks = $hooks;
         $this->whitelist = $whitelist;
+
     }
+
+    public static function add_filter($name, $filter){
+        static::$extra_filters[$name] = $filter;
+    }
+
+
+    public static function add_hook($name, $hook){
+        static::$extra_hooks[$name] = $hook;
+    }
+
 
     /**
      * Applies filter specified in parameter
@@ -41,6 +54,11 @@ class DecodaManager
     protected function apply_filter(Decoda $code, $filter)
     {
         //default, block, code, email, image, list, quote, text, url, video ]
+        if(isset(static::$extra_filters[$filter])){
+            $code->addFilter(new static::$extra_filters[$filter]());
+            return $code;
+        }
+
         switch ($filter) {
             case 'block':
                 $code->addFilter(new \BlockFilter());
@@ -84,6 +102,11 @@ class DecodaManager
      */
     protected function apply_hook(Decoda $code, $hook)
     {
+        if(isset(static::$extra_hooks[$hook])){
+            $code->addFilter(new static::$extra_hooks[$hook]());
+            return $code;
+        }
+
         switch ($hook) {
             case 'censor':
                 $code->addHook(new \CensorHook());
