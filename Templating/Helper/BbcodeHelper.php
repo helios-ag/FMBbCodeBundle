@@ -4,6 +4,8 @@ namespace FM\BbcodeBundle\Templating\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Templating\Helper\Helper;
+use FM\BbcodeBundle\Decoda\Decoda;
+use FM\BbcodeBundle\Decoda\DecodaManager;
 /**
  * @author Al Ganiev <helios.ag@gmail.com>
  * @copyright 2012 Al Ganiev
