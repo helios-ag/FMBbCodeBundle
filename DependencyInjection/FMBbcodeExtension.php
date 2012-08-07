@@ -32,5 +32,6 @@ class FMBbcodeExtension extends Extension
         $container->setParameter('fm_bbcode.config.filters', $config['config']['filters']);
         $container->setParameter('fm_bbcode.config.hooks', $config['config']['hooks']);
         $container->setParameter('fm_bbcode.config.messages', $config['config']['messages']);
+        $container->setParameter('fm_bbcode.config.templates', $config['config']['templates']);
     }
 }

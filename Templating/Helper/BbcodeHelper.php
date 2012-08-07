@@ -16,9 +16,27 @@ class BbcodeHelper extends Helper
 {
     protected $container;
 
+    protected $filter_sets;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $extra_filters = $this->container->getParameter('fm_bbcode.config.filters');
+        $extra_hooks   = $this->container->getParameter('fm_bbcode.config.hooks');
+        $extra_templatePaths = $this->container->getParameter('fm_bbcode.config.templates');
+        $this->filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
+
+        foreach($extra_filters as $extra_filter){
+            DecodaManager::add_filter($extra_filter['classname'], $extra_filter['class'] );
+        }
+        foreach($extra_hooks as $extra_hook){
+            DecodaManager::add_hook($extra_hook['classname'], $extra_hook['class'] );
+        }
+        foreach($extra_templatePaths as $extra_path){
+            DecodaManager::add_templatePath($extra_path['path']);
+        }
+
+
     }
 
     /**
@@ -33,21 +51,10 @@ class BbcodeHelper extends Helper
         }
 
         $messages = json_decode(\file_get_contents($this->container->getParameter('fm_bbcode.config.messages')), true);
-        $filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
-
-        $extra_filters = $this->container->getParameter('fm_bbcode.config.filters');
-        $extra_hooks   = $this->container->getParameter('fm_bbcode.config.hooks');
 
         $code = new Decoda($value,$messages);
 
-        foreach($extra_filters as $extra_filter){
-            DecodaManager::add_filter($extra_filter['classname'], $extra_filter['class'] );
-        }
-        foreach($extra_hooks as $extra_hook){
-            DecodaManager::add_hook($extra_hook['classname'], $extra_hook['class'] );
-        }
-
-        $current_filter = $filter_sets[$filter];
+        $current_filter = $this->filter_sets[$filter];
 
         $locale = $current_filter['locale'];
         $xhtml = $current_filter['xhtml'];

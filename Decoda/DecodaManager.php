@@ -1,8 +1,8 @@
 <?php
-
 namespace FM\BbcodeBundle\Decoda;
 
 use FM\BbcodeBundle\Decoda\Decoda;
+use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,6 +19,8 @@ class DecodaManager
 
     protected static $extra_filters;
     protected static $extra_hooks;
+    protected static $extra_paths;
+
     /**
      * @param Decoda $value
      * @param array $filters
@@ -42,6 +44,11 @@ class DecodaManager
     public static function add_hook($name, $hook){
         static::$extra_hooks[$name] = $hook;
     }
+
+    public static function add_templatePath( $path ){
+        static::$extra_paths[] = $path;
+    }
+
 
 
     /**
@@ -102,6 +109,7 @@ class DecodaManager
      */
     protected function apply_hook(Decoda $code, $hook)
     {
+
         if(isset(static::$extra_hooks[$hook])){
             $code->addFilter(new static::$extra_hooks[$hook]());
             return $code;
@@ -137,6 +145,16 @@ class DecodaManager
      */
     public function getResult()
     {
+        $decodaPhpEngine = new DecodaPhpEngine();
+
+        foreach(static::$extra_paths as $extraPath){
+            $decodaPhpEngine->setpath($extraPath);
+        }
+
+
+        $this->value->setTemplateEngine($decodaPhpEngine);
+
+
         foreach($this->filters as $filter)
         {
             $this->value = $this->apply_filter($this->value, $filter);
