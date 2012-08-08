@@ -50,7 +50,9 @@ class BbcodeHelper extends Helper
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        $messages = json_decode(\file_get_contents($this->container->getParameter('fm_bbcode.config.messages')), true);
+        $messages = $this->container->getParameter('fm_bbcode.config.messages');
+
+        $messages = empty($messages) ? array() : json_decode(\file_get_contents($messages), true);
 
         $code = new Decoda($value,$messages);
 

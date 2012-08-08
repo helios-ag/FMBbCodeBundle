@@ -17,9 +17,9 @@ class DecodaManager
     protected $whitelist;
     protected $value;
 
-    protected static $extra_filters;
-    protected static $extra_hooks;
-    protected static $extra_paths;
+    protected static $extra_filters = array();
+    protected static $extra_hooks = array();
+    protected static $extra_paths = array();
 
     /**
      * @param Decoda $value
@@ -150,7 +150,6 @@ class DecodaManager
         foreach(static::$extra_paths as $extraPath){
             $decodaPhpEngine->setpath($extraPath);
         }
-
 
         $this->value->setTemplateEngine($decodaPhpEngine);
 
