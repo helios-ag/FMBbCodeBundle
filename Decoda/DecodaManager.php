@@ -1,8 +1,8 @@
 <?php
-
 namespace FM\BbcodeBundle\Decoda;
 
 use FM\BbcodeBundle\Decoda\Decoda;
+use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,6 +17,10 @@ class DecodaManager
     protected $whitelist;
     protected $value;
 
+    protected static $extra_filters = array();
+    protected static $extra_hooks = array();
+    protected static $extra_paths = array();
+
     /**
      * @param Decoda $value
      * @param array $filters
@@ -29,7 +33,23 @@ class DecodaManager
         $this->filters = $filters;
         $this->hooks = $hooks;
         $this->whitelist = $whitelist;
+
     }
+
+    public static function add_filter($name, $filter){
+        static::$extra_filters[$name] = $filter;
+    }
+
+
+    public static function add_hook($name, $hook){
+        static::$extra_hooks[$name] = $hook;
+    }
+
+    public static function add_templatePath( $path ){
+        static::$extra_paths[] = $path;
+    }
+
+
 
     /**
      * Applies filter specified in parameter
@@ -41,6 +61,11 @@ class DecodaManager
     protected function apply_filter(Decoda $code, $filter)
     {
         //default, block, code, email, image, list, quote, text, url, video ]
+        if(isset(static::$extra_filters[$filter])){
+            $code->addFilter(new static::$extra_filters[$filter]());
+            return $code;
+        }
+
         switch ($filter) {
             case 'block':
                 $code->addFilter(new \BlockFilter());
@@ -84,6 +109,12 @@ class DecodaManager
      */
     protected function apply_hook(Decoda $code, $hook)
     {
+
+        if(isset(static::$extra_hooks[$hook])){
+            $code->addFilter(new static::$extra_hooks[$hook]());
+            return $code;
+        }
+
         switch ($hook) {
             case 'censor':
                 $code->addHook(new \CensorHook());
@@ -114,6 +145,15 @@ class DecodaManager
      */
     public function getResult()
     {
+        $decodaPhpEngine = new DecodaPhpEngine();
+
+        foreach(static::$extra_paths as $extraPath){
+            $decodaPhpEngine->setpath($extraPath);
+        }
+
+        $this->value->setTemplateEngine($decodaPhpEngine);
+
+
         foreach($this->filters as $filter)
         {
             $this->value = $this->apply_filter($this->value, $filter);

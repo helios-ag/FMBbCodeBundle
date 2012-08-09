@@ -7,7 +7,7 @@
 	<parameters>
         <parameter key="fm_bbcode.twig.extension.class">FM\BbcodeBundle\Templating\BbcodeExtension</parameter>
         <parameter key="fm_bbcode.templating.helper.class">FM\BbcodeBundle\Templating\Helper\BbcodeHelper</parameter>
-	</parameters>
+    </parameters>
 
 	<services>
         <service id="fm_bbcode.twig.extension" class="%fm_bbcode.twig.extension.class%" public="false">

@@ -4,8 +4,14 @@ namespace FM\BbcodeBundle\Templating\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Templating\Helper\Helper;
+<<<<<<< HEAD
 use FM\BbcodeBundle\Decoda\Decoda;
 use FM\BbcodeBundle\Decoda\DecodaManager;
+=======
+use FM\BbcodeBundle\Decoda\Decoda as Decoda;
+use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
+
+>>>>>>> 864f84b9a40b07731fc71f6ef95281b7a4584496
 /**
  * @author Al Ganiev <helios.ag@gmail.com>
  * @copyright 2012 Al Ganiev
@@ -15,9 +21,27 @@ class BbcodeHelper extends Helper
 {
     protected $container;
 
+    protected $filter_sets;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $extra_filters = $this->container->getParameter('fm_bbcode.config.filters');
+        $extra_hooks   = $this->container->getParameter('fm_bbcode.config.hooks');
+        $extra_templatePaths = $this->container->getParameter('fm_bbcode.config.templates');
+        $this->filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
+
+        foreach($extra_filters as $extra_filter){
+            DecodaManager::add_filter($extra_filter['classname'], $extra_filter['class'] );
+        }
+        foreach($extra_hooks as $extra_hook){
+            DecodaManager::add_hook($extra_hook['classname'], $extra_hook['class'] );
+        }
+        foreach($extra_templatePaths as $extra_path){
+            DecodaManager::add_templatePath($extra_path['path']);
+        }
+
+
     }
 
     /**
@@ -33,9 +57,13 @@ class BbcodeHelper extends Helper
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        $code = new Decoda($value);
-        $filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
-        $current_filter = $filter_sets[$filter];
+        $messages = $this->container->getParameter('fm_bbcode.config.messages');
+
+        $messages = empty($messages) ? array() : json_decode(\file_get_contents($messages), true);
+
+        $code = new Decoda($value,$messages);
+
+        $current_filter = $this->filter_sets[$filter];
 
         $locale = $current_filter['locale'];
         $xhtml = $current_filter['xhtml'];
@@ -57,9 +85,10 @@ class BbcodeHelper extends Helper
             $code->setXhtml(true);
         }
 
+
         $decoda_manager = new DecodaManager($code, $current_filter['filters'], $current_filter['hooks'], $current_filter['whitelist']);
 
-        return $decoda_manager->getResult()->parse(true);
+        return $decoda_manager->getResult()->parse();
     }
 
     public function getName()
