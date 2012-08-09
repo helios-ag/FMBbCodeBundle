@@ -4,14 +4,9 @@ namespace FM\BbcodeBundle\Templating\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Templating\Helper\Helper;
-<<<<<<< HEAD
-use FM\BbcodeBundle\Decoda\Decoda;
-use FM\BbcodeBundle\Decoda\DecodaManager;
-=======
 use FM\BbcodeBundle\Decoda\Decoda as Decoda;
 use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
 
->>>>>>> 864f84b9a40b07731fc71f6ef95281b7a4584496
 /**
  * @author Al Ganiev <helios.ag@gmail.com>
  * @copyright 2012 Al Ganiev
@@ -20,7 +15,6 @@ use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
 class BbcodeHelper extends Helper
 {
     protected $container;
-
     protected $filter_sets;
 
     public function __construct(ContainerInterface $container)
