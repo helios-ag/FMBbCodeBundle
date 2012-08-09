@@ -96,15 +96,11 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
             $vars[$key] = $value;
         }
 
-        $template = function($vars, $path) use ($content) {
-                    ob_start();
-                    extract($vars, EXTR_SKIP);
-                    unset($vars);
-                    include $path;
-                    return ob_get_clean();
-                };
-
-        return $template($vars, $path);
+        ob_start();
+        extract($vars, EXTR_SKIP);
+        unset($vars);
+        include $path;
+        return ob_get_clean();
     }
 
     /**
