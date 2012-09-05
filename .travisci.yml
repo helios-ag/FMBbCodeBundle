@@ -1,12 +1,11 @@
 language: php
 php:
-  - 5.3.8
   - 5.3
 env:
   - SYMFONY_VERSION=2.0.*
   - SYMFONY_VERSION=dev-master
 before_script:
-  - wget http://getcomposer.org/composer.phar
+  - curl -s http://getcomposer.org/installer | php --
   - php composer.phar --no-interaction --no-update require symfony/symfony:${SYMFONY_VERSION} symfony/twig-bundle:${SYMFONY_VERSION}
   - php composer.phar --no-interaction --no-update require mjohnson/decoda
   - php composer.phar --no-interaction --no-update require --dev symfony/symfony:${SYMFONY_VERSION}
