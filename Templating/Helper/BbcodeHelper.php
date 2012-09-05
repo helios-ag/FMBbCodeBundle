@@ -25,16 +25,15 @@ class BbcodeHelper extends Helper
         $extra_templatePaths = $this->container->getParameter('fm_bbcode.config.templates');
         $this->filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
 
-        foreach($extra_filters as $extra_filter){
+        foreach ($extra_filters as $extra_filter) {
             DecodaManager::add_filter($extra_filter['classname'], $extra_filter['class'] );
         }
-        foreach($extra_hooks as $extra_hook){
+        foreach ($extra_hooks as $extra_hook) {
             DecodaManager::add_hook($extra_hook['classname'], $extra_hook['class'] );
         }
-        foreach($extra_templatePaths as $extra_path){
+        foreach ($extra_templatePaths as $extra_path) {
             DecodaManager::add_templatePath($extra_path['path']);
         }
-
 
     }
 
@@ -78,7 +77,6 @@ class BbcodeHelper extends Helper
         if (true === $xhtml) {
             $code->setXhtml(true);
         }
-
 
         $decoda_manager = new DecodaManager($code, $current_filter['filters'], $current_filter['hooks'], $current_filter['whitelist']);
 

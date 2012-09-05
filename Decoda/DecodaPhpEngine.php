@@ -1,7 +1,7 @@
 <?php
 
 namespace FM\BbcodeBundle\Decoda;
-
+use Exception;
 /**
  * DecodaPhpEngine
  *
@@ -13,8 +13,8 @@ namespace FM\BbcodeBundle\Decoda;
  * @license     http://opensource.org/licenses/mit-license.php - Licensed under The MIT License
  * @link        http://milesj.me/code/php/decoda
  */
-class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
-
+class DecodaPhpEngine implements \DecodaTemplateEngineInterface
+{
     /**
      * Current path.
      *
@@ -31,7 +31,8 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
      */
     protected $_filter;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->getPath();
     }
 
@@ -41,7 +42,8 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
      * @access public
      * @return DecodaFilter
      */
-    public function getFilter() {
+    public function getFilter()
+    {
         return $this->_filter;
     }
 
@@ -51,7 +53,8 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
      * @access public
      * @return string
      */
-    public function getPath() {
+    public function getPath()
+    {
         if (empty($this->_path)) {
             $this->setPath(DECODA . '/templates/');
         }
@@ -63,12 +66,14 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
      * Renders the tag by using php templates.
      *
      * @access public
-     * @param array $tag
-     * @param string $content
+     * @param  array     $tag
+     * @param  string    $content
+     * @throws \Exception
      * @return string
      * @throws Exception
      */
-    public function render(array $tag, $content) {
+    public function render(array $tag, $content)
+    {
         $setup = $this->getFilter()->tag($tag['tag']);
 
         $paths = $this->getPath();
@@ -100,6 +105,7 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
         extract($vars, EXTR_SKIP);
         unset($vars);
         include $path;
+
         return ob_get_clean();
     }
 
@@ -107,10 +113,11 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
      * Sets the current filter.
      *
      * @access public
-     * @param DecodaFilter $filter
+     * @param  DecodaFilter                  $filter
      * @return DecodaTemplateEngineInterface
      */
-    public function setFilter(\DecodaFilter $filter) {
+    public function setFilter(\DecodaFilter $filter)
+    {
         $this->_filter = $filter;
 
         return $this;
@@ -120,10 +127,11 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface {
      * Sets the path to the tag templates.
      *
      * @access public
-     * @param string $path
+     * @param  string                        $path
      * @return DecodaTemplateEngineInterface
      */
-    public function setPath($path) {
+    public function setPath($path)
+    {
         if (substr($path, -1) !== '/') {
             $path .= '/';
         }

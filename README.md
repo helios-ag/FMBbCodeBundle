@@ -147,3 +147,47 @@ Also you can define multiple filter sets under filter_sets parameter like this:
 ```
 
 Please keep in mind, that whitelist tags overrides filters configuration.
+
+## Advanced usage
+    FMBBcode bundle allow you to extend php-decoda functionality, you can extend available tags via filters and hooks,
+    change messages, that used with some tags, and add your own templates. All this options available under config
+    section of the fm_bbcode node.
+
+### Adding own templates
+    Your own templates can be defined at templates node, the example below shows how:
+
+``` yaml
+    fm_bbcode:
+        config:
+          templates:
+            - path: %kernel.root_dir%/Resources/Decoda/templates/
+```
+    Template examples can be inside decoda library
+
+### Adding own filters
+    You can define, own filters to extend list of supported tags, new filters can be set under filters: section of the
+    config subnode, example below shows how:
+``` yaml
+fm_bbcode:
+    config:
+      filters:
+        - { classname: magic, class: \Boom\Bundle\LibraryBundle\Decoda\Filter\MagicFilter }
+```
+### Adding own hooks
+    The same technique as above with filters.
+``` yaml
+fm_bbcode:
+    config:
+      hooks:
+         - { classname: magic, class: \Boom\Bundle\LibraryBundle\Decoda\Filter\MagicFilter }
+```
+### Adding own messages
+    Some templates and hooks, use text strings, that can be translated into different languages, the original file
+     located under decoda/config directory, but content of this file can be overriden with messages option, under
+     messages: node. File should be json formatted.
+``` yaml
+fm_bbcode:
+    config:
+      messages: '/some/path/to/somewhere'
+```
+
