@@ -29,7 +29,6 @@ class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
         $loader->load(array($config), new ContainerBuilder());
     }
 
-
     /**
      * @return ContainerBuilder
      */
@@ -40,19 +39,6 @@ class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
         $loader->load(array(array()), $this->containerBuilder);
         $this->assertTrue($this->containerBuilder instanceof ContainerBuilder);
     }
-
-//    public function testLoadWithDefaults()
-//    {
-//        $this->createEmptyConfiguration();
-//
-//        $this->assertParameter('web_path', 'liip_imagine.cache.resolver.default');
-//        $this->assertAlias('liip_imagine.gd', 'liip_imagine');
-//        $this->assertHasDefinition('liip_imagine.controller');
-//        $this->assertDICConstructorArguments(
-//            $this->containerBuilder->getDefinition('liip_imagine.controller'),
-//            array(new Reference('liip_imagine.data.manager'), new Reference('liip_imagine.filter.manager'), new Reference('liip_imagine.cache.manager'))
-//        );
-//    }
 
     /**
      * @return ContainerBuilder
