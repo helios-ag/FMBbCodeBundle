@@ -14,6 +14,7 @@ Add the following lines to your ``deps`` file
 ```
 [php-decoda]
     git=http://github.com/milesj/php-decoda.git
+    version=3.5
 
 [FMBbcodeBundle]
     git=http://github.com/helios-ag/FMBbCodeBundle.git
