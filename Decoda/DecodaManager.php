@@ -59,7 +59,6 @@ class DecodaManager
      */
     protected function apply_filter(Decoda $code, $filter)
     {
-        //default, block, code, email, image, list, quote, text, url, video ]
         if (isset(static::$extra_filters[$filter])) {
             $code->addFilter(new static::$extra_filters[$filter]());
 
@@ -96,6 +95,7 @@ class DecodaManager
                 break;
             case 'default':
                 $code->addFilter(new \DefaultFilter());
+                break;
             default:
                 return $code;
         }
@@ -111,7 +111,7 @@ class DecodaManager
     {
 
         if (isset(static::$extra_hooks[$hook])) {
-            $code->addFilter(new static::$extra_hooks[$hook]());
+            $code->addHook(new static::$extra_hooks[$hook]());
 
             return $code;
         }
