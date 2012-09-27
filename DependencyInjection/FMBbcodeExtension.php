@@ -3,11 +3,9 @@
 namespace FM\BbcodeBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Registration of the extension via DI.
@@ -20,7 +18,7 @@ class FMBbcodeExtension extends Extension {
 
     /**
      * @see Symfony\Component\DependencyInjection\Extension.ExtensionInterface::load()
-     * @param array $configs
+     * @param array                                                   $configs
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container) {
@@ -35,5 +33,4 @@ class FMBbcodeExtension extends Extension {
         $container->setParameter('fm_bbcode.config.messages', isset($config['config']['messages']) ? $config['config']['messages'] : '');
         $container->setParameter('fm_bbcode.config.templates', isset($config['config']['templates']) ? $config['config']['templates'] : array());
     }
-
 }

@@ -1,0 +1,36 @@
+fm_bbcode:
+  filter_sets:
+    default_filter:
+      locale: en
+      xhtml: true
+      filters: [ default ]
+    quote_filter:
+      locale: en
+      xhtml: true
+      filters: [ quote ]
+    block_filter:
+      locale: en
+      xhtml: true
+      filters: [ block ]
+    url_filter:
+      locale: en
+      xhtml: true
+      filters: [ url ]
+    img_filter:
+      locale: en
+      xhtml: true
+      filters: [ image ]
+framework:
+  form: ~
+  router:
+    resource: ~
+  secret: whatever
+  templating:
+    engines: ['twig']
+  test: ~
+  translator:
+    fallback: en
+
+twig:
+  debug: %kernel.debug%
+  strict_variables: %kernel.debug%

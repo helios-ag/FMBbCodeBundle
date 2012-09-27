@@ -5,14 +5,14 @@
  * file that was distributed with this source code.
  */
 
-namespace FM\BBCodeBundle\Tests\DependencyInjection;
+namespace FM\BbcodeBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use FM\BBCodeBundle\DependencyInjection\FMBBCodeExtension;
+use FM\BbcodeBundle\DependencyInjection\FMBbcodeExtension;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\DependencyInjection\Reference;
 
-class FMBBCodeExtensionTest extends \PHPUnit_Framework_TestCase
+class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerBuilder
@@ -24,22 +24,9 @@ class FMBBCodeExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testUserLoadThrowsExceptionUnlessDriverIsValid()
     {
-        $loader = new FMBBCodeExtension();
-        $config = array('driver' => 'foo');
+        $loader = new FMBbcodeExtension();
+        $config = array('filter_sets' => array('foo'=>array('filters'=>'default')));
         $loader->load(array($config), new ContainerBuilder());
-    }
-
-    public function testLoadWithDefaults()
-    {
-        $this->createEmptyConfiguration();
-
-        $this->assertParameter('web_path', 'liip_imagine.cache.resolver.default');
-        $this->assertAlias('liip_imagine.gd', 'liip_imagine');
-        $this->assertHasDefinition('liip_imagine.controller');
-        $this->assertDICConstructorArguments(
-            $this->containerBuilder->getDefinition('liip_imagine.controller'),
-            array(new Reference('liip_imagine.data.manager'), new Reference('liip_imagine.filter.manager'), new Reference('liip_imagine.cache.manager'))
-        );
     }
 
     /**
@@ -48,7 +35,7 @@ class FMBBCodeExtensionTest extends \PHPUnit_Framework_TestCase
     protected function createEmptyConfiguration()
     {
         $this->containerBuilder = new ContainerBuilder();
-        $loader = new FMBBCodeExtension();
+        $loader = new FMBbcodeExtension();
         $loader->load(array(array()), $this->containerBuilder);
         $this->assertTrue($this->containerBuilder instanceof ContainerBuilder);
     }
@@ -59,7 +46,7 @@ class FMBBCodeExtensionTest extends \PHPUnit_Framework_TestCase
     protected function createFullConfiguration()
     {
         $this->containerBuilder = new ContainerBuilder();
-        $loader = new FMBBCodeExtension();
+        $loader = new FMBbcodeExtension();
         $loader->load(array($this->getFullConfig()), $this->containerBuilder);
         $this->assertTrue($this->containerBuilder instanceof ContainerBuilder);
     }
@@ -68,17 +55,17 @@ class FMBBCodeExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $yaml = <<<EOF
 filter_sets:
-    default:
-        my_default_filter:
-          locale: ru
-          xhtml: true
-          filters: [ default, quote ]
-          whitelist: [ b, quote ]
+    forum_post_filter:
+        locale: ru
+        xhtml: true
+        filters: [ default, quote ]
+        whitelist: [ b, u, i, list, quote, code, text, url, email, image, video ]
 EOF;
         $parser = new Parser();
 
         return $parser->parse($yaml);
     }
+
 
     private function assertAlias($value, $key)
     {
