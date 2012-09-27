@@ -12,31 +12,38 @@ use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
  * @copyright 2012 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-class BbcodeHelper extends Helper
-{
-    protected $container;
+class BbcodeHelper extends Helper {
 
+    protected $container;
     protected $filter_sets;
 
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
         $extra_filters = $this->container->getParameter('fm_bbcode.config.filters');
-        $extra_hooks   = $this->container->getParameter('fm_bbcode.config.hooks');
+        $extra_hooks = $this->container->getParameter('fm_bbcode.config.hooks');
         $extra_templatePaths = $this->container->getParameter('fm_bbcode.config.templates');
         $this->filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
 
-        foreach($extra_filters as $extra_filter){
-            DecodaManager::add_filter($extra_filter['classname'], $extra_filter['class'] );
+        foreach ($extra_filters as $extra_filter) {
+            if (strpos($extra_filter['class'], '@') === 0) {
+                $extra_filter_class = $this->container->get(substr($extra_filter['class'], 1));
+            } else {
+                $extra_filter_class = new $extra_filter['class']();
+            }
+            DecodaManager::add_filter($extra_filter['classname'], $extra_filter_class);
         }
-        foreach($extra_hooks as $extra_hook){
-            DecodaManager::add_hook($extra_hook['classname'], $extra_hook['class'] );
+        foreach ($extra_hooks as $extra_hook) {
+            if (strpos($extra_hook['class'], '@') === 0) {
+                $extra_hook_class = $this->container->get(substr($extra_hook['class'], 1));
+            } else {
+                $extra_hook_class = new $extra_hook['class']();
+            }
+
+            DecodaManager::add_hook($extra_hook['classname'], $extra_hook_class);
         }
-        foreach($extra_templatePaths as $extra_path){
+        foreach ($extra_templatePaths as $extra_path) {
             DecodaManager::add_templatePath($extra_path['path']);
         }
-
-
     }
 
     /**
@@ -44,8 +51,7 @@ class BbcodeHelper extends Helper
      * @param $filter
      * @return \FM\BbcodeBundle\Decoda\Decoda
      */
-    public function filter($value, $filter)
-    {
+    public function filter($value, $filter) {
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
@@ -54,7 +60,7 @@ class BbcodeHelper extends Helper
 
         $messages = empty($messages) ? array() : json_decode(\file_get_contents($messages), true);
 
-        $code = new Decoda($value,$messages);
+        $code = new Decoda($value, $messages);
 
         $current_filter = $this->filter_sets[$filter];
 
@@ -84,8 +90,8 @@ class BbcodeHelper extends Helper
         return $decoda_manager->getResult()->parse();
     }
 
-    public function getName()
-    {
+    public function getName() {
         return 'fm_bbcode';
     }
+
 }

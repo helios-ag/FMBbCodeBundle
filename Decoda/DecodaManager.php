@@ -62,7 +62,8 @@ class DecodaManager
     {
         //default, block, code, email, image, list, quote, text, url, video ]
         if(isset(static::$extra_filters[$filter])){
-            $code->addFilter(new static::$extra_filters[$filter]());
+            $extra_filter = static::$extra_filters[$filter] instanceof \DecodaFilter ? static::$extra_filters[$filter] : new static::$extra_filters[$filter]();
+            $code->addFilter($extra_filter);
             return $code;
         }
 
@@ -111,7 +112,8 @@ class DecodaManager
     {
 
         if(isset(static::$extra_hooks[$hook])){
-            $code->addFilter(new static::$extra_hooks[$hook]());
+            $extra_hook = static::$extra_hooks[$hook] instanceof \DecodaHook ? static::$extra_hooks[$hook] : new static::$extra_hooks[$hook]();
+            $code->addFilter($extra_hook);
             return $code;
         }
 

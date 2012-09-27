@@ -2,7 +2,7 @@
 
 namespace FM\BBCodeBundle\Decoda;
 
-use Decoda as BaseDecoda;
+use \Decoda as BaseDecoda;
 
 class Decoda extends BaseDecoda{
 
