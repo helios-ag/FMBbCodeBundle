@@ -1,6 +1,8 @@
 <?php
 
 namespace FM\BbcodeBundle\Decoda;
+use mjohnson\decoda\engines\PhpEngine;
+use mjohnson\decoda\filters\Filter;
 use Exception;
 /**
  * DecodaPhpEngine
@@ -13,7 +15,7 @@ use Exception;
  * @license     http://opensource.org/licenses/mit-license.php - Licensed under The MIT License
  * @link        http://milesj.me/code/php/decoda
  */
-class DecodaPhpEngine implements \DecodaTemplateEngineInterface
+class DecodaPhpEngine extends PhpEngine
 {
     /**
      * Current path.
@@ -113,10 +115,10 @@ class DecodaPhpEngine implements \DecodaTemplateEngineInterface
      * Sets the current filter.
      *
      * @access public
-     * @param  DecodaFilter                  $filter
+     * @param \mjohnson\decoda\filters\Filter $filter
      * @return DecodaTemplateEngineInterface
      */
-    public function setFilter(\DecodaFilter $filter)
+    public function setFilter(Filter $filter)
     {
         $this->_filter = $filter;
 

@@ -2,7 +2,7 @@
 
 namespace FM\BbcodeBundle\Decoda;
 
-use \Decoda as BaseDecoda;
+use mjohnson\decoda\Decoda as BaseDecoda;
 
 class Decoda extends BaseDecoda
 {
@@ -13,7 +13,7 @@ class Decoda extends BaseDecoda
      */
     public function __construct($string = '', $messages = array())
     {
-        spl_autoload_register(array($this, 'loadFile'));
+
 
         $this->setMessages($messages);
         $this->reset($string, true);
