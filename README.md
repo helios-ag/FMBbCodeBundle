@@ -1,3 +1,8 @@
+FMBBCodeBundle
+==============
+
+[![Build Status](https://secure.travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)
+
 [PHP-Decoda](/milesj/php-decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
@@ -9,29 +14,15 @@ and this bundle. Installation depends on how your project is setup:
 
 ### Step 1: Installation
 
-Add the following lines to your ``deps`` file
-
-```
-[php-decoda]
-    git=http://github.com/milesj/php-decoda.git
-    version=3.5
-
-[FMBbcodeBundle]
-    git=http://github.com/helios-ag/FMBbCodeBundle.git
-    target=bundles/FM/BbcodeBundle
-```
-
-Run the vendors script::
-
-    ./bin/vendors install
+Using Composer, just add the following configuration to your `composer.json`:
 
 Or you can use composer to install this bundle:
 Add FMBbcodeBundle in your composer.json:
 
-```js
+```json
 {
     "require": {
-        "helios-ag/fm-bbcode-bundle": "*"
+        "helios-ag/fm-bbcode-bundle": "dev-master"
     }
 }
 ```
@@ -42,29 +33,7 @@ Now tell composer to download the bundle by running the command:
 $ php composer.phar update helios-ag/fm-bbcode-bundle
 ```
 
-
-### Step 2: Configure the autoloader
-
-Add the following entries to your autoloader:
-
-``` php
-<?php
-// app/autoload.php
-
-$loader->registerNamespaces(array(
-    // ...
-       'FM' => __DIR__.'/../vendor/bundles',
-        // your other namespaces
-    ));
-
-$loader->registerPrefixes(array(
-    //...
-       'Decoda' => __DIR__.'/../vendor/php-decoda/decoda',
-    // your other libraries
-    ));
-```
-
-### Step 3: Enable the bundle
+### Step 2: Enable the bundle
 
 Finally, enable the bundle in the kernel:
 
@@ -147,48 +116,7 @@ Also you can define multiple filter sets under filter_sets parameter like this:
       {{'[code]My source code[/code]'|bbcode_filter('my_comment_filter')}}
 ```
 
-Please keep in mind, that whitelist tags overrides filters configuration.
+Please keep in mind, that whitelist tags suppress tags, that applied by filters configuration.
 
-## Advanced usage
-    FMBBcode bundle allow you to extend php-decoda functionality, you can extend available tags via filters and hooks,
-    change messages, that used with some tags, and add your own templates. All this options available under config
-    section of the fm_bbcode node.
 
-### Adding own templates
-    Your own templates can be defined at templates node, the example below shows how:
-
-``` yaml
-    fm_bbcode:
-        config:
-          templates:
-            - path: %kernel.root_dir%/Resources/Decoda/templates/
-```
-    Template examples can be inside decoda library
-
-### Adding own filters
-    You can define, own filters to extend list of supported tags, new filters can be set under filters: section of the
-    config subnode, example below shows how:
-``` yaml
-fm_bbcode:
-    config:
-      filters:
-        - { classname: magic, class: \Boom\Bundle\LibraryBundle\Decoda\Filter\MagicFilter }
-```
-### Adding own hooks
-    The same technique as above with filters.
-``` yaml
-fm_bbcode:
-    config:
-      hooks:
-         - { classname: magic, class: \Boom\Bundle\LibraryBundle\Decoda\Filter\MagicFilter }
-```
-### Adding own messages
-    Some templates and hooks, use text strings, that can be translated into different languages, the original file
-     located under decoda/config directory, but content of this file can be overriden with messages option, under
-     messages: node. File should be json formatted.
-``` yaml
-fm_bbcode:
-    config:
-      messages: '/some/path/to/somewhere'
-```
 
