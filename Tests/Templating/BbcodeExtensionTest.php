@@ -61,8 +61,8 @@ class BbcodeExtensionTest extends TwigBasedTestCase
 
     public function dataImgTags() {
         return array(
-            array('[img]http://github.com/picture.jpg[/img]','<img src="http://github.com/picture.jpg" alt=""/>'),
-            array('[img width="500"]http://github.com/picture.jpg[/img]','<img width="500" src="http://github.com/picture.jpg" alt=""/>')
+            array('[img]http://github.com/picture.jpg[/img]','<img src="http://github.com/picture.jpg" alt="" />'),
+            array('[img width="500"]http://github.com/picture.jpg[/img]','<img width="500" src="http://github.com/picture.jpg" alt="" />')
         );
     }
 }
