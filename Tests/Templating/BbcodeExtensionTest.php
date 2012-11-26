@@ -28,6 +28,7 @@ class BbcodeExtensionTest extends TwigBasedTestCase
             array('[s]strikeout[/s]', "<del>strikeout</del>"),
             array('[sub]subscript[/sub]', "<sub>subscript</sub>"),
             array('[sup]superscript[/sup]', "<sup>superscript</sup>"),
+            array('[abbr="Object relational mapper"]ORM[/abbr]', '<abbr title="Object relational mapper">ORM</abbr>'),
 
         );
     }

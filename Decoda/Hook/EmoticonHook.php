@@ -4,6 +4,9 @@ namespace FM\BbcodeBundle\Decoda\Hook;
 
 use mjohnson\decoda\hooks\EmoticonHook;
 
+/**
+ * Need to implement
+ */
 class EmoticonHook2 extends EmoticonHook
 {
 

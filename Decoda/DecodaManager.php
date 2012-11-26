@@ -43,7 +43,7 @@ class DecodaManager
      * @param array $hooks
      * @param array $whitelist
      */
-    public function __construct(Decoda $value, array $filters = array(), array $hooks=array(), array $whitelist = array())
+    public function __construct(Decoda $value, array $filters = array(), array $hooks = array(), array $whitelist = array())
     {
         $this->value = $value;
         $this->filters = $filters;
@@ -73,7 +73,6 @@ class DecodaManager
      */
     protected function apply_filter(Decoda $code, $filter)
     {
-        //default, block, code, email, image, list, quote, text, url, video
         if(isset(static::$extra_filters[$filter])){
             $extra_filter = static::$extra_filters[$filter] instanceof Filter ? static::$extra_filters[$filter] : new static::$extra_filters[$filter]();
             $code->addFilter($extra_filter);
@@ -141,6 +140,9 @@ class DecodaManager
             case 'emoticon':
                 $code->addHook(new EmoticonHook());
                 break;
+            case 'code':
+                $code->addHook(new CodeHook());
+                break;
         }
         return $code;
     }
@@ -148,7 +150,7 @@ class DecodaManager
     /**
      * @param Decoda $code
      * @param array $whitelist
-     * @return \Decoda
+     * @return Decoda
      */
     protected function apply_whitelist(Decoda $code, array $whitelist)
     {
