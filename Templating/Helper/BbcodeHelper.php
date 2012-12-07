@@ -42,7 +42,9 @@ class BbcodeHelper extends Helper {
             DecodaManager::add_hook($extra_hook['classname'], $extra_hook_class);
         }
         foreach ($extra_templatePaths as $extra_path) {
-            DecodaManager::add_templatePath($extra_path['path']);
+            $path = $extra_path['path'];
+            $path = $this->container->get("kernel")->locateResource($path);
+            DecodaManager::add_templatePath($path);
         }
     }
 
@@ -58,7 +60,15 @@ class BbcodeHelper extends Helper {
 
         $messages = $this->container->getParameter('fm_bbcode.config.messages');
 
-        $messages = empty($messages) ? array() : json_decode(\file_get_contents($messages), true);
+        if(!empty($messages))
+        {
+            $messages = $this->container->get("kernel")->locateResource($messages);
+            $messages = json_decode(\file_get_contents($messages), true);
+        }
+        else
+        {
+            $message = array();
+        }
 
         $code = new Decoda($value, $messages);
 
