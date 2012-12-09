@@ -50,15 +50,16 @@ public function registerBundles()
 }
 ```
 
-### Basic configuration
+## Basic configuration
 
-## Make the Twig extensions available by updating your configuration:
+### Make the Twig extensions available by updating your configuration:
 
     By default only "default" filter enabled, which provide support
-    for [b], [i], [u], [s], [sub], [sup] BBCodes
+    for [b], [i], [u], [s], [sub], [sup], [abbr], [br], [hr], [time]
+    BBCodes
 
 
-# Examples to use the extension in your Twig template
+### Examples to use the extension in your Twig template
 
 Define BBCode filter in your config.yml:
 
@@ -118,5 +119,27 @@ Also you can define multiple filter sets under filter_sets parameter like this:
 
 Please keep in mind, that whitelist tags suppress tags, that applied by filters configuration.
 
+## Advanced configuration
 
+### Overriding messages
 
+Some templates and hooks, use text strings, that can be translated into different languages, the original file
+located under decoda/config directory, but content of this file can be overriden with messages option, under
+messages: node. File should be json formatted.
+
+```yaml
+fm_bbcode:
+    config:
+      messages: @BundleName/Resources/config/messages.json
+```
+
+### Adding own templates
+
+Your own templates can be defined at templates node, the example below shows how:
+```yaml
+    fm_bbcode:
+        config:
+          templates:
+            - path: @BundleName/Resources/views/templates
+```
+Template examples can be found inside decoda library
