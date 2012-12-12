@@ -66,4 +66,21 @@ class BbcodeExtensionTest extends TwigBasedTestCase
             array('[img width="500"]http://github.com/picture.jpg[/img]','<img width="500" src="http://github.com/picture.jpg" alt="" />')
         );
     }
+
+
+    /**
+     * @dataProvider dataQuoteTags
+     */
+    public function testQuoteFilter($value, $expected) {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:quote.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    public function dataQuoteTags() {
+        return array(
+            array('[quote]text[/quote]','text'),
+        );
+    }
 }
