@@ -1,4 +1,8 @@
 fm_bbcode:
+  config:
+    templates: 
+      - path: "@FMBbcodeBundle/Tests/FunctionalTestBundle/Resources/views/templates"
+    messages: "@FMBbcodeBundle/Resources/config/messages.json"
   filter_sets:
     default_filter:
       locale: en

@@ -138,7 +138,8 @@ class DecodaPhpEngine extends PhpEngine
             $path .= '/';
         }
 
-        $this->_path[] = $path;
+        // Allow $path to overwrite all others
+        array_unshift($this->_path, $path);
 
         return $this;
     }
