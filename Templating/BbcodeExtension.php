@@ -17,32 +17,33 @@ class BbcodeExtension extends \Twig_Extension
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
+
     /**
      * @var mixed
      */
-    protected $filter_sets;
+    protected $filterSets;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $extra_filters = $this->container->getParameter('fm_bbcode.config.filters');
-        $extra_hooks   = $this->container->getParameter('fm_bbcode.config.hooks');
-        $extra_templatePaths = $this->container->getParameter('fm_bbcode.config.templates');
-        $this->filter_sets = $this->container->getParameter('fm_bbcode.filter_sets');
+        $extraFilters = $this->container->getParameter('fm_bbcode.config.filters');
+        $extraHooks   = $this->container->getParameter('fm_bbcode.config.hooks');
+        $extraTemplatePaths = $this->container->getParameter('fm_bbcode.config.templates');
+        $this->filterSets = $this->container->getParameter('fm_bbcode.filter_sets');
 
-        foreach ($extra_filters as $extra_filter) {
-            DecodaManager::add_filter($extra_filter['classname'], $extra_filter['class'] );
+        foreach ($extraFilters as $extraFilter) {
+            DecodaManager::addFilter($extraFilter['classname'], $extraFilter['class'] );
         }
-        foreach ($extra_hooks as $extra_hook) {
-            DecodaManager::add_hook($extra_hook['classname'], $extra_hook['class'] );
+        foreach ($extraHooks as $extraHook) {
+            DecodaManager::addHook($extraHook['classname'], $extraHook['class'] );
         }
-        foreach ($extra_templatePaths as $extra_path) {
-            $path = $extra_path['path'];
+        foreach ($extraTemplatePaths as $extraPath) {
+            $path = $extraPath['path'];
             $path = $this->container->get("kernel")->locateResource($path);
-            DecodaManager::add_templatePath($path);
+            DecodaManager::addTemplatePath($path);
         }
 
     }
@@ -79,26 +80,18 @@ class BbcodeExtension extends \Twig_Extension
         }
         else
         {
-            $message = array();
+            $messages = array();
         }
 
-        $code = new Decoda($value,$messages);
+        $code = new Decoda($value, $messages);
+        $currentFilter = $this->filterSets[$filter];
+        $locale = $currentFilter['locale'];
+        $xhtml = $currentFilter['xhtml'];
 
-        $current_filter = $this->filter_sets[$filter];
-
-        $locale = $current_filter['locale'];
-        $xhtml = $current_filter['xhtml'];
-
-        if (empty($locale)) {
-            // apply locale from the session
-            if ('default' == $this->locale) {
-                $code->setLocale($this->container->get('session')->getLocale());
-                // apply locale defined in the configuration
-            } else {
-                // apply locale from the template
-                $code->setLocale($this->locale);
+        if (empty($locale) || 'default' == $locale) {
+                $code->setLocale($this->container->get('request')->getLocale());
             }
-        } else {
+        else {
             $code->setLocale($locale);
         }
 
@@ -106,7 +99,7 @@ class BbcodeExtension extends \Twig_Extension
             $code->setXhtml(true);
         }
 
-        $decoda_manager = new DecodaManager($code, $current_filter['filters'], $current_filter['hooks'], $current_filter['whitelist']);
+        $decoda_manager = new DecodaManager($code, $currentFilter['filters'], $currentFilter['hooks'], $currentFilter['whitelist']);
 
         return $decoda_manager->getResult()->parse();
     }

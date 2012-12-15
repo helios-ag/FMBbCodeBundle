@@ -29,7 +29,7 @@ class DecodaPhpEngine extends PhpEngine
      * Current filter.
      *
      * @access protected
-     * @var DecodaFilter
+     * @var Filter
      */
     protected $_filter;
 
@@ -42,7 +42,7 @@ class DecodaPhpEngine extends PhpEngine
      * Return the current filter.
      *
      * @access public
-     * @return DecodaFilter
+     * @return Filter
      */
     public function getFilter()
     {
@@ -53,7 +53,7 @@ class DecodaPhpEngine extends PhpEngine
      * Return the template path. If no path has been set, set it.
      *
      * @access public
-     * @return string
+     * @return array
      */
     public function getPath()
     {

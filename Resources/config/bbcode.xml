@@ -12,12 +12,16 @@
 	<services>
         <service id="fm_bbcode.twig.extension" class="%fm_bbcode.twig.extension.class%" public="false">
             <tag name="twig.extension" />
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="service_container"/>
         </service>
 
         <service id="fm_bbcode.templating.helper" class="%fm_bbcode.templating.helper.class%">
             <tag name="templating.helper" alias="bbcode" />
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="service_container"/>
+        </service>
+
+        <service id="fm_bbcode.decoda" class="FM\BbcodeBundle\Decoda\Decoda">
+            <argument type="service" id="service_container"/>
         </service>
 	</services>
 

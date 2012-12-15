@@ -28,14 +28,30 @@ use mjohnson\decoda\hooks\CensorHook,
  */
 class DecodaManager
 {
+    /**
+     * Applied filters
+     * @var array
+     */
     protected $filters;
+
+    /**
+     * @var array
+     */
     protected $hooks;
+
+    /**
+     * @var array
+     */
     protected $whitelist;
+
+    /**
+     * @var Decoda
+     */
     protected $value;
 
-    protected static $extra_filters = array();
-    protected static $extra_hooks = array();
-    protected static $extra_paths = array();
+    protected static $extraFilters = array();
+    protected static $extraHooks = array();
+    protected static $extraPaths = array();
 
     /**
      * @param Decoda $value
@@ -51,17 +67,27 @@ class DecodaManager
         $this->whitelist = $whitelist;
     }
 
-    public static function add_filter($name, $filter){
-        static::$extra_filters[$name] = $filter;
+    /**
+     * @param $name
+     * @param $filter
+     */
+    public static function addFilter($name, $filter){
+        static::$extraFilters[$name] = $filter;
     }
 
-
-    public static function add_hook($name, $hook){
-        static::$extra_hooks[$name] = $hook;
+    /**
+     * @param $name
+     * @param $hook
+     */
+    public static function addHook($name, $hook){
+        static::$extraHooks[$name] = $hook;
     }
 
-    public static function add_templatePath( $path ){
-        static::$extra_paths[] = $path;
+    /**
+     * @param $path
+     */
+    public static function addTemplatePath( $path ){
+        static::$extraPaths[] = $path;
     }
 
     /**
@@ -71,11 +97,11 @@ class DecodaManager
      *
      * @return \FM\BbcodeBundle\Decoda\Decoda
      */
-    protected function apply_filter(Decoda $code, $filter)
+    protected function applyFilter(Decoda $code, $filter)
     {
-        if(isset(static::$extra_filters[$filter])){
-            $extra_filter = static::$extra_filters[$filter] instanceof Filter ? static::$extra_filters[$filter] : new static::$extra_filters[$filter]();
-            $code->addFilter($extra_filter);
+        if(isset(static::$extraFilters[$filter])){
+            $extraFilter = static::$extraFilters[$filter] instanceof Filter ? static::$extraFilters[$filter] : new static::$extraFilters[$filter]();
+            $code->addFilter($extraFilter);
             return $code;
         }
 
@@ -113,7 +139,6 @@ class DecodaManager
             default:
                 return $code;
         }
-
         return $code;
     }
     /**
@@ -121,12 +146,11 @@ class DecodaManager
      * @param $hook
      * @return Decoda
      */
-    protected function apply_hook(Decoda $code, $hook)
+    protected function applyHook(Decoda $code, $hook)
     {
-
-        if(isset(static::$extra_hooks[$hook])){
-            $extra_hook = static::$extra_hooks[$hook] instanceof Hook ? static::$extra_hooks[$hook] : new static::$extra_hooks[$hook]();
-            $code->addFilter($extra_hook);
+        if(isset(static::$extraHooks[$hook])){
+            $extraHook = static::$extraHooks[$hook] instanceof Hook ? static::$extraHooks[$hook] : new static::$extraHooks[$hook]();
+            $code->addHook($extraHook);
             return $code;
         }
 
@@ -152,37 +176,35 @@ class DecodaManager
      * @param array $whitelist
      * @return Decoda
      */
-    protected function apply_whitelist(Decoda $code, array $whitelist)
+    protected function applyWhitelist(Decoda $code, array $whitelist)
     {
         return $code->whitelist($whitelist);
     }
 
     /**
-     *
      * @return Decoda
      */
     public function getResult()
     {
         $decodaPhpEngine = new DecodaPhpEngine();
 
-        foreach(static::$extra_paths as $extraPath){
+        foreach(static::$extraPaths as $extraPath){
             $decodaPhpEngine->setpath($extraPath);
         }
 
         $this->value->setEngine($decodaPhpEngine);
 
-
         foreach($this->filters as $filter)
         {
-            $this->value = $this->apply_filter($this->value, $filter);
+            $this->value = $this->applyFilter($this->value, $filter);
         }
 
         foreach($this->hooks as $hook)
         {
-            $this->value = $this->apply_hook($this->value, $hook);
+            $this->value = $this->applyHook($this->value, $hook);
         }
 
-        $this->value = $this->apply_whitelist($this->value, $this->whitelist);
+        $this->value = $this->applyWhitelist($this->value, $this->whitelist);
 
         return $this->value;
     }

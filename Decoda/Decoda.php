@@ -3,18 +3,15 @@
 namespace FM\BbcodeBundle\Decoda;
 
 use mjohnson\decoda\Decoda as BaseDecoda;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Decoda extends BaseDecoda
 {
-    const DECODA_MESSAGES_FILE_PATH = '/../Resources/config/messages.json';
-
     /**
      * {@inheritDoc}
      */
     public function __construct($string = '', $messages = array())
     {
-
-
         $this->setMessages($messages);
         $this->reset($string, true);
     }
@@ -47,7 +44,7 @@ class Decoda extends BaseDecoda
     public function setMessages($messages = array())
     {
         if (empty($messages)) {
-            $this->_messages = json_decode(\file_get_contents(__DIR__ . self::DECODA_MESSAGES_FILE_PATH), true);
+            $this->_messages = json_decode(\file_get_contents(DECODA.'/config/messages.json'), true);
         } else {
             $this->_messages = $messages;
         }

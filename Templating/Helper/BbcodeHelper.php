@@ -30,7 +30,7 @@ class BbcodeHelper extends Helper {
             } else {
                 $extra_filter_class = new $extra_filter['class']();
             }
-            DecodaManager::add_filter($extra_filter['classname'], $extra_filter_class);
+            DecodaManager::addFilter($extra_filter['classname'], $extra_filter_class);
         }
         foreach ($extra_hooks as $extra_hook) {
             if (strpos($extra_hook['class'], '@') === 0) {
@@ -39,18 +39,19 @@ class BbcodeHelper extends Helper {
                 $extra_hook_class = new $extra_hook['class']();
             }
 
-            DecodaManager::add_hook($extra_hook['classname'], $extra_hook_class);
+            DecodaManager::addHook($extra_hook['classname'], $extra_hook_class);
         }
         foreach ($extra_templatePaths as $extra_path) {
             $path = $extra_path['path'];
             $path = $this->container->get("kernel")->locateResource($path);
-            DecodaManager::add_templatePath($path);
+            DecodaManager::addTmplatePath($path);
         }
     }
 
     /**
      * @param $value
      * @param $filter
+     * @throws \Twig_Error_Runtime
      * @return \FM\BbcodeBundle\Decoda\Decoda
      */
     public function filter($value, $filter) {
@@ -77,16 +78,10 @@ class BbcodeHelper extends Helper {
         $locale = $current_filter['locale'];
         $xhtml = $current_filter['xhtml'];
 
-        if (empty($locale)) {
-            // apply locale from the session
-            if ('default' == $this->locale) {
-                $code->setLocale($this->container->get('session')->getLocale());
-                // apply locale defined in the configuration
-            } else {
-                // apply locale from the template
-                $code->setLocale($this->locale);
-            }
-        } else {
+        if (empty($locale) || 'default' == $locale) {
+            $code->setLocale($this->container->get('request')->getLocale());
+        }
+        else {
             $code->setLocale($locale);
         }
 
