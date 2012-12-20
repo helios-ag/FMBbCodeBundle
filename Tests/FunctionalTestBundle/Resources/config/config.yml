@@ -24,6 +24,11 @@ fm_bbcode:
       locale: en
       xhtml: true
       filters: [ image ]
+    strict_test:
+      locale: en
+      xhtml: true
+      filters: [ url ]
+      strict: false
 framework:
   form: ~
   router:

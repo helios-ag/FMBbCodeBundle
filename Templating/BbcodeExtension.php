@@ -87,7 +87,7 @@ class BbcodeExtension extends \Twig_Extension
         $currentFilter = $this->filterSets[$filter];
         $locale = $currentFilter['locale'];
         $xhtml = $currentFilter['xhtml'];
-
+        $strict = $currentFilter['strict'];
         if (empty($locale) || 'default' == $locale) {
                 $code->setLocale($this->container->get('request')->getLocale());
             }
@@ -98,6 +98,8 @@ class BbcodeExtension extends \Twig_Extension
         if (true === $xhtml) {
             $code->setXhtml(true);
         }
+
+        $code->setStrict($strict);
 
         $decoda_manager = new DecodaManager($code, $currentFilter['filters'], $currentFilter['hooks'], $currentFilter['whitelist']);
 

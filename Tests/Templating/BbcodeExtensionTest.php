@@ -83,4 +83,22 @@ class BbcodeExtensionTest extends TwigBasedTestCase
             array('[quote]text[/quote]','text'),
         );
     }
+
+
+    /**
+     * @dataProvider dataStrict
+     */
+    public function testStrict($value, $expected) {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:strict_test.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    public function dataStrict() {
+        return array(
+            array('[url]http://example.org[/url]','<a href="http://example.org">http://example.org</a>'),
+            array('[url=http://example.com]Example[/url]','<a href="http://example.com">Example</a>')
+        );
+    }
 }

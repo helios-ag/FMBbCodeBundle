@@ -75,6 +75,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('locale')->defaultValue('ru-ru')->end()
                             ->scalarNode('xhtml')->defaultValue(true)->end()
+                            ->scalarNode('strict')->defaultValue(true)->end()
                             ->arrayNode('filters')
                                 ->useAttributeAsKey('name')
                                 ->prototype('variable')->end()
