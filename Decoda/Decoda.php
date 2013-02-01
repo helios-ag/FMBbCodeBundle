@@ -1,9 +1,13 @@
 <?php
-
 namespace FM\BbcodeBundle\Decoda;
 
-use mjohnson\decoda\Decoda as BaseDecoda;
+define('DECODA', __DIR__.'/../../../../../mjohnson/decoda/src/Decoda');
+define('DECODA_FILTERS', DECODA.'/Filter');
+define('DECODA_HOOKS', DECODA.'/Hook');
+
+use Decoda\Decoda as BaseDecoda;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use \DomainException;
 
 class Decoda extends BaseDecoda
 {
@@ -34,6 +38,23 @@ class Decoda extends BaseDecoda
         } elseif (strpos($class, 'Hook') !== false && file_exists(DECODA_HOOKS . $class . '.php') ) {
             include_once DECODA_HOOKS . $class . '.php';
         }
+    }
+
+
+    public function setLocale($locale) {
+        $this->message(null);
+        if(strlen($locale)<3)
+            foreach($this->_messages as $key => $value){
+                $this->_messages[substr($key, 0, 2)] = $value;
+                unset($this->_messages[$key]);
+            }
+        if (empty($this->_messages[$locale])) {
+            throw new DomainException(sprintf('Localized strings for %s do not exist', $locale));
+        }
+
+        $this->_config['locale'] = $locale;
+
+        return $this;
     }
 
     /**

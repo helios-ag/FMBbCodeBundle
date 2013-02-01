@@ -51,17 +51,20 @@ class BbcodeExtension extends \Twig_Extension
     /**
      * (non-PHPdoc)
      * @see Twig_Extension::getFilters()
+     * @return array
      */
     public function getFilters()
     {
         return array(
             'bbcode_filter' => new \Twig_Filter_Method($this, 'filter', array('is_safe' => array('html'))),
+            'bbcode_clean' => new \Twig_Filter_Method($this, 'clean', array('is_safe' => array('html')))
         );
     }
 
     /**
      * @param $value
      * @param $filter
+     * @return string
      * @throws \Twig_Error_Runtime
      * @return \FM\BbcodeBundle\Decoda\Decoda
      */
@@ -84,10 +87,13 @@ class BbcodeExtension extends \Twig_Extension
         }
 
         $code = new Decoda($value, $messages);
+
         $currentFilter = $this->filterSets[$filter];
+
         $locale = $currentFilter['locale'];
-        $xhtml = $currentFilter['xhtml'];
-        $strict = $currentFilter['strict'];
+        $isXhtml = $currentFilter['xhtml'];
+        $isStrict = $currentFilter['strict'];
+
         if (empty($locale) || 'default' == $locale) {
                 $code->setLocale($this->container->get('request')->getLocale());
             }
@@ -95,15 +101,35 @@ class BbcodeExtension extends \Twig_Extension
             $code->setLocale($locale);
         }
 
-        if (true === $xhtml) {
-            $code->setXhtml(true);
+
+
+        if ($isXhtml)
+            $code->setXhtml();
+
+        if($isStrict)
+            $code->setStrict();
+
+        $decodaManager = new DecodaManager($code, $currentFilter['filters'], $currentFilter['hooks'], $currentFilter['whitelist']);
+
+        return $decodaManager->getResult()->parse();
+    }
+
+    /**
+     *
+     * Strip tags
+     * @param $value
+     * @return string
+     * @throws \Twig_Error_Runtime
+     */
+    public function clean($value)
+    {
+        if (!is_string($value)) {
+            throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
+        $code = new Decoda($value);
+        $decodaManager = new DecodaManager($code,array('default','block','code','email','image','list','quote','text','url','video'));
 
-        $code->setStrict($strict);
-
-        $decoda_manager = new DecodaManager($code, $currentFilter['filters'], $currentFilter['hooks'], $currentFilter['whitelist']);
-
-        return $decoda_manager->getResult()->parse();
+        return $decodaManager->getResult()->strip(true);
     }
 
     /**

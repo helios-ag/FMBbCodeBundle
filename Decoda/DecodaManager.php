@@ -4,26 +4,26 @@ namespace FM\BbcodeBundle\Decoda;
 use FM\BbcodeBundle\Decoda\Decoda;
 use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use mjohnson\decoda\filters\Filter,
-    mjohnson\decoda\filters\DefaultFilter,
-    mjohnson\decoda\filters\BlockFilter,
-    mjohnson\decoda\filters\CodeFilter,
-    mjohnson\decoda\filters\EmailFilter,
-    mjohnson\decoda\filters\ImageFilter,
-    mjohnson\decoda\filters\ListFilter,
-    mjohnson\decoda\filters\QuoteFilter,
-    mjohnson\decoda\filters\TextFilter,
-    mjohnson\decoda\filters\UrlFilter,
-    mjohnson\decoda\filters\VideoFilter;
-use mjohnson\decoda\hooks\CensorHook,
-    mjohnson\decoda\hooks\ClickableHook,
-    mjohnson\decoda\hooks\CodeHook,
-    mjohnson\decoda\hooks\EmoticonHook,
-    mjohnson\decoda\hooks\Hook;
+use Decoda\Filter,
+    Decoda\Filter\DefaultFilter,
+    Decoda\Filter\BlockFilter,
+    Decoda\Filter\CodeFilter,
+    Decoda\Filter\EmailFilter,
+    Decoda\Filter\ImageFilter,
+    Decoda\Filter\ListFilter,
+    Decoda\Filter\QuoteFilter,
+    Decoda\Filter\TextFilter,
+    Decoda\Filter\UrlFilter,
+    Decoda\Filter\VideoFilter;
+use Decoda\Hook\CensorHook,
+    Decoda\Hook\ClickableHook,
+    Decoda\Hook\CodeHook,
+    Decoda\Hook\EmoticonHook,
+    Decoda\Hook;
 
 /**
  * @author Al Ganiev <helios.ag@gmail.com>
- * @copyright 2012 Al Ganiev
+ * @copyright 2013 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 class DecodaManager
@@ -162,7 +162,7 @@ class DecodaManager
                 $code->addHook(new ClickableHook());
                 break;
             case 'emoticon':
-                $code->addHook(new EmoticonHook());
+                $code->addHook(new EmoticonHook(array('path' => '/emoticons/')));
                 break;
             case 'code':
                 $code->addHook(new CodeHook());
@@ -193,6 +193,8 @@ class DecodaManager
         }
 
         $this->value->setEngine($decodaPhpEngine);
+
+        $this->value->addPath(DECODA.'/config');
 
         foreach($this->filters as $filter)
         {

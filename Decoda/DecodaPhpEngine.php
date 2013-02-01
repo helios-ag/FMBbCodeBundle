@@ -1,8 +1,8 @@
 <?php
 
 namespace FM\BbcodeBundle\Decoda;
-use mjohnson\decoda\engines\PhpEngine;
-use mjohnson\decoda\filters\Filter;
+use Decoda\Engine\PhpEngine;
+use Decoda\Filter;
 use Exception;
 /**
  * DecodaPhpEngine
@@ -115,8 +115,8 @@ class DecodaPhpEngine extends PhpEngine
      * Sets the current filter.
      *
      * @access public
-     * @param \mjohnson\decoda\filters\Filter $filter
-     * @return DecodaTemplateEngineInterface
+     * @param \Decoda\Filter $filter
+     * @return \Decoda\Engine|\FM\BbcodeBundle\Decoda\DecodaPhpEngine
      */
     public function setFilter(Filter $filter)
     {
@@ -130,7 +130,7 @@ class DecodaPhpEngine extends PhpEngine
      *
      * @access public
      * @param  string                        $path
-     * @return DecodaTemplateEngineInterface
+     * @return \Decoda\Engine|\FM\BbcodeBundle\Decoda\DecodaPhpEngine
      */
     public function setPath($path)
     {
