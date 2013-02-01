@@ -1,6 +1,8 @@
 <?php
 namespace FM\BbcodeBundle\Decoda;
 
+define('DECODA', __DIR__.'/../../../../../mjohnson/decoda/src/Decoda');
+
 use Decoda\Decoda as BaseDecoda;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use \DomainException;
@@ -44,7 +46,7 @@ class Decoda extends BaseDecoda
     public function setMessages($messages = array())
     {
         if (empty($messages)) {
-            $this->_messages = json_decode(\file_get_contents(DECODA.'/config/messages.json'), true);
+            $this->_messages = json_decode(\file_get_contents('../Resources/config/messages.json'), true);
         } else {
             $this->_messages = $messages;
         }
