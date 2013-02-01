@@ -101,8 +101,6 @@ class BbcodeExtension extends \Twig_Extension
             $code->setLocale($locale);
         }
 
-
-
         if ($isXhtml)
             $code->setXhtml();
 
