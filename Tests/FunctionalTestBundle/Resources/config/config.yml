@@ -1,11 +1,10 @@
 fm_bbcode:
   config:
-    templates: 
+    templates:
       - path: "@FMBbcodeBundle/Tests/FunctionalTestBundle/Resources/views/templates"
-    messages: "@FMBbcodeBundle/Tests/FunctionalTestBundle/Resources/config/messages.json"
   filter_sets:
     default_filter:
-      locale: en
+      locale: ru
       xhtml: true
       filters: [ default ]
     quote_filter:

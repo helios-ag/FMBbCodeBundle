@@ -55,7 +55,6 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->scalarNode('messages')
-                            ->defaultValue(__DIR__.'/../Resources/config/messages.json')
                         ->end()
                         ->arrayNode('templates')
                             ->canBeUnset()
