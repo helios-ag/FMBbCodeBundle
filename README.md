@@ -49,6 +49,14 @@ public function registerBundles()
     );
 }
 ```
+### Step 3: Dump emoticons (optional)
+
+To enable emoticons via emoticon hook, use the following command to copy emoticons images to
+public folder (web/emoticons)
+
+``` bash
+    ./app/console bbcode:dump
+```
 
 ## Basic configuration
 
@@ -57,7 +65,6 @@ public function registerBundles()
     By default only "default" filter enabled, which provide support
     for [b], [i], [u], [s], [sub], [sup], [abbr], [br], [hr], [time]
     BBCodes
-
 
 ### Examples to use the extension in your Twig template
 
@@ -118,6 +125,16 @@ Also you can define multiple filter sets under filter_sets parameter like this:
 ```
 
 Please keep in mind, that whitelist tags suppress tags, that applied by filters configuration.
+
+
+### Strip filter
+To clear text from any bbcodes use bbcode_clean filter:
+example:
+``` jinja
+{{'[b]some text[/b]'|bbcode_clean}}
+```
+This filter will eliminate any known to decoda tags
+
 
 ## Advanced configuration
 
