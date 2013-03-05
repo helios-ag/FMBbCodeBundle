@@ -43,7 +43,7 @@ class BbcodeHelper extends Helper {
         }
         foreach ($extra_templatePaths as $extra_path) {
             $path = $extra_path['path'];
-            $path = $this->container->get("kernel")->locateResource($path);
+            $path = $this->container->get('file_locator')->locate($path);
             DecodaManager::addTmplatePath($path);
         }
     }
@@ -61,13 +61,10 @@ class BbcodeHelper extends Helper {
 
         $messages = $this->container->getParameter('fm_bbcode.config.messages');
 
-        if(!empty($messages))
-        {
-            $messages = $this->container->get("kernel")->locateResource($messages);
+        if (!empty($messages)) {
+            $messages = $this->container->get("file_locator")->locate($messages);
             $messages = json_decode(\file_get_contents($messages), true);
-        }
-        else
-        {
+        } else {
             $message = array();
         }
 
