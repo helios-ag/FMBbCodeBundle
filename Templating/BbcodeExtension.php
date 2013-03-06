@@ -101,11 +101,8 @@ class BbcodeExtension extends \Twig_Extension
             $code->setLocale($locale);
         }
 
-        if ($isXhtml)
-            $code->setXhtml();
-
-        if($isStrict)
-            $code->setStrict();
+        $code->setXhtml($isXhtml);
+        $code->setStrict($isStrict);
 
         $decodaManager = new DecodaManager($code, $currentFilter['filters'], $currentFilter['hooks'], $currentFilter['whitelist']);
 
