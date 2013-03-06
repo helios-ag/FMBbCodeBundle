@@ -42,7 +42,7 @@ class BbcodeExtension extends \Twig_Extension
         }
         foreach ($extraTemplatePaths as $extraPath) {
             $path = $extraPath['path'];
-            $path = $this->container->get("kernel")->locateResource($path);
+            $path = $this->container->get('file_locator')->locate($path);
             DecodaManager::addTemplatePath($path);
         }
 
@@ -76,13 +76,10 @@ class BbcodeExtension extends \Twig_Extension
 
         $messages = $this->container->getParameter('fm_bbcode.config.messages');
         
-        if(!empty($messages))
-        {
-            $messages = $this->container->get("kernel")->locateResource($messages);
+        if (!empty($messages)) {
+            $messages = $this->container->get('file_locator')->locate($messages);
             $messages = json_decode(\file_get_contents($messages), true);
-        }
-        else
-        {
+        } else {
             $messages = array();
         }
 
