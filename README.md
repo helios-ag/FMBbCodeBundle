@@ -147,7 +147,7 @@ messages: node. File should be json formatted.
 ```yaml
 fm_bbcode:
     config:
-      messages: @BundleName/Resources/config/messages.json
+      messages: @SomeBundle/Resources/config/messages.json
 ```
 
 ### Adding own templates
@@ -157,6 +157,6 @@ Your own templates can be defined at templates node, the example below shows how
     fm_bbcode:
         config:
           templates:
-            - path: @BundleName/Resources/views/templates
+            - path: @SomeBundle/Resources/views/templates
 ```
 Template examples can be found inside decoda library
