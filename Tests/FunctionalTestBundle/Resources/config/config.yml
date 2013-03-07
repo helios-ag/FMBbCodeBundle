@@ -39,6 +39,7 @@ framework:
   test: ~
   translator:
     fallback: en
+  session: ~
 
 twig:
   debug: %kernel.debug%
