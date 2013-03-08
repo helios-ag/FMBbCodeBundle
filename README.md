@@ -3,13 +3,15 @@ FMBBCodeBundle
 
 [![Build Status](https://secure.travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)
 
-[PHP-Decoda](/milesj/php-decoda) integration in Symfony2
+[![knpbundles.com](http://knpbundles.com/helios-ag/FMBbCodeBundle/badge)](http://knpbundles.com/helios-ag/FMBbCodeBundle)
+
+[PHP-Decoda](https://github.com/milesj/php-decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
 
 ## Installation
 
-To install this bundle, you'll need both the [Decoda library](/milesj/php-decoda)
+To install this bundle, you'll need both the [Decoda library](https://github.com/milesj/php-decoda)
 and this bundle. Installation depends on how your project is setup:
 
 ### Step 1: Installation
@@ -160,3 +162,16 @@ Your own templates can be defined at templates node, the example below shows how
             - path: @SomeBundle/Resources/views/templates
 ```
 Template examples can be found inside decoda library
+
+##Contributors
+
+    Gaiffe Antoine [toinouu](https://github.com/toinouu)
+    Luis Íñiguez [idetia](https://github.com/idetia)
+    Sebastian [slider](https://github.com/slider)
+    [olleyyy](https://github.com/olleyyy)
+    Dirk Olbertz [dolbertz](https://github.com/dolbertz)
+    Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
+    [predakanga](https://github.com/predakanga)
+    Dan [piratadelfuturo](https://github.com/piratadelfuturo)
+    Alexandre Quercia [alquerci](https://github.com/predakanga)
+
