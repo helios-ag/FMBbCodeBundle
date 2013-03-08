@@ -163,15 +163,15 @@ Your own templates can be defined at templates node, the example below shows how
 ```
 Template examples can be found inside decoda library
 
-##Contributors
+## Contributors
 
-Gaiffe Antoine [toinouu](https://github.com/toinouu)
-Luis Íñiguez [idetia](https://github.com/idetia)
-Sebastian [slider](https://github.com/slider)
-[olleyyy](https://github.com/olleyyy)
-Dirk Olbertz [dolbertz](https://github.com/dolbertz)
-Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
-[predakanga](https://github.com/predakanga)
-Dan [piratadelfuturo](https://github.com/piratadelfuturo)
-Alexandre Quercia [alquerci](https://github.com/predakanga)
+* Gaiffe Antoine [toinouu](https://github.com/toinouu)
+* Luis Íñiguez [idetia](https://github.com/idetia)
+* Sebastian [slider](https://github.com/slider)
+* [olleyyy](https://github.com/olleyyy)
+* Dirk Olbertz [dolbertz](https://github.com/dolbertz)
+* Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
+* [predakanga](https://github.com/predakanga)
+* Dan [piratadelfuturo](https://github.com/piratadelfuturo)
+* Alexandre Quercia [alquerci](https://github.com/predakanga)
 
