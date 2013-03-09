@@ -11,7 +11,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * This information is solely responsible for how the different configuration
  * sections are normalized, and merged.
  * @author Al Ganiev <helios.ag@gmail.com>
- * @copyright 2011 Al Ganiev
+ * @copyright 2013 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -31,7 +31,11 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('config')
                 ->canBeUnset()
+                ->addDefaultsIfNotSet()
                     ->children()
+                        ->scalarNode('extraemoticonpath')->defaultNull()->end()
+                        ->scalarNode('decodapath')->defaultValue('%kernel.root_dir%/../vendor/mjohnson/decoda/src/Decoda')->end()
+                        ->scalarNode('emoticonpath')->defaultValue('/emoticons/')->end()
                         ->arrayNode('filters')
                             ->canBeUnset()
                             ->ignoreExtraKeys()
@@ -68,6 +72,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+
                 ->arrayNode('filter_sets')
                     ->useAttributeAsKey('name')
                     ->prototype('array')

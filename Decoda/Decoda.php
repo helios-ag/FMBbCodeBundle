@@ -1,12 +1,14 @@
 <?php
+
 namespace FM\BbcodeBundle\Decoda;
 
-define('DECODA', __DIR__.'/../../../../../mjohnson/decoda/src/Decoda');
-
 use Decoda\Decoda as BaseDecoda;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use \DomainException;
 
+/**
+ * Class Decoda
+ * @package FM\BbcodeBundle\Decoda
+ */
 class Decoda extends BaseDecoda
 {
     /**
@@ -18,7 +20,13 @@ class Decoda extends BaseDecoda
         $this->reset($string, true);
     }
 
+    /**
+     * @param string $locale
+     * @return $this|BaseDecoda
+     * @throws \DomainException
+     */
     public function setLocale($locale) {
+
         $this->message(null);
 
         if(strlen($locale)<3)
@@ -45,10 +53,7 @@ class Decoda extends BaseDecoda
      */
     public function setMessages($messages = array())
     {
-        if (empty($messages)) {
-            $this->_messages = json_decode(\file_get_contents('../Resources/config/messages.json'), true);
-        } else {
-            $this->_messages = $messages;
-        }
+        $this->_messages = $messages;
     }
+
 }

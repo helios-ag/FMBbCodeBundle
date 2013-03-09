@@ -75,13 +75,18 @@ class BbcodeExtension extends \Twig_Extension
         }
 
         $messages = $this->container->getParameter('fm_bbcode.config.messages');
-        
+
+        $defaultConfigPath = $this->container->getParameter('fm_bbcode.config.decodapath');
+
+        $emoticonsWebFolder = $this->container->getParameter('fm_bbcode.config.emoticonpath');
+
+        $extraEmoticonPath = $this->container->getParameter('fm_bbcode.config.extraemoticonpath');
         if (!empty($messages)) {
             $messages = $this->container->get('file_locator')->locate($messages);
             $messages = json_decode(\file_get_contents($messages), true);
-        } else {
-            $messages = array();
         }
+        else
+            $messages = json_decode(\file_get_contents($this->container->getParameter('fm_bbcode.config.decodapath').'/config/messages.json'),true);
 
         $code = new Decoda($value, $messages);
 
@@ -101,7 +106,14 @@ class BbcodeExtension extends \Twig_Extension
         $code->setXhtml($isXhtml);
         $code->setStrict($isStrict);
 
-        $decodaManager = new DecodaManager($code, $currentFilter['filters'], $currentFilter['hooks'], $currentFilter['whitelist']);
+        $decodaManager = new DecodaManager($code,
+                                           $currentFilter['filters'],
+                                           $currentFilter['hooks'],
+                                           $currentFilter['whitelist'],
+                                           $defaultConfigPath,
+                                           $emoticonsWebFolder,
+                                           $extraEmoticonPath
+        );
 
         return $decodaManager->getResult()->parse();
     }
@@ -118,8 +130,22 @@ class BbcodeExtension extends \Twig_Extension
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
+
         $code = new Decoda($value);
-        $decodaManager = new DecodaManager($code,array('default','block','code','email','image','list','quote','text','url','video'));
+
+        $defaultConfigPath = $this->container->getParameter('fm_bbcode.config.decodapath');
+
+        $emoticonsWebFolder = $this->container->getParameter('fm_bbcode.config.emoticonpath');
+
+        $filters = array('default','block','code','email','image','list','quote','text','url','video');
+
+        $decodaManager = new DecodaManager($code,
+                                           $filters,
+                                           array(),
+                                           array(),
+                                           $defaultConfigPath,
+                                           $emoticonsWebFolder
+        );
 
         return $decodaManager->getResult()->strip(true);
     }

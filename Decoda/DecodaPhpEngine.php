@@ -17,6 +17,8 @@ use Exception;
  */
 class DecodaPhpEngine extends PhpEngine
 {
+
+
     /**
      * Current path.
      *
@@ -33,8 +35,14 @@ class DecodaPhpEngine extends PhpEngine
      */
     protected $_filter;
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    protected $decodaPath;
+
+    public function __construct($decodaPath)
     {
+        $this->decodaPath = $decodaPath;
         $this->getPath();
     }
 
@@ -58,7 +66,7 @@ class DecodaPhpEngine extends PhpEngine
     public function getPath()
     {
         if (empty($this->_path)) {
-            $this->setPath(DECODA . '/templates/');
+            $this->setPath($this->decodaPath . '/templates/');
         }
 
         return $this->_path;
@@ -129,7 +137,7 @@ class DecodaPhpEngine extends PhpEngine
      * Sets the path to the tag templates.
      *
      * @access public
-     * @param  string                        $path
+     * @param  string $path
      * @return \Decoda\Engine|\FM\BbcodeBundle\Decoda\DecodaPhpEngine
      */
     public function setPath($path)

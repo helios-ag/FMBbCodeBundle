@@ -5,13 +5,13 @@ FMBBCodeBundle
 
 [![knpbundles.com](http://knpbundles.com/helios-ag/FMBbCodeBundle/badge)](http://knpbundles.com/helios-ag/FMBbCodeBundle)
 
-[PHP-Decoda](https://github.com/milesj/php-decoda) integration in Symfony2
+[PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
 
 ## Installation
 
-To install this bundle, you'll need both the [Decoda library](https://github.com/milesj/php-decoda)
+To install this bundle, you'll need both the [Decoda library](https://github.com/milesj/decoda)
 and this bundle. Installation depends on how your project is setup:
 
 ### Step 1: Installation
@@ -173,5 +173,5 @@ Template examples can be found inside decoda library
 * Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
 * [predakanga](https://github.com/predakanga)
 * Dan [piratadelfuturo](https://github.com/piratadelfuturo)
-* Alexandre Quercia [alquerci](https://github.com/predakanga)
+* Alexandre Quercia [alquerci](https://github.com/alquerci)
 

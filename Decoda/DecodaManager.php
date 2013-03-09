@@ -49,22 +49,61 @@ class DecodaManager
      */
     protected $value;
 
+    /**
+     * @var array
+     */
     protected static $extraFilters = array();
+
+    /**
+     * @var array
+     */
     protected static $extraHooks = array();
+
+    /**
+     * @var array
+     */
     protected static $extraPaths = array();
+
+    /**
+     * @var string
+     */
+    protected $decodaPath;
+
+    /**
+     * @var string
+     */
+    protected $emoticonPath;
+
+    /**
+     * @var string
+     */
+    protected $extraEmoticonPath;
 
     /**
      * @param Decoda $value
      * @param array $filters
      * @param array $hooks
      * @param array $whitelist
+     * @param $decodaPath
+     * @param $emoticonpath
+     * @param $extraEmoticonPath
      */
-    public function __construct(Decoda $value, array $filters = array(), array $hooks = array(), array $whitelist = array())
+    public function __construct(Decoda $value,
+                                array $filters = array(),
+                                array $hooks = array(),
+                                array $whitelist = array(),
+                                $decodaPath,
+                                $emoticonpath,
+                                $extraEmoticonPath = ''
+    )
     {
-        $this->value = $value;
-        $this->filters = $filters;
-        $this->hooks = $hooks;
-        $this->whitelist = $whitelist;
+        $this->value             = $value;
+        $this->filters           = $filters;
+        $this->hooks             = $hooks;
+        $this->whitelist         = $whitelist;
+        $this->decodaPath        = $decodaPath;
+        $this->emoticonPath      = $emoticonpath;
+        $this->extraEmoticonPath = $extraEmoticonPath;
     }
 
     /**
@@ -162,7 +201,7 @@ class DecodaManager
                 $code->addHook(new ClickableHook());
                 break;
             case 'emoticon':
-                $code->addHook(new EmoticonHook(array('path' => '/emoticons/')));
+                $code->addHook(new EmoticonHook(array('path' => $this->emoticonPath)));
                 break;
             case 'code':
                 $code->addHook(new CodeHook());
@@ -186,15 +225,18 @@ class DecodaManager
      */
     public function getResult()
     {
-        $decodaPhpEngine = new DecodaPhpEngine();
+        $decodaPhpEngine = new DecodaPhpEngine($this->decodaPath);
+
+        if(!empty($this->extraEmoticonPath))
+            $this->value->addPath($this->extraEmoticonPath);
+        else
+        $this->value->addPath($this->decodaPath.'/config/');
 
         foreach(static::$extraPaths as $extraPath){
-            $decodaPhpEngine->setpath($extraPath);
+            $decodaPhpEngine->setPath($extraPath);
         }
 
         $this->value->setEngine($decodaPhpEngine);
-
-        $this->value->addPath(DECODA.'/config');
 
         foreach($this->filters as $filter)
         {
