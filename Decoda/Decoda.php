@@ -26,6 +26,23 @@ class Decoda extends BaseDecoda
     }
 
     /**
+     * Set the locale.
+     *
+     * @param string $locale
+     * @return Decoda
+     * @throws DomainException
+     */
+    public function setLocale($locale)
+    {
+        if (false !== strpos($locale, '-')) {
+            $locales = explode('-', $locale);
+            $locale = $locales[0];
+        }
+
+        parent::setLocale($locale);
+    }
+
+    /**
      * Set messages
      *
      * @param array $messages
