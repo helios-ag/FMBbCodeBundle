@@ -2,6 +2,8 @@
 
 namespace FM\BbcodeBundle\Templating;
 
+use FM\BbcodeBundle\Translation\Loader\FileLoader;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use FM\BbcodeBundle\Decoda\Decoda as Decoda;
 use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
@@ -24,11 +26,20 @@ class BbcodeExtension extends \Twig_Extension
     protected $filterSets;
 
     /**
+     * @var array
+     */
+    protected $messageTable;
+
+    /**
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, FileLoader $loader)
     {
         $this->container = $container;
+
+        $messagesPath = $this->container->getParameter('fm_bbcode.config.messages');
+        $this->messageTable = $loader->load($messagesPath);
+
         $extraFilters = $this->container->getParameter('fm_bbcode.config.filters');
         $extraHooks   = $this->container->getParameter('fm_bbcode.config.hooks');
         $extraTemplatePaths = $this->container->getParameter('fm_bbcode.config.templates');
@@ -74,18 +85,10 @@ class BbcodeExtension extends \Twig_Extension
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        $messagesPath = $this->container->getParameter('fm_bbcode.config.messages');
-
         $emoticonsWebFolder = $this->container->getParameter('fm_bbcode.config.emoticonpath');
         $extraEmoticonPath = $this->container->getParameter('fm_bbcode.config.extraemoticonpath');
 
-        if (!empty($messagesPath)) {
-            $messagesPath = $this->container->get('file_locator')->locate($messagesPath);
-            $messages = json_decode(\file_get_contents($messagesPath), true);
-        } else
-            $messages = array();
-
-        $code = new Decoda($value, $messages);
+        $code = new Decoda($value, $this->messageTable);
 
         $currentFilter = $this->filterSets[$filter];
 
