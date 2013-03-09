@@ -84,8 +84,7 @@ class BbcodeExtension extends \Twig_Extension
         if (!empty($messages)) {
             $messages = $this->container->get('file_locator')->locate($messages);
             $messages = json_decode(\file_get_contents($messages), true);
-        }
-        else
+        } else
             $messages = json_decode(\file_get_contents($this->container->getParameter('fm_bbcode.config.decodapath').'/config/messages.json'),true);
 
         $code = new Decoda($value, $messages);
@@ -98,8 +97,7 @@ class BbcodeExtension extends \Twig_Extension
 
         if (empty($locale) || 'default' == $locale) {
                 $code->setLocale($this->container->get('request')->getLocale());
-            }
-        else {
+            } else {
             $code->setLocale($locale);
         }
 

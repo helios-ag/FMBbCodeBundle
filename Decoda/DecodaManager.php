@@ -3,7 +3,6 @@ namespace FM\BbcodeBundle\Decoda;
 
 use FM\BbcodeBundle\Decoda\Decoda;
 use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Decoda\Filter,
     Decoda\Filter\DefaultFilter,
     Decoda\Filter\BlockFilter,
@@ -81,9 +80,9 @@ class DecodaManager
 
     /**
      * @param Decoda $value
-     * @param array $filters
-     * @param array $hooks
-     * @param array $whitelist
+     * @param array  $filters
+     * @param array  $hooks
+     * @param array  $whitelist
      * @param $decodaPath
      * @param $emoticonpath
      * @param $extraEmoticonPath
@@ -110,7 +109,8 @@ class DecodaManager
      * @param $name
      * @param $filter
      */
-    public static function addFilter($name, $filter){
+    public static function addFilter($name, $filter)
+    {
         static::$extraFilters[$name] = $filter;
     }
 
@@ -118,29 +118,32 @@ class DecodaManager
      * @param $name
      * @param $hook
      */
-    public static function addHook($name, $hook){
+    public static function addHook($name, $hook)
+    {
         static::$extraHooks[$name] = $hook;
     }
 
     /**
      * @param $path
      */
-    public static function addTemplatePath( $path ){
+    public static function addTemplatePath( $path )
+    {
         static::$extraPaths[] = $path;
     }
 
     /**
      * Applies filter specified in parameter
      * @param \FM\BbcodeBundle\Decoda\Decoda $code
-     * @param string $filter
+     * @param string                         $filter
      *
      * @return \FM\BbcodeBundle\Decoda\Decoda
      */
     protected function applyFilter(Decoda $code, $filter)
     {
-        if(isset(static::$extraFilters[$filter])){
+        if (isset(static::$extraFilters[$filter])) {
             $extraFilter = static::$extraFilters[$filter] instanceof Filter ? static::$extraFilters[$filter] : new static::$extraFilters[$filter]();
             $code->addFilter($extraFilter);
+
             return $code;
         }
 
@@ -178,6 +181,7 @@ class DecodaManager
             default:
                 return $code;
         }
+
         return $code;
     }
     /**
@@ -187,9 +191,10 @@ class DecodaManager
      */
     protected function applyHook(Decoda $code, $hook)
     {
-        if(isset(static::$extraHooks[$hook])){
+        if (isset(static::$extraHooks[$hook])) {
             $extraHook = static::$extraHooks[$hook] instanceof Hook ? static::$extraHooks[$hook] : new static::$extraHooks[$hook]();
             $code->addHook($extraHook);
+
             return $code;
         }
 
@@ -207,12 +212,13 @@ class DecodaManager
                 $code->addHook(new CodeHook());
                 break;
         }
+
         return $code;
     }
 
     /**
-     * @param Decoda $code
-     * @param array $whitelist
+     * @param  Decoda $code
+     * @param  array  $whitelist
      * @return Decoda
      */
     protected function applyWhitelist(Decoda $code, array $whitelist)
@@ -232,19 +238,17 @@ class DecodaManager
         else
         $this->value->addPath($this->decodaPath.'/config/');
 
-        foreach(static::$extraPaths as $extraPath){
+        foreach (static::$extraPaths as $extraPath) {
             $decodaPhpEngine->setPath($extraPath);
         }
 
         $this->value->setEngine($decodaPhpEngine);
 
-        foreach($this->filters as $filter)
-        {
+        foreach ($this->filters as $filter) {
             $this->value = $this->applyFilter($this->value, $filter);
         }
 
-        foreach($this->hooks as $hook)
-        {
+        foreach ($this->hooks as $hook) {
             $this->value = $this->applyHook($this->value, $hook);
         }
 

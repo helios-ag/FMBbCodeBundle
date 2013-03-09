@@ -18,7 +18,6 @@ use Exception;
 class DecodaPhpEngine extends PhpEngine
 {
 
-
     /**
      * Current path.
      *
@@ -76,8 +75,8 @@ class DecodaPhpEngine extends PhpEngine
      * Renders the tag by using php templates.
      *
      * @access public
-     * @param  array     $tag
-     * @param  string    $content
+     * @param  array $tag
+     * @param  string $content
      * @throws \Exception
      * @return string
      * @throws Exception
@@ -123,7 +122,7 @@ class DecodaPhpEngine extends PhpEngine
      * Sets the current filter.
      *
      * @access public
-     * @param \Decoda\Filter $filter
+     * @param  \Decoda\Filter $filter
      * @return \Decoda\Engine|\FM\BbcodeBundle\Decoda\DecodaPhpEngine
      */
     public function setFilter(Filter $filter)

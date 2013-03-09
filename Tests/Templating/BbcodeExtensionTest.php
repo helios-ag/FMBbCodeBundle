@@ -2,10 +2,6 @@
 
 namespace FM\BbcodeBundle\Tests\Templating;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\DependencyInjection\Reference;
 use FM\BbcodeBundle\Tests\TwigBasedTestCase;
 
 class BbcodeExtensionTest extends TwigBasedTestCase
@@ -13,14 +9,16 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     /**
      * @dataProvider dataDefaultTags
      */
-    public function testDefaultFilter($value, $expected) {
+    public function testDefaultFilter($value, $expected)
+    {
         $this->assertSame($expected,
             $this->getTwig()->render('FunctionalTestBundle:filters:default.html.twig', array(
                 'value' => $value,
             )));
     }
 
-    public function dataDefaultTags() {
+    public function dataDefaultTags()
+    {
         return array(
             array('[b]bold[/b]', "<strong>bold</strong>"),
             array('[i]italic[/i]', "<em>italic</em>"),
@@ -36,14 +34,16 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     /**
      * @dataProvider dataUrlTags
      */
-    public function testUrlFilter($value, $expected) {
+    public function testUrlFilter($value, $expected)
+    {
         $this->assertSame($expected,
             $this->getTwig()->render('FunctionalTestBundle:filters:url.html.twig', array(
                 'value' => $value,
             )));
     }
 
-    public function dataUrlTags() {
+    public function dataUrlTags()
+    {
         return array(
             array('[url]http://example.org[/url]','<a href="http://example.org">http://example.org</a>'),
             array('[url="http://example.com"]Example[/url]','<a href="http://example.com">Example</a>')
@@ -53,49 +53,53 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     /**
      * @dataProvider dataImgTags
      */
-    public function testImgFilter($value, $expected) {
+    public function testImgFilter($value, $expected)
+    {
         $this->assertSame($expected,
             $this->getTwig()->render('FunctionalTestBundle:filters:image.html.twig', array(
                 'value' => $value,
             )));
     }
 
-    public function dataImgTags() {
+    public function dataImgTags()
+    {
         return array(
             array('[img]http://github.com/picture.jpg[/img]','<img src="http://github.com/picture.jpg" alt="" />'),
             array('[img width="500"]http://github.com/picture.jpg[/img]','<img width="500" src="http://github.com/picture.jpg" alt="" />')
         );
     }
 
-
     /**
      * @dataProvider dataQuoteTags
      */
-    public function testQuoteFilter($value, $expected) {
+    public function testQuoteFilter($value, $expected)
+    {
         $this->assertSame($expected,
             $this->getTwig()->render('FunctionalTestBundle:filters:quote.html.twig', array(
                 'value' => $value,
             )));
     }
 
-    public function dataQuoteTags() {
+    public function dataQuoteTags()
+    {
         return array(
             array('[quote]text[/quote]','text'),
         );
     }
 
-
     /**
      * @dataProvider dataStrict
      */
-    public function testStrict($value, $expected) {
+    public function testStrict($value, $expected)
+    {
         $this->assertSame($expected,
             $this->getTwig()->render('FunctionalTestBundle:filters:strict_test.html.twig', array(
                 'value' => $value,
             )));
     }
 
-    public function dataStrict() {
+    public function dataStrict()
+    {
         return array(
             array('[url]http://example.org[/url]','<a href="http://example.org">http://example.org</a>'),
             array('[url=http://example.com]Example[/url]','<a href="http://example.com">Example</a>')

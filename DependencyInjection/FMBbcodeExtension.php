@@ -14,14 +14,15 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  * @copyright 2011 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-class FMBbcodeExtension extends Extension {
-
+class FMBbcodeExtension extends Extension
+{
     /**
      * @see Symfony\Component\DependencyInjection\Extension.ExtensionInterface::load()
      * @param array                                                   $configs
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    public function load(array $configs, ContainerBuilder $container) {
+    public function load(array $configs, ContainerBuilder $container)
+    {
         $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('bbcode.xml');

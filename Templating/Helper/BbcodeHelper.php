@@ -12,12 +12,13 @@ use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
  * @copyright 2012 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-class BbcodeHelper extends Helper {
-
+class BbcodeHelper extends Helper
+{
     protected $container;
     protected $filter_sets;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
         $extra_filters = $this->container->getParameter('fm_bbcode.config.filters');
         $extra_hooks = $this->container->getParameter('fm_bbcode.config.hooks');
@@ -54,7 +55,8 @@ class BbcodeHelper extends Helper {
      * @throws \Twig_Error_Runtime
      * @return \FM\BbcodeBundle\Decoda\Decoda
      */
-    public function filter($value, $filter) {
+    public function filter($value, $filter)
+    {
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
@@ -77,8 +79,7 @@ class BbcodeHelper extends Helper {
 
         if (empty($locale) || 'default' == $locale) {
             $code->setLocale($this->container->get('request')->getLocale());
-        }
-        else {
+        } else {
             $code->setLocale($locale);
         }
 
@@ -86,13 +87,13 @@ class BbcodeHelper extends Helper {
             $code->setXhtml(true);
         }
 
-
         $decoda_manager = new DecodaManager($code, $current_filter['filters'], $current_filter['hooks'], $current_filter['whitelist']);
 
         return $decoda_manager->getResult()->parse();
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'fm_bbcode';
     }
 

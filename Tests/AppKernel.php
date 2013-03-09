@@ -6,11 +6,12 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
-class AppKernel extends Kernel {
-
+class AppKernel extends Kernel
+{
     private $config;
 
-    public function __construct($config) {
+    public function __construct($config)
+    {
         parent::__construct('test', true);
 
         $fs = new Filesystem();
@@ -25,7 +26,8 @@ class AppKernel extends Kernel {
         $this->config = $config;
     }
 
-    public function registerBundles() {
+    public function registerBundles()
+    {
         return array(
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -34,15 +36,18 @@ class AppKernel extends Kernel {
         );
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader) {
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
         $loader->load($this->config);
     }
 
-    public function serialize() {
+    public function serialize()
+    {
         return $this->config;
     }
 
-    public function unserialize($config) {
+    public function unserialize($config)
+    {
         $this->__construct($config);
     }
 

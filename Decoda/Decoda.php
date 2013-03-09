@@ -25,13 +25,13 @@ class Decoda extends BaseDecoda
      * @return $this|BaseDecoda
      * @throws \DomainException
      */
-    public function setLocale($locale) {
-
+    public function setLocale($locale)
+    {
         $this->message(null);
 
         if(strlen($locale)<3)
-            foreach($this->_messages as $key => $value){
-                if(strlen($key)>2){
+            foreach ($this->_messages as $key => $value) {
+                if (strlen($key)>2) {
                     $this->_messages[substr($key, 0, 2)] = $value;
                     unset($this->_messages[$key]);
                 }

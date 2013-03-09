@@ -10,7 +10,6 @@ namespace FM\BbcodeBundle\Tests\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use FM\BbcodeBundle\DependencyInjection\FMBbcodeExtension;
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\DependencyInjection\Reference;
 
 class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,7 +64,6 @@ EOF;
 
         return $parser->parse($yaml);
     }
-
 
     private function assertAlias($value, $key)
     {
