@@ -45,7 +45,7 @@ class BbcodeHelper extends Helper
         foreach ($extra_templatePaths as $extra_path) {
             $path = $extra_path['path'];
             $path = $this->container->get('file_locator')->locate($path);
-            DecodaManager::addTmplatePath($path);
+            DecodaManager::addTemplatePath($path);
         }
     }
 
@@ -61,21 +61,26 @@ class BbcodeHelper extends Helper
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        $messages = $this->container->getParameter('fm_bbcode.config.messages');
+        $messagesPath = $this->container->getParameter('fm_bbcode.config.messages');
 
-        if (!empty($messages)) {
-            $messages = $this->container->get("file_locator")->locate($messages);
-            $messages = json_decode(\file_get_contents($messages), true);
+        $emoticonsWebFolder = $this->container->getParameter('fm_bbcode.config.emoticonpath');
+        $extraEmoticonPath = $this->container->getParameter('fm_bbcode.config.extraemoticonpath');
+
+        if (!empty($messagesPath)) {
+            $messagesPath = $this->container->get("file_locator")->locate($messagesPath);
+            $messages = json_decode(\file_get_contents($messagesPath), true);
         } else {
-            $message = array();
+            $messages = array();
         }
 
         $code = new Decoda($value, $messages);
 
-        $current_filter = $this->filter_sets[$filter];
+        $currentFilter = $this->filter_sets[$filter];
 
-        $locale = $current_filter['locale'];
-        $xhtml = $current_filter['xhtml'];
+
+        $locale = $currentFilter['locale'];
+        $isXhtml = $currentFilter['xhtml'];
+        $isStrict = $currentFilter['strict'];
 
         if (empty($locale) || 'default' == $locale) {
             $code->setLocale($this->container->get('request')->getLocale());
@@ -83,13 +88,18 @@ class BbcodeHelper extends Helper
             $code->setLocale($locale);
         }
 
-        if (true === $xhtml) {
-            $code->setXhtml(true);
-        }
+        $code->setXhtml($isXhtml);
+        $code->setStrict($isStrict);
 
-        $decoda_manager = new DecodaManager($code, $current_filter['filters'], $current_filter['hooks'], $current_filter['whitelist']);
+        $decodaManager = new DecodaManager($code,
+                                           $currentFilter['filters'],
+                                           $currentFilter['hooks'],
+                                           $currentFilter['whitelist'],
+                                           $emoticonsWebFolder,
+                                           $extraEmoticonPath
+        );
 
-        return $decoda_manager->getResult()->parse();
+        return $decodaManager->getResult()->parse();
     }
 
     public function getName()

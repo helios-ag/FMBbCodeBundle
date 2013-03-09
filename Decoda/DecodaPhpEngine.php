@@ -34,14 +34,8 @@ class DecodaPhpEngine extends PhpEngine
      */
     protected $_filter;
 
-    /**
-     * @var string
-     */
-    protected $decodaPath;
-
-    public function __construct($decodaPath)
+    public function __construct()
     {
-        $this->decodaPath = $decodaPath;
         $this->getPath();
     }
 
@@ -56,20 +50,6 @@ class DecodaPhpEngine extends PhpEngine
         return $this->_filter;
     }
 
-    /**
-     * Return the template path. If no path has been set, set it.
-     *
-     * @access public
-     * @return array
-     */
-    public function getPath()
-    {
-        if (empty($this->_path)) {
-            $this->setPath($this->decodaPath . '/templates/');
-        }
-
-        return $this->_path;
-    }
 
     /**
      * Renders the tag by using php templates.
