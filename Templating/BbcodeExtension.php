@@ -74,18 +74,16 @@ class BbcodeExtension extends \Twig_Extension
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        $messages = $this->container->getParameter('fm_bbcode.config.messages');
-
-        $defaultConfigPath = $this->container->getParameter('fm_bbcode.config.decodapath');
+        $messagesPath = $this->container->getParameter('fm_bbcode.config.messages');
 
         $emoticonsWebFolder = $this->container->getParameter('fm_bbcode.config.emoticonpath');
-
         $extraEmoticonPath = $this->container->getParameter('fm_bbcode.config.extraemoticonpath');
-        if (!empty($messages)) {
-            $messages = $this->container->get('file_locator')->locate($messages);
-            $messages = json_decode(\file_get_contents($messages), true);
+
+        if (!empty($messagesPath)) {
+            $messagesPath = $this->container->get('file_locator')->locate($messagesPath);
+            $messages = json_decode(\file_get_contents($messagesPath), true);
         } else
-            $messages = json_decode(\file_get_contents($this->container->getParameter('fm_bbcode.config.decodapath').'/config/messages.json'),true);
+            $messages = array();
 
         $code = new Decoda($value, $messages);
 
@@ -96,8 +94,8 @@ class BbcodeExtension extends \Twig_Extension
         $isStrict = $currentFilter['strict'];
 
         if (empty($locale) || 'default' == $locale) {
-                $code->setLocale($this->container->get('request')->getLocale());
-            } else {
+            $code->setLocale($this->container->get('request')->getLocale());
+        } else {
             $code->setLocale($locale);
         }
 
@@ -108,7 +106,6 @@ class BbcodeExtension extends \Twig_Extension
                                            $currentFilter['filters'],
                                            $currentFilter['hooks'],
                                            $currentFilter['whitelist'],
-                                           $defaultConfigPath,
                                            $emoticonsWebFolder,
                                            $extraEmoticonPath
         );
@@ -131,8 +128,6 @@ class BbcodeExtension extends \Twig_Extension
 
         $code = new Decoda($value);
 
-        $defaultConfigPath = $this->container->getParameter('fm_bbcode.config.decodapath');
-
         $emoticonsWebFolder = $this->container->getParameter('fm_bbcode.config.emoticonpath');
 
         $filters = array('default','block','code','email','image','list','quote','text','url','video');
@@ -141,7 +136,6 @@ class BbcodeExtension extends \Twig_Extension
                                            $filters,
                                            array(),
                                            array(),
-                                           $defaultConfigPath,
                                            $emoticonsWebFolder
         );
 

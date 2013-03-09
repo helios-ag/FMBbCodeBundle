@@ -12,38 +12,17 @@ use \DomainException;
 class Decoda extends BaseDecoda
 {
     /**
-     * {@inheritDoc}
+     * @param string $string    The string to parse
+     * @param array  $messages  An array of messages translation
      */
-    public function __construct($string = '', $messages = array())
+    public function __construct($string = '', array $messages = array())
     {
-        $this->setMessages($messages);
-        $this->reset($string, true);
-    }
+        parent::__construct($string);
 
-    /**
-     * @param string $locale
-     * @return $this|BaseDecoda
-     * @throws \DomainException
-     */
-    public function setLocale($locale)
-    {
+        // Force the generation of default Decoda messages
         $this->message(null);
 
-        if(strlen($locale)<3)
-            foreach ($this->_messages as $key => $value) {
-                if (strlen($key)>2) {
-                    $this->_messages[substr($key, 0, 2)] = $value;
-                    unset($this->_messages[$key]);
-                }
-            }
-
-        if (empty($this->_messages[$locale])) {
-            throw new DomainException(sprintf('Localized strings for %s do not exist', $locale));
-        }
-
-        $this->_config['locale'] = $locale;
-
-        return $this;
+        $this->setMessages(array_merge($this->_messages, $messages));
     }
 
     /**
@@ -51,9 +30,43 @@ class Decoda extends BaseDecoda
      *
      * @param array $messages
      */
-    public function setMessages($messages = array())
+    public function setMessages(array $messages = array())
     {
-        $this->_messages = $messages;
+        $this->_messages = array();
+        $this->addMessages($messages);
     }
 
+    /**
+     * Adds messages to the parser messeges.
+     *
+     * @param array $messages An array of messages with keys are locales
+     */
+    public function addMessages(array $messages)
+    {
+        foreach ($messages as $locale => $value){
+            foreach ($value as $id => $message){
+                $this->setMessage($locale, $id, $message);
+            }
+        }
+    }
+
+    /**
+     * Sets a message translation.
+     *
+     * @param string $locale        The locale
+     * @param string $id            The message id
+     * @param string $translation   The messages translation
+     */
+    public function setMessage($locale, $id, $translation)
+    {
+        if (false !== strpos($locale, '-')) {
+            $locales = explode('-', $locale);
+        } else {
+            $locales = array($locale);
+        }
+
+        foreach ($locales as $loc) {
+            $this->_messages[$loc][$id] = $translation;
+        }
+    }
 }

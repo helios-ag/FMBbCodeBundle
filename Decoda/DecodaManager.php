@@ -66,11 +66,6 @@ class DecodaManager
     /**
      * @var string
      */
-    protected $decodaPath;
-
-    /**
-     * @var string
-     */
     protected $emoticonPath;
 
     /**
@@ -83,7 +78,6 @@ class DecodaManager
      * @param array  $filters
      * @param array  $hooks
      * @param array  $whitelist
-     * @param $decodaPath
      * @param $emoticonpath
      * @param $extraEmoticonPath
      */
@@ -91,7 +85,6 @@ class DecodaManager
                                 array $filters = array(),
                                 array $hooks = array(),
                                 array $whitelist = array(),
-                                $decodaPath,
                                 $emoticonpath,
                                 $extraEmoticonPath = ''
     )
@@ -100,7 +93,6 @@ class DecodaManager
         $this->filters           = $filters;
         $this->hooks             = $hooks;
         $this->whitelist         = $whitelist;
-        $this->decodaPath        = $decodaPath;
         $this->emoticonPath      = $emoticonpath;
         $this->extraEmoticonPath = $extraEmoticonPath;
     }
@@ -231,12 +223,11 @@ class DecodaManager
      */
     public function getResult()
     {
-        $decodaPhpEngine = new DecodaPhpEngine($this->decodaPath);
+        $decodaPhpEngine = new DecodaPhpEngine();
 
-        if(!empty($this->extraEmoticonPath))
+        if (!empty($this->extraEmoticonPath)) {
             $this->value->addPath($this->extraEmoticonPath);
-        else
-        $this->value->addPath($this->decodaPath.'/config/');
+        }
 
         foreach (static::$extraPaths as $extraPath) {
             $decodaPhpEngine->setPath($extraPath);
