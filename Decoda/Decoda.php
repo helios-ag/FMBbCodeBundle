@@ -86,4 +86,20 @@ class Decoda extends BaseDecoda
             $this->_messages[$loc][$id] = $translation;
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getWriteList()
+    {
+        return $this->_whitelist;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBlackList()
+    {
+        return $this->_blacklist;
+    }
 }
