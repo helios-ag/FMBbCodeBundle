@@ -1,6 +1,8 @@
 <?php
 namespace FM\BbcodeBundle\Decoda;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use FM\BbcodeBundle\Translation\Loader\FileLoader;
 
@@ -41,6 +43,11 @@ class DecodaManager
     protected $messageLoader;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * @var Decoda[]
      */
     private $decodaCollection;
@@ -69,10 +76,16 @@ class DecodaManager
     private $hooks;
 
     /**
+     * @var string
+     */
+    private $locale;
+
+    /**
      * @param array $options  An array of options
      */
-    public function __construct(FileLocator $locator, FileLoader $messageLoader, array $options = array())
+    public function __construct(ContainerInterface $container, FileLocator $locator, FileLoader $messageLoader, array $options = array())
     {
+        $this->container = $container;
         $this->locator = $locator;
         $this->messageLoader = $messageLoader;
 
@@ -121,6 +134,7 @@ class DecodaManager
      *   * emoticonpath:
      *   * extraemoticonpath:
      *   * filter_sets:
+     *   * default_locale:
      *
      * @param array $options An array of options
      *
@@ -136,6 +150,7 @@ class DecodaManager
             'emoticonpath'       => '/emoticons/',
             'extraemoticonpath'  => null,
             'filter_sets'        => array(),
+            'default_locale'     => 'en',
         );
 
         // check option names and live merge, if errors are encountered Exception will be thrown
@@ -296,6 +311,9 @@ class DecodaManager
 
         $decoda->setEngine($this->getPhpEngine());
 
+        $decoda->setDefaultLocale($this->options['default_locale']);
+        $decoda->setLocale($this->getLocale());
+
         $newDecoda = clone $decoda;
         $newDecoda->defaults();
         $this->decodaCollection['_default'] = $newDecoda;
@@ -327,13 +345,9 @@ class DecodaManager
      */
     private function addDecoda($filterSet, array $options, Decoda $decoda)
     {
-        if (empty($options['locale']) || 'default' == $options['locale']) {
-            $locale = $this->container->get('request')->getLocale();
-        } else {
-            $locale = $options['locale'];
+        if (!empty($options['locale']) && 'default' != $options['locale']) {
+            $decoda->setLocale($options['locale']);
         }
-
-        $decoda->setLocale($locale);
 
         $decoda->setXhtml($options['xhtml']);
         $decoda->setStrict($options['strict']);
@@ -370,5 +384,18 @@ class DecodaManager
         }
 
         return $this->phpEngine;
+    }
+
+    private function getLocale()
+    {
+        if (null === $this->locale) {
+            if ($this->container->isScopeActive('request') && $this->container->has('request')) {
+                $this->locale = $this->container->get('request')->getLocale();
+            } else {
+                $this->locale = $this->options['default_locale'];
+            }
+        }
+
+        return $this->locale;
     }
 }

@@ -12,6 +12,11 @@ use \DomainException;
 class Decoda extends BaseDecoda
 {
     /**
+     * @var string
+     */
+    protected $defaultLocale;
+
+    /**
      * @param string $string    The string to parse
      * @param array  $messages  An array of messages translation
      */
@@ -39,7 +44,75 @@ class Decoda extends BaseDecoda
             $locale = $locales[0];
         }
 
-        parent::setLocale($locale);
+        try {
+            parent::setLocale($locale);
+        } catch (\DomainException $e) {
+            if (null !== $this->defaultLocale) {
+                parent::setLocale($this->defaultLocale);
+            } else {
+                throw $e;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the default locale.
+     *
+     * @param string $defaultLocale
+     *
+     * @return Decoda
+     *
+     * @throws DomainException
+     */
+    public function setDefaultLocale($locale)
+    {
+        if (false !== strpos($locale, '-')) {
+            $locales = explode('-', $locale);
+            $locale = $locales[0];
+        }
+
+        if (!isset($this->_messages[$locale])) {
+            throw new DomainException(sprintf('Localized strings for %s do not exist', $locale));
+        }
+
+        $this->defaultLocale = $locale;
+
+        if (null === $this->config('locale')) {
+            parent::setLocale($locale);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return a message string if it exists.
+     *
+     * @param string $key
+     * @param array  $vars
+     *
+     * @return string
+     */
+    public function message($key, array $vars = array())
+    {
+        if (empty($key)) {
+            return $key;
+        }
+
+        $translated = parent::message($key, $vars);
+
+        if ($this->defaultLocale !== null && empty($translated)) {
+            // fallback default locale
+            $locale = $this->config('locale');
+            parent::setLocale($this->defaultLocale);
+
+            $translated = parent::message($key, $vars);
+
+            parent::setLocale($locale);
+        }
+
+        return $translated;
     }
 
     /**
