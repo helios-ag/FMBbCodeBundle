@@ -175,4 +175,19 @@ class Decoda extends BaseDecoda
     {
         return $this->_blacklist;
     }
+
+    /**
+     * Add a configuration lookup path.
+     *
+     * @param string $path
+     * @return \Decoda\Decoda
+     */
+    public function addPath($path)
+    {
+        if (substr($path, -1) !== '/') {
+            $path .= '/';
+        }
+
+        return parent::addPath($path);
+    }
 }

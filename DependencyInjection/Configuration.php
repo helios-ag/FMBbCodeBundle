@@ -29,6 +29,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->arrayNode('resources')
+                    ->canBeUnset()
+                    ->defaultValue(array())
+                    ->prototype('variable')->end()
+                ->end()
                 ->arrayNode('config')
                 ->canBeUnset()
                 ->addDefaultsIfNotSet()

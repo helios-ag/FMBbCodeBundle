@@ -135,6 +135,7 @@ class DecodaManager
      *   * extraemoticonpath:
      *   * filter_sets:
      *   * default_locale:
+     *   * resources:
      *
      * @param array $options An array of options
      *
@@ -150,6 +151,7 @@ class DecodaManager
             'emoticonpath'       => '/emoticons/',
             'extraemoticonpath'  => null,
             'filter_sets'        => array(),
+            'resources'          => array(),
             'default_locale'     => 'en',
         );
 
@@ -307,6 +309,10 @@ class DecodaManager
 
         if (!empty($this->options['extraemoticonpath'])) {
             $decoda->addPath($this->locator->locate($this->options['extraemoticonpath']));
+        }
+
+        foreach ($this->options['resources'] as $resource) {
+            $decoda->addPath($this->locator->locate($resource));
         }
 
         $decoda->setEngine($this->getPhpEngine());

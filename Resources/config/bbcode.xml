@@ -33,6 +33,7 @@
                 <argument key="emoticonpath">%fm_bbcode.config.emoticonpath%</argument>
                 <argument key="extraemoticonpath">%fm_bbcode.config.extraemoticonpath%</argument>
                 <argument key="filter_sets">%fm_bbcode.filter_sets%</argument>
+                <argument key="resources">%fm_bbcode.resources%</argument>
                 <argument key="default_locale">%kernel.default_locale%</argument>
             </argument>
         </service>

@@ -35,5 +35,6 @@ class FMBbcodeExtension extends Extension
         $container->setParameter('fm_bbcode.config.templates', isset($config['config']['templates']) ? $config['config']['templates'] : array());
         $container->setParameter('fm_bbcode.config.emoticonpath', $config['config']['emoticonpath']);
         $container->setParameter('fm_bbcode.config.extraemoticonpath', $config['config']['extraemoticonpath']);
+        $container->setParameter('fm_bbcode.resources', $config['resources']);
     }
 }
