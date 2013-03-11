@@ -51,9 +51,12 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $webFolder = $this->getContainer()->get('kernel')->getRootDir().'/../web/emoticons';
+        $webFolder = sprintf('%s%s',
+            $this->getContainer()->getParameter('assetic.write_to'),
+            $this->getContainer()->getParameter('fm_bbcode.config.emoticonpath')
+        );
         @mkdir($webFolder);
-        $emoticonsFolder = $this->getContainer()->get('kernel')->getRootDir().'/../vendor/mjohnson/decoda/emoticons';
+        $emoticonsFolder = $this->getContainer()->getParameter('kernel.root_dir').'/../vendor/mjohnson/decoda/emoticons';
         $this->recurse_copy($emoticonsFolder,$webFolder);
 
         $output->writeln('<comment>Emoticons dumped succesfully</comment>');

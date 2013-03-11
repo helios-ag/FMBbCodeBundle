@@ -1,6 +1,11 @@
 <?php
 namespace FM\BbcodeBundle\Decoda;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Symfony\Component\HttpKernel\Config\FileLocator;
+use FM\BbcodeBundle\Translation\Loader\FileLoader;
+
 use FM\BbcodeBundle\Decoda\Decoda;
 use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
 use Decoda\Filter,
@@ -28,99 +33,176 @@ use Decoda\Hook\CensorHook,
 class DecodaManager
 {
     /**
-     * Applied filters
-     * @var array
+     * @var FileLocator
      */
-    protected $filters;
+    protected $locator;
+
+    /**
+     * @var FileLoader
+     */
+    protected $messageLoader;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @var Decoda[]
+     */
+    private $decodaCollection;
 
     /**
      * @var array
      */
-    protected $hooks;
+    private $options = array();
+
 
     /**
-     * @var array
+     * @var DecodaPhpEngine
      */
-    protected $whitelist;
+    private $phpEngine;
+
 
     /**
-     * @var Decoda
+     * @var Filter[]
      */
-    protected $value;
+    private $filters;
+
 
     /**
-     * @var array
+     * @var Hook[]
      */
-    protected static $extraFilters = array();
-
-    /**
-     * @var array
-     */
-    protected static $extraHooks = array();
-
-    /**
-     * @var array
-     */
-    protected static $extraPaths = array();
+    private $hooks;
 
     /**
      * @var string
      */
-    protected $emoticonPath;
+    private $locale;
 
     /**
-     * @var string
+     * @param array $options  An array of options
      */
-    protected $extraEmoticonPath;
-
-    /**
-     * @param Decoda $value
-     * @param array  $filters
-     * @param array  $hooks
-     * @param array  $whitelist
-     * @param $emoticonpath
-     * @param $extraEmoticonPath
-     */
-    public function __construct(Decoda $value,
-                                array $filters = array(),
-                                array $hooks = array(),
-                                array $whitelist = array(),
-                                $emoticonpath,
-                                $extraEmoticonPath = ''
-    )
+    public function __construct(ContainerInterface $container, FileLocator $locator, FileLoader $messageLoader, array $options = array())
     {
-        $this->value             = $value;
-        $this->filters           = $filters;
-        $this->hooks             = $hooks;
-        $this->whitelist         = $whitelist;
-        $this->emoticonPath      = $emoticonpath;
-        $this->extraEmoticonPath = $extraEmoticonPath;
+        $this->container = $container;
+        $this->locator = $locator;
+        $this->messageLoader = $messageLoader;
+
+        $this->setOptions($options);
+        $this->compileFilters();
+        $this->compileHooks();
+        $this->compileDecoda();
+    }
+
+   /**
+    * Gets a specific decoda
+    *
+    * @param string $string      The string to parse
+    * @param string $filterSet  The specific filter_set to apply
+    * @return Decoda
+    * @throws \InvalidArgumentException
+    */
+    public function getDecoda($string, $filterSet = '_default')
+    {
+        if (!array_key_exists($filterSet, $this->decodaCollection)) {
+            throw new \InvalidArgumentException(sprintf('The filter_set "%s" does not exists.', $filterName));
+        }
+
+        $decoda = $this->decodaCollection[$filterSet];
+
+        $writeList = $decoda->getWriteList();
+        $blacklist = $decoda->getBlackList();
+
+        $decoda->reset($string);
+
+        $decoda->whitelist($writeList);
+        $decoda->blacklist($blacklist);
+
+        return $decoda;
     }
 
     /**
-     * @param $name
-     * @param $filter
+     * Sets options.
+     *
+     * Available options:
+     *
+     *   * filters:
+     *   * hooks:
+     *   * messages:
+     *   * templates:
+     *   * emoticonpath:
+     *   * extraemoticonpath:
+     *   * filter_sets:
+     *   * default_locale:
+     *   * resources:
+     *
+     * @param array $options An array of options
+     *
+     * @throws \InvalidArgumentException When unsupported option is provided
      */
-    public static function addFilter($name, $filter)
+    public function setOptions(array $options)
     {
-        static::$extraFilters[$name] = $filter;
+        $this->options = array(
+            'filters'            => array(),
+            'hooks'              => array(),
+            'messages'           => null,
+            'templates'          => array(),
+            'emoticonpath'       => '/emoticons/',
+            'extraemoticonpath'  => null,
+            'filter_sets'        => array(),
+            'resources'          => array(),
+            'default_locale'     => 'en',
+        );
+
+        // check option names and live merge, if errors are encountered Exception will be thrown
+        $invalid = array();
+        foreach ($options as $key => $value) {
+            if (array_key_exists($key, $this->options)) {
+                $this->options[$key] = $value;
+            } else {
+                $invalid[] = $key;
+            }
+        }
+
+        if ($invalid) {
+            throw new \InvalidArgumentException(sprintf('The DecodaManager does not support the following options: "%s".', implode('\', \'', $invalid)));
+        }
     }
 
     /**
-     * @param $name
-     * @param $hook
+     * Sets an option.
+     *
+     * @param string $key   The key
+     * @param mixed  $value The value
+     *
+     * @throws \InvalidArgumentException
      */
-    public static function addHook($name, $hook)
+    public function setOption($key, $value)
     {
-        static::$extraHooks[$name] = $hook;
+        if (!array_key_exists($key, $this->options)) {
+            throw new \InvalidArgumentException(sprintf('The DecodaManager does not support the "%s" option.', $key));
+        }
+
+        $this->options[$key] = $value;
     }
 
     /**
-     * @param $path
+     * Gets an option value.
+     *
+     * @param string $key The key
+     *
+     * @return mixed The value
+     *
+     * @throws \InvalidArgumentException
      */
-    public static function addTemplatePath( $path )
+    public function getOption($key)
     {
-        static::$extraPaths[] = $path;
+        if (!array_key_exists($key, $this->options)) {
+            throw new \InvalidArgumentException(sprintf('The DecodaManager does not support the "%s" option.', $key));
+        }
+
+        return $this->options[$key];
     }
 
     /**
@@ -132,9 +214,8 @@ class DecodaManager
      */
     protected function applyFilter(Decoda $code, $filter)
     {
-        if (isset(static::$extraFilters[$filter])) {
-            $extraFilter = static::$extraFilters[$filter] instanceof Filter ? static::$extraFilters[$filter] : new static::$extraFilters[$filter]();
-            $code->addFilter($extraFilter);
+        if (isset($this->filters[$filter])) {
+            $code->addFilter($this->filters[$filter]);
 
             return $code;
         }
@@ -183,9 +264,8 @@ class DecodaManager
      */
     protected function applyHook(Decoda $code, $hook)
     {
-        if (isset(static::$extraHooks[$hook])) {
-            $extraHook = static::$extraHooks[$hook] instanceof Hook ? static::$extraHooks[$hook] : new static::$extraHooks[$hook]();
-            $code->addHook($extraHook);
+        if (isset($this->hooks[$hook])) {
+            $code->addHook($this->hooks[$hook]);
 
             return $code;
         }
@@ -198,7 +278,7 @@ class DecodaManager
                 $code->addHook(new ClickableHook());
                 break;
             case 'emoticon':
-                $code->addHook(new EmoticonHook(array('path' => $this->emoticonPath)));
+                $code->addHook(new EmoticonHook(array('path' => $this->options['emoticonpath'])));
                 break;
             case 'code':
                 $code->addHook(new CodeHook());
@@ -218,33 +298,113 @@ class DecodaManager
         return $code->whitelist($whitelist);
     }
 
+
     /**
-     * @return Decoda
+     * Compile decoda for all filter_sets.
      */
-    public function getResult()
+    private function compileDecoda()
     {
-        $decodaPhpEngine = new DecodaPhpEngine();
+        $decoda = new Decoda();
 
-        if (!empty($this->extraEmoticonPath)) {
-            $this->value->addPath($this->extraEmoticonPath);
+        if (null !== $this->options['messages']) {
+            $decoda->addMessages($this->messageLoader->load($this->options['messages']));
         }
 
-        foreach (static::$extraPaths as $extraPath) {
-            $decodaPhpEngine->setPath($extraPath);
+        if (!empty($this->options['extraemoticonpath'])) {
+            $decoda->addPath($this->locator->locate($this->options['extraemoticonpath']));
         }
 
-        $this->value->setEngine($decodaPhpEngine);
-
-        foreach ($this->filters as $filter) {
-            $this->value = $this->applyFilter($this->value, $filter);
+        foreach ($this->options['resources'] as $resource) {
+            $decoda->addPath($this->locator->locate($resource));
         }
 
-        foreach ($this->hooks as $hook) {
-            $this->value = $this->applyHook($this->value, $hook);
+        $decoda->setEngine($this->getPhpEngine());
+
+        $decoda->setDefaultLocale($this->options['default_locale']);
+        $decoda->setLocale($this->getLocale());
+
+        $newDecoda = clone $decoda;
+        $newDecoda->defaults();
+        $this->decodaCollection['_default'] = $newDecoda;
+
+        foreach ($this->options['filter_sets'] as $filterSet => $options) {
+            $newDecoda = clone $decoda;
+            $this->addDecoda($filterSet, $options, $newDecoda);
+        }
+    }
+
+    private function compileFilters()
+    {
+        foreach ($this->options['filters'] as $filter) {
+            $this->filters[$filter['classname']] = new $filter['class']();
+        }
+    }
+
+    private function compileHooks()
+    {
+        foreach ($this->options['hooks'] as $hook) {
+            $this->hooks[$hook['classname']] = new $hook['class']();
+        }
+    }
+
+    /**
+     * @param string $filterName
+     * @param array $options
+     * @param Decoda $decoda
+     */
+    private function addDecoda($filterSet, array $options, Decoda $decoda)
+    {
+        if (!empty($options['locale']) && 'default' != $options['locale']) {
+            $decoda->setLocale($options['locale']);
         }
 
-        $this->value = $this->applyWhitelist($this->value, $this->whitelist);
+        $decoda->setXhtml($options['xhtml']);
+        $decoda->setStrict($options['strict']);
 
-        return $this->value;
+
+        foreach ($options['filters'] as $filter) {
+            $this->applyFilter($decoda, $filter);
+        }
+
+        foreach ($options['hooks'] as $hook) {
+            $this->applyHook($decoda, $hook);
+        }
+
+        $this->applyWhitelist($decoda, $options['whitelist']);
+
+        $this->decodaCollection[$filterSet] = $decoda;
+    }
+
+
+    /**
+     * Gets a DecodaPhpEngine
+     *
+     * @return DecodaPhpEngine
+     */
+    private function getPhpEngine()
+    {
+        if (null === $this->phpEngine) {
+            $this->phpEngine = new DecodaPhpEngine();
+
+            foreach ($this->options['templates'] as $template) {
+                $path = $this->locator->locate($template['path']);
+                $this->phpEngine->addPath($path);
+            }
+        }
+
+        return $this->phpEngine;
+    }
+
+    private function getLocale()
+    {
+        if (null === $this->locale) {
+            if ($this->container->isScopeActive('request') && $this->container->has('request')) {
+                $this->locale = $this->container->get('request')->getLocale();
+            } else {
+                $this->locale = $this->options['default_locale'];
+            }
+        }
+
+        return $this->locale;
     }
 }
