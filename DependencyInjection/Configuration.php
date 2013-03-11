@@ -39,7 +39,22 @@ class Configuration implements ConfigurationInterface
                 ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('extraemoticonpath')->defaultNull()->end()
-                        ->scalarNode('emoticonpath')->defaultValue('/emoticons/')->end()
+                        ->scalarNode('emoticonpath')
+                            ->defaultValue('/emoticons/')
+                            ->validate()
+                                ->ifTrue(function($v) { return 0 !== strpos($v, '/'); })
+                                ->then(function($v) {
+                                    $message = sprintf(
+                                        'The "fm_bbcode.config.emoticonpath" '.
+                                        'configuration must be start with a '.
+                                        '"/", "%s" given.',
+                                        $v
+                                    );
+
+                                    throw new \RuntimeException($message);
+                                })
+                            ->end()
+                        ->end()
                         ->arrayNode('filters')
                             ->canBeUnset()
                             ->ignoreExtraKeys()
