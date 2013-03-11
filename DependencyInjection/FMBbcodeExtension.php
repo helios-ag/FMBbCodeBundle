@@ -31,9 +31,10 @@ class FMBbcodeExtension extends Extension
         $container->setParameter('fm_bbcode.filter_sets', $config['filter_sets']);
         $container->setParameter('fm_bbcode.config.filters', $filters);
         $container->setParameter('fm_bbcode.config.hooks', $hooks);
-        $container->setParameter('fm_bbcode.config.messages', isset($config['config']['messages']) ? $config['config']['messages'] : '');
+        $container->setParameter('fm_bbcode.config.messages', isset($config['config']['messages']) ? $config['config']['messages'] : null);
         $container->setParameter('fm_bbcode.config.templates', isset($config['config']['templates']) ? $config['config']['templates'] : array());
         $container->setParameter('fm_bbcode.config.emoticonpath', $config['config']['emoticonpath']);
         $container->setParameter('fm_bbcode.config.extraemoticonpath', $config['config']['extraemoticonpath']);
+        $container->setParameter('fm_bbcode.resources', $config['resources']);
     }
 }
