@@ -63,6 +63,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->scalarNode('messages')
+                            ->defaultNull()
                         ->end()
                         ->arrayNode('templates')
                             ->canBeUnset()

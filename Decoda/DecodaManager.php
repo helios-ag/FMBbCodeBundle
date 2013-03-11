@@ -305,7 +305,10 @@ class DecodaManager
     private function compileDecoda()
     {
         $decoda = new Decoda();
-        $decoda->addMessages($this->messageLoader->load($this->options['messages']));
+
+        if (null !== $this->options['messages']) {
+            $decoda->addMessages($this->messageLoader->load($this->options['messages']));
+        }
 
         if (!empty($this->options['extraemoticonpath'])) {
             $decoda->addPath($this->locator->locate($this->options['extraemoticonpath']));
