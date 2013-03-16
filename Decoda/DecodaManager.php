@@ -32,6 +32,9 @@ use Decoda\Hook\CensorHook,
  */
 class DecodaManager
 {
+    const DECODA_DEFAULT = "_default";
+    const DECODA_EMPTY   = "_empty";
+
     /**
      * @var FileLocator
      */
@@ -103,13 +106,27 @@ class DecodaManager
     * @return Decoda
     * @throws \InvalidArgumentException
     */
-    public function getDecoda($string, $filterSet = '_default')
+    public function getDecoda($string, $filterSet = self::DECODA_DEFAULT)
     {
-        if (!array_key_exists($filterSet, $this->decodaCollection)) {
-            throw new \InvalidArgumentException(sprintf('The filter_set "%s" does not exists.', $filterName));
+        if (!isset($this->decodaCollection[$filterSet])) {
+            // Try to create a specific filterSet throw an exception otherwise.
+            if (isset($this->options['filter_sets'][$filterSet])) {
+                $options = $this->options['filter_sets'][$filterSet];
+                $newDecoda = clone $this->decodaCollection[self::DECODA_EMPTY];
+                $this->addDecoda($filterSet, $options, $newDecoda);
+            } elseif ($filterSet === self::DECODA_DEFAULT) {
+                $newDecoda = clone $this->decodaCollection[self::DECODA_EMPTY];
+                $newDecoda->defaults();
+                $this->decodaCollection[self::DECODA_DEFAULT] = $newDecoda;
+            } else {
+                throw new \InvalidArgumentException(sprintf(
+                    'The filter_set "%s" does not exists.',
+                    $filterSet
+                ));
+            }
         }
 
-        $decoda = $this->decodaCollection[$filterSet];
+        $decoda = clone $this->decodaCollection[$filterSet];
 
         $writeList = $decoda->getWriteList();
         $blacklist = $decoda->getBlackList();
@@ -300,7 +317,9 @@ class DecodaManager
 
 
     /**
-     * Compile decoda for all filter_sets.
+     * Compile an empty decoda.
+     *
+     * Adds _empty parser to the decoda collection.
      */
     private function compileDecoda()
     {
@@ -323,14 +342,7 @@ class DecodaManager
         $decoda->setDefaultLocale($this->options['default_locale']);
         $decoda->setLocale($this->getLocale());
 
-        $newDecoda = clone $decoda;
-        $newDecoda->defaults();
-        $this->decodaCollection['_default'] = $newDecoda;
-
-        foreach ($this->options['filter_sets'] as $filterSet => $options) {
-            $newDecoda = clone $decoda;
-            $this->addDecoda($filterSet, $options, $newDecoda);
-        }
+        $this->decodaCollection[self::DECODA_EMPTY] = $decoda;
     }
 
     private function compileFilters()
