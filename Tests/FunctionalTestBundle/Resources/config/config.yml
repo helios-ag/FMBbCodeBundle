@@ -1,8 +1,26 @@
+parameters:
+  fm_bbcode.filter.bar.class: Decoda\Filter\DefaultFilter
+  fm_bbcode.hook.bar.class: Decoda\Hook\ClickableHook
+
+services:
+  fm_bbcode.filter.bar:
+    class: %fm_bbcode.filter.bar.class%
+    tags:
+         - { name: fm_bbcode.decoda.filter, id: bar }
+  fm_bbcode.hook.bar:
+    class: %fm_bbcode.hook.bar.class%
+    tags:
+         - { name: fm_bbcode.decoda.hook, id: bar }
+
 fm_bbcode:
   config:
     templates:
       - path: "@FunctionalTestBundle/Resources/views/templates"
     messages: "%kernel.root_dir%/FunctionalTestBundle/Resources/config/messages.json"
+    filters:
+      - { classname: foo, class: %fm_bbcode.filter.bar.class% }
+    hooks:
+      - { classname: foo, class: %fm_bbcode.hook.bar.class% }
   filter_sets:
     default_filter:
       locale: ru
@@ -29,6 +47,18 @@ fm_bbcode:
       xhtml: true
       filters: [ url ]
       strict: false
+    foo_filter:
+      xhtml: true
+      filters: [ foo ]
+    bar_filter:
+      xhtml: true
+      filters: [ bar ]
+    foo_hook:
+      filters: [ url, email ]
+      hooks: [ foo ]
+    bar_hook:
+      filters: [ url, email ]
+      hooks: [ bar ]
 framework:
   form: ~
   router:
