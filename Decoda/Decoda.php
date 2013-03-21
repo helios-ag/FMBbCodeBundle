@@ -46,7 +46,7 @@ class Decoda extends BaseDecoda
     public function setMessages($messages = array())
     {
         if (empty($messages)) {
-            $this->_messages = json_decode(\file_get_contents('../Resources/config/messages.json'), true);
+            $this->_messages = json_decode(\file_get_contents(__DIR__ . '/../Resources/config/messages.json'), true);
         } else {
             $this->_messages = $messages;
         }
