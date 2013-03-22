@@ -15,19 +15,28 @@ class RegisterHooksPass implements CompilerPassInterface
             return;
         }
 
+        $definition = $container->getDefinition('fm_bbcode.decoda_manager');
+
         $hooks = array();
         foreach ($container->findTaggedServiceIds('fm_bbcode.decoda.hook') as $id => $attributes) {
+            // We must assume that the class value has been correctly filled, even if the service is created by a factory
+            $class = $container->getDefinition($id)->getClass();
+
+            $refClass = new \ReflectionClass($class);
+            $interface = 'Decoda\Hook';
+            if (!$refClass->implementsInterface($interface)) {
+                throw new \InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, $interface));
+            }
+
             $name = isset($attributes[0]['id']) ? $attributes[0]['id'] : $id;
             $name = strtolower($name);
-            if (isset($filters[$name]) || $name == null) {
-                throw new \InvalidArgumentException(sprintf(
-                    'The hook identifier "%s" must be uniq.',
-                    $name
-                ));
+            if (isset($hooks[$name])) {
+                throw new \InvalidArgumentException(sprintf('The hook identifier "%s" must be uniq, is already set on "%s" service.', $name, $hooks[$name]));
             }
-            $hooks[$name] = new Reference($id);
-        }
 
-        $container->getDefinition('fm_bbcode.decoda_manager')->addMethodCall('addHooks', array($hooks));
+            $hooks[$name] = $id;
+
+            $definition->addMethodCall('setHook', array($name, new Reference($id)));
+        }
     }
 }
