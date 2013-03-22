@@ -105,4 +105,83 @@ class BbcodeExtensionTest extends TwigBasedTestCase
             array('[url=http://example.com]Example[/url]','<a href="http://example.com">Example</a>')
         );
     }
+
+    /**
+     * @dataProvider dataDefaultTags
+     */
+    public function testFooFilter($value, $expected)
+    {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:foo_filter.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    /**
+     * @dataProvider dataDefaultTags
+     */
+    public function testBarFilter($value, $expected)
+    {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:bar_filter.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    /**
+     * @dataProvider dataClickableHook
+     */
+    public function testFooHook($value, $expected)
+    {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:foo_hook.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+
+    /**
+     * @dataProvider dataClickableHook
+     */
+    public function testBarHook($value, $expected)
+    {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:bar_hook.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    public function dataClickableHook()
+    {
+        return array(
+            array('http://domain.com', '<a href="http://domain.com">http://domain.com</a>'),
+        );
+    }
+
+    /**
+     * @dataProvider dataDefaultFilterSet
+     */
+    public function testDefaultFilterSet($value, $expected)
+    {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:default_filter_set.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    public function dataDefaultFilterSet()
+    {
+        return array(
+            array('[b]Bold[/b]', "<b>Bold</b>"),
+            array('[i]Italic[/i]', "<i>Italic</i>"),
+            array('[u]Underline[/u]', "<u>Underline</u>"),
+            array('[s]strikeout[/s]', "<del>strikeout</del>"),
+            array('[sub]subscript[/sub]', "<sub>subscript</sub>"),
+            array('[sup]superscript[/sup]', "<sup>superscript</sup>"),
+            array('[abbr="Object relational mapper"]ORM[/abbr]', '<abbr title="Object relational mapper">ORM</abbr>'),
+            array('[url]http://example.org[/url]','<a href="http://example.org">http://example.org</a>'),
+            array('[url="http://example.com"]Example[/url]','<a href="http://example.com">Example</a>'),
+            array('[email]email@domain.com[/email]', '<a href="mailto:&#101;&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#99;&#111;&#109;">&#101;&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#99;&#111;&#109;</a>'),
+        );
+    }
 }
