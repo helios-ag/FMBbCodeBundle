@@ -33,7 +33,6 @@ use Decoda\Hook\CensorHook,
 class DecodaManager
 {
     const DECODA_DEFAULT = "_default";
-    const DECODA_EMPTY   = "_empty";
 
     /**
      * @var FileLocator
@@ -70,18 +69,23 @@ class DecodaManager
     /**
      * @var Filter[]
      */
-    private $filters;
+    private $filters = array();
 
 
     /**
      * @var Hook[]
      */
-    private $hooks;
+    private $hooks = array();
 
     /**
      * @var string
      */
     private $locale;
+
+    /**
+     * @var Decoda
+     */
+    private $preConfiguredDecoda;
 
     /**
      * @param array $options  An array of options
@@ -93,9 +97,9 @@ class DecodaManager
         $this->messageLoader = $messageLoader;
 
         $this->setOptions($options);
-        $this->compileFilters();
-        $this->compileHooks();
-        $this->compileDecoda();
+
+        $this->setFilters($this->options['filters']);
+        $this->setHooks($this->options['hooks']);
     }
 
    /**
@@ -106,18 +110,16 @@ class DecodaManager
     * @return Decoda
     * @throws \InvalidArgumentException
     */
-    public function getDecoda($string, $filterSet = self::DECODA_DEFAULT)
+    public function get($string, $filterSet = self::DECODA_DEFAULT)
     {
         if (!isset($this->decodaCollection[$filterSet])) {
             // Try to create a specific filterSet throw an exception otherwise.
             if (isset($this->options['filter_sets'][$filterSet])) {
-                $options = $this->options['filter_sets'][$filterSet];
-                $newDecoda = clone $this->decodaCollection[self::DECODA_EMPTY];
-                $this->addDecoda($filterSet, $options, $newDecoda);
+                $this->set($filterSet);
             } elseif ($filterSet === self::DECODA_DEFAULT) {
-                $newDecoda = clone $this->decodaCollection[self::DECODA_EMPTY];
-                $newDecoda->defaults();
-                $this->decodaCollection[self::DECODA_DEFAULT] = $newDecoda;
+                $decoda = clone $this->getPreConfiguredDecoda();
+                $decoda->defaults();
+                $this->set(self::DECODA_DEFAULT, $decoda);
             } else {
                 throw new \InvalidArgumentException(sprintf(
                     'The filter_set "%s" does not exists.',
@@ -140,6 +142,197 @@ class DecodaManager
     }
 
     /**
+     * Returns the filters.
+     *
+     * @return array The filters
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * Sets filters.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $filters The filters
+     *
+     * @return DecodaManager The current DecodaManager instance
+     */
+    public function setFilters(array $filters)
+    {
+        $this->filters = array();
+
+        return $this->addFilters($filters);
+    }
+
+    /**
+     * Adds filters.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $filters The filters
+     *
+     * @return DecodaManager The current DecodaManager instance
+     */
+    public function addFilters(array $filters)
+    {
+        foreach ($filters as $id => $filter) {
+            if (is_string($filter)) {
+                $filter = new $filter();
+            }
+            $this->setFilter($id, $filter);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets a filter.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param string $id     A filter id
+     * @param mixed  $filter The filter
+     *
+     * @return DecodaManager The current DecodaManager instance
+     */
+    public function setFilter($id, Filter $filter)
+    {
+        $this->filters[strtolower($id)] = $filter;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a filter is set for the given id.
+     *
+     * @param string $id  A filter id
+     *
+     * @return Boolean true if the filter is set, false otherwise
+     */
+    public function hasFilter($id)
+    {
+        return isset($this->filters[strtolower($id)]);
+    }
+
+    /**
+     * Gets a filter.
+     *
+     * @param string $id The filter id
+     *
+     * @return Filter The filter instance
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getFilter($id)
+    {
+        if (!$this->hasFilter($id)) {
+            throw new \InvalidArgumentException(sprintf('You have requested a non-existent filter "%s".', $id));
+        }
+
+        return $this->filters[strtolower($id)];
+    }
+
+
+    /**
+     * Returns the hooks.
+     *
+     * @return array The hooks
+     */
+    public function getHooks()
+    {
+        return $this->hooks;
+    }
+
+    /**
+     * Sets hooks.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $hooks The hooks
+     *
+     * @return DecodaManager The current DecodaManager instance
+     */
+    public function setHooks(array $hooks)
+    {
+        $this->hooks = array();
+
+        return $this->addHooks($hooks);
+    }
+
+    /**
+     * Adds hooks.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $hooks The hooks
+     *
+     * @return DecodaManager The current DecodaManager instance
+     */
+    public function addHooks(array $hooks)
+    {
+        foreach ($hooks as $id => $hook) {
+            if (is_string($hook)) {
+                $hook = new $hook();
+            }
+            $this->setHook($id, $hook);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets a hook.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param string $id    A hook id
+     * @param mixed  $hook  The hook
+     *
+     * @return DecodaManager The current DecodaManager instance
+     */
+    public function setHook($id, Hook $hook)
+    {
+        $this->hooks[strtolower($id)] = $hook;
+
+        return $this;
+    }
+
+    /**
+     * Checks if a hook is set for the given id.
+     *
+     * @param string $id  A hook id
+     *
+     * @return Boolean true if the hook is set, false otherwise
+     */
+    public function hasHook($id)
+    {
+        return isset($this->hooks[strtolower($id)]);
+    }
+
+    /**
+     * Gets a hook.
+     *
+     * @param string $id The hook id
+     *
+     * @return Hook The hook instance
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getHook($id)
+    {
+        if (!$this->hasHook($id)) {
+            throw new \InvalidArgumentException(sprintf('You have requested a non-existent hook "%s".', $id));
+        }
+
+        return $this->hooks[strtolower($id)];
+    }
+
+
+
+    /**
      * Sets options.
      *
      * Available options:
@@ -158,7 +351,7 @@ class DecodaManager
      *
      * @throws \InvalidArgumentException When unsupported option is provided
      */
-    public function setOptions(array $options)
+    private function setOptions(array $options)
     {
         $this->options = array(
             'filters'            => array(),
@@ -195,7 +388,7 @@ class DecodaManager
      *
      * @throws \InvalidArgumentException
      */
-    public function setOption($key, $value)
+    private function setOption($key, $value)
     {
         if (!array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The DecodaManager does not support the "%s" option.', $key));
@@ -213,7 +406,7 @@ class DecodaManager
      *
      * @throws \InvalidArgumentException
      */
-    public function getOption($key)
+    private function getOption($key)
     {
         if (!array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The DecodaManager does not support the "%s" option.', $key));
@@ -225,19 +418,19 @@ class DecodaManager
     /**
      * Applies filter specified in parameter
      * @param \FM\BbcodeBundle\Decoda\Decoda $code
-     * @param string                         $filter
+     * @param string                         $id
      *
      * @return \FM\BbcodeBundle\Decoda\Decoda
      */
-    protected function applyFilter(Decoda $code, $filter)
+    private function applyFilter(Decoda $code, $id)
     {
-        if (isset($this->filters[$filter])) {
-            $code->addFilter($this->filters[$filter]);
+        $id = strtolower($id);
 
-            return $code;
+        if ($this->hasFilter($id)) {
+            return $code->addFilter($this->getFilter($id), $id);
         }
 
-        switch ($filter) {
+        switch ($id) {
             case 'block':
                 $code->addFilter(new BlockFilter());
                 break;
@@ -276,18 +469,18 @@ class DecodaManager
     }
     /**
      * @param Decoda $code
-     * @param $hook
+     * @param $id
      * @return Decoda
      */
-    protected function applyHook(Decoda $code, $hook)
+    private function applyHook(Decoda $code, $id)
     {
-        if (isset($this->hooks[$hook])) {
-            $code->addHook($this->hooks[$hook]);
+        $id = strtolower($id);
 
-            return $code;
+        if ($this->hasHook($id)) {
+            return $code->addHook($this->getHook($id), $id);
         }
 
-        switch ($hook) {
+        switch ($id) {
             case 'censor':
                 $code->addHook(new CensorHook());
                 break;
@@ -310,19 +503,23 @@ class DecodaManager
      * @param  array  $whitelist
      * @return Decoda
      */
-    protected function applyWhitelist(Decoda $code, array $whitelist)
+    private function applyWhitelist(Decoda $code, array $whitelist)
     {
         return $code->whitelist($whitelist);
     }
 
 
     /**
-     * Compile an empty decoda.
+     * Gets a pre-configured decoda.
      *
-     * Adds _empty parser to the decoda collection.
+     * @return Decoda
      */
-    private function compileDecoda()
+    private function getPreConfiguredDecoda()
     {
+        if (null !== $this->preConfiguredDecoda) {
+            return $this->preConfiguredDecoda;
+        }
+
         $decoda = new Decoda();
 
         if (null !== $this->options['messages']) {
@@ -342,30 +539,31 @@ class DecodaManager
         $decoda->setDefaultLocale($this->options['default_locale']);
         $decoda->setLocale($this->getLocale());
 
-        $this->decodaCollection[self::DECODA_EMPTY] = $decoda;
+        $this->preConfiguredDecoda = $decoda;
+
+        return $decoda;
     }
 
-    private function compileFilters()
-    {
-        foreach ($this->options['filters'] as $filter) {
-            $this->filters[$filter['classname']] = new $filter['class']();
-        }
-    }
-
-    private function compileHooks()
-    {
-        foreach ($this->options['hooks'] as $hook) {
-            $this->hooks[$hook['classname']] = new $hook['class']();
-        }
-    }
 
     /**
      * @param string $filterName
-     * @param array $options
      * @param Decoda $decoda
      */
-    private function addDecoda($filterSet, array $options, Decoda $decoda)
+    private function set($filterSet, Decoda $decoda = null)
     {
+        if (null !== $decoda) {
+            $this->decodaCollection[$filterSet] = $decoda;
+            return;
+        }
+
+        $decoda = clone $this->getPreConfiguredDecoda();
+        if (isset($this->options['filter_sets'][$filterSet])) {
+            $options = $this->options['filter_sets'][$filterSet];
+        } else {
+            $this->decodaCollection[$filterSet] = $decoda;
+            return;
+        }
+
         if (!empty($options['locale']) && 'default' != $options['locale']) {
             $decoda->setLocale($options['locale']);
         }
@@ -399,6 +597,7 @@ class DecodaManager
             $this->phpEngine = new DecodaPhpEngine();
 
             foreach ($this->options['templates'] as $template) {
+                // TODO use bundle hierachy (the third parameter of locate)
                 $path = $this->locator->locate($template['path']);
                 $this->phpEngine->addPath($path);
             }

@@ -29,37 +29,38 @@ class BbcodeHelper extends Helper
 
     /**
      * @param $value
-     * @param $filter
+     * @param $filterSet
      *
      * @return string
      *
      * @throws \Twig_Error_Runtime
      */
-    public function filter($value, $filter)
+    public function filter($value, $filterSet = DecodaManager::DECODA_DEFAULT)
     {
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        return $this->decodaManager->getDecoda($value, $filter)->parse();
+        return $this->decodaManager->get($value, $filterSet)->parse();
     }
 
     /**
-     *
      * Strip tags
+     *
      * @param $value
+     * @param $filterSet
      *
      * @return string
      *
      * @throws \Twig_Error_Runtime
      */
-    public function clean($value)
+    public function clean($value, $filterSet = DecodaManager::DECODA_DEFAULT)
     {
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        return $this->decodaManager->getDecoda($value)->strip(true);
+        return $this->decodaManager->get($value, $filterSet)->strip(true);
     }
 
     public function getName()
