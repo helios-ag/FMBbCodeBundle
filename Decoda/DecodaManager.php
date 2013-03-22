@@ -102,6 +102,26 @@ class DecodaManager
         $this->setHooks($this->options['hooks']);
     }
 
+    /**
+     * Check weither a specitic filterSet exist.
+     *
+     * @param string $filterSet
+     *
+     * @return Boolean true if a specific filterSet exist
+     */
+    public function has($filterSet)
+    {
+        if (isset($this->decodaCollection[strtolower($filterSet)])
+            || isset($this->options['filter_sets'][$filterSet])
+            || $filterSet === self::DECODA_DEFAULT
+            ) {
+            return true;
+        }
+
+        return false;
+    }
+
+
    /**
     * Gets a specific decoda
     *
@@ -112,7 +132,7 @@ class DecodaManager
     */
     public function get($string, $filterSet = self::DECODA_DEFAULT)
     {
-        if (!isset($this->decodaCollection[$filterSet])) {
+        if (!isset($this->decodaCollection[strtolower($filterSet)])) {
             // Try to create a specific filterSet throw an exception otherwise.
             if (isset($this->options['filter_sets'][$filterSet])) {
                 $this->set($filterSet);
@@ -128,7 +148,7 @@ class DecodaManager
             }
         }
 
-        $decoda = clone $this->decodaCollection[$filterSet];
+        $decoda = clone $this->decodaCollection[strtolower($filterSet)];
 
         $writeList = $decoda->getWriteList();
         $blacklist = $decoda->getBlackList();
@@ -552,7 +572,7 @@ class DecodaManager
     private function set($filterSet, Decoda $decoda = null)
     {
         if (null !== $decoda) {
-            $this->decodaCollection[$filterSet] = $decoda;
+            $this->decodaCollection[strtolower($filterSet)] = $decoda;
             return;
         }
 
@@ -560,7 +580,7 @@ class DecodaManager
         if (isset($this->options['filter_sets'][$filterSet])) {
             $options = $this->options['filter_sets'][$filterSet];
         } else {
-            $this->decodaCollection[$filterSet] = $decoda;
+            $this->decodaCollection[strtolower($filterSet)] = $decoda;
             return;
         }
 
@@ -582,7 +602,7 @@ class DecodaManager
 
         $this->applyWhitelist($decoda, $options['whitelist']);
 
-        $this->decodaCollection[$filterSet] = $decoda;
+        $this->decodaCollection[strtolower($filterSet)] = $decoda;
     }
 
 
