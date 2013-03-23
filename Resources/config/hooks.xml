@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <parameters>
+    <parameter key="fm_bbcode.decoda.hook.censor.class">Decoda\Hook\CensorHook</parameter>
+    <parameter key="fm_bbcode.decoda.hook.clickable.class">Decoda\Hook\ClickableHook</parameter>
+    <parameter key="fm_bbcode.decoda.hook.emoticon.class">Decoda\Hook\EmoticonHook</parameter>
+    <parameter key="fm_bbcode.decoda.hook.code.class">Decoda\Hook\CodeHook</parameter>
+    </parameters>
+
+  <services>
+    <service id="fm_bbcode.decoda.hook.censor" class="%fm_bbcode.decoda.hook.censor.class%">
+      <tag name="fm_bbcode.decoda.hook" id="censor" />
+    </service>
+    <service id="fm_bbcode.decoda.hook.clickable" class="%fm_bbcode.decoda.hook.clickable.class%">
+      <tag name="fm_bbcode.decoda.hook" id="clickable" />
+    </service>
+    <service id="fm_bbcode.decoda.hook.emoticon" class="%fm_bbcode.decoda.hook.emoticon.class%">
+      <tag name="fm_bbcode.decoda.hook" id="emoticon" />
+      <argument type="collection">
+        <argument key="path">%fm_bbcode.config.emoticonpath%</argument>
+      </argument>
+    </service>
+    <service id="fm_bbcode.decoda.hook.code" class="%fm_bbcode.decoda.hook.code.class%">
+      <tag name="fm_bbcode.decoda.hook" id="code" />
+    </service>
+  </services>
+</container>

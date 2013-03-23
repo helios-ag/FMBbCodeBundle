@@ -26,6 +26,8 @@ class FMBbcodeExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('bbcode.xml');
+        $loader->load('filters.xml');
+        $loader->load('hooks.xml');
 
         $hooksConfig = isset($config['config']['hooks']) ? $config['config']['hooks'] : array();
         $hooks = array();
