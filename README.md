@@ -163,6 +163,41 @@ Your own templates can be defined at templates node, the example below shows how
 ```
 Template examples can be found inside decoda library
 
+
+### Adding own filter
+
+To enable a custom filter, add it as a regular service in one of your configuration, and tag it with `fm_bbcode.decoda.filter`:
+
+```yaml
+services:
+  acme_demo.decoda.filter.your_filter_name:
+    class: Fully\Qualified\Filter\Class\Name
+    tags:
+      - { name: fm_bbcode.decoda.filter, id: your_filter_name }
+```
+
+Your service must implement the `Decoda\Filter` interface.
+
+If your service is created by a factory, you **MUST** correctly set the class parameter for this tag to work correctly.
+
+
+### Adding own hook
+
+To enable a custom hook, add it as a regular service in one of your configuration, and tag it with `fm_bbcode.decoda.hook`:
+
+```yaml
+services:
+  acme_demo.decoda.hook.your_hook_name:
+    class: Fully\Qualified\Hook\Class\Name
+    tags:
+      - { name: fm_bbcode.decoda.hook, id: your_hook_name }
+```
+
+Your service must implement the `Decoda\Hook` interface.
+
+If your service is created by a factory, you **MUST** correctly set the class parameter for this tag to work correctly.
+
+
 ## Contributors
 
 * Gaiffe Antoine [toinouu](https://github.com/toinouu)
