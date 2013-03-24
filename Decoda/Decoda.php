@@ -209,9 +209,9 @@ class Decoda extends BaseDecoda
             // this is to keep method signature
             $id = explode('\\', get_class($filter));
             $id = str_replace('Filter', '', end($id));
-        } else {
-            $id = strtolower($id);
         }
+
+        $id = strtolower($id);
 
         $tags = $filter->tags();
 
@@ -226,6 +226,44 @@ class Decoda extends BaseDecoda
         $filter->setupHooks($this);
 
         return $this;
+    }
+
+    /**
+     * Check if a filter exists.
+     *
+     * @see \Decoda\Decoda::hasFilter()
+     *
+     * @param string $id
+     * @return boolean
+     */
+    public function hasFilter($id)
+    {
+        return parent::hasFilter(strtolower($id));
+    }
+
+    /**
+     * Return a specific filter based on filter id.
+     *
+     * @see \Decoda\Decoda::getFilter()
+     *
+     * @param string $id
+     * @throws InvalidArgumentException
+     * @return \Decoda\Filter[]
+     */
+    public function getFilter($id)
+    {
+        return parent::getFilter(strtolower($id));
+    }
+
+    /**
+     * Remove filter(s).
+     *
+     * @param string|array $filters
+     * @return \Decoda\Decoda
+     */
+    public function removeFilter($ids)
+    {
+        return parent::removeFilter(array_map('strtolower', (array) $ids));
     }
 
     /**
@@ -246,14 +284,51 @@ class Decoda extends BaseDecoda
             // this is to keep method signature
             $id = explode('\\', get_class($hook));
             $id = str_replace('Filter', '', end($id));
-        } else {
-            $id = strtolower($id);
         }
 
-        $this->_hooks[$id] = $hook;
+        $this->_hooks[strtolower($id)] = $hook;
 
         $hook->setupFilters($this);
 
         return $this;
+    }
+
+
+    /**
+     * Check if a hook exists.
+     *
+     * @see \Decoda\Decoda::hasHook()
+     *
+     * @param string $id
+     * @return boolean
+     */
+    public function hasHook($id)
+    {
+        return parent::hasHook(strtolower($id));
+    }
+
+    /**
+     * Return a specific hook based on hook id.
+     *
+     * @see \Decoda\Decoda::getHook()
+     *
+     * @param string $id
+     * @throws InvalidArgumentException
+     * @return \Decoda\Hook[]
+     */
+    public function getHook($id)
+    {
+        return parent::getHook(strtolower($id));
+    }
+
+    /**
+     * Remove hook(s).
+     *
+     * @param string|array $hooks
+     * @return \Decoda\Decoda
+     */
+    public function removeHook($ids)
+    {
+        return parent::removeHook(array_map('strtolower', (array) $ids));
     }
 }
