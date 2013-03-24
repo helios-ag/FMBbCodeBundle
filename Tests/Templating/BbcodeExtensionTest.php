@@ -184,4 +184,29 @@ class BbcodeExtensionTest extends TwigBasedTestCase
             array('[email]email@domain.com[/email]', '<a href="mailto:&#101;&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#99;&#111;&#109;">&#101;&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#99;&#111;&#109;</a>'),
         );
     }
+
+
+    /**
+     * @dataProvider dataEmoticonHook
+     */
+    public function testEmoticonHook($value, $expected)
+    {
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:emoticon.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    public function dataEmoticonHook()
+    {
+        return array(
+            array(':)', '<img src="/emoticons/happy.png" alt="" />'),
+            array(':tester:', '<img src="/emoticons/tester.png" alt="" />'),
+            array(':url_tester:', '<img src="/foo.gif" alt="" />'),
+            array(':\\', '<img src="/emoticons/hm.png" alt="" />'),
+            //array(':place_holder:', '<img src="/emoticons//foo.gif" alt="" />'), // FIXME Decoda Bug: result => <img src="/emoticons/tongue.png" alt="" />lace_holder:
+            array(':_lace_holder:', '<img src="/emoticons//foo.gif" alt="" />'),
+            array(':my_emoticon:', '<img src="/emoticons//my_emoticon.png" alt="" title="my_emoticon" />'),
+        );
+    }
 }

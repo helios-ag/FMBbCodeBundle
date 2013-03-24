@@ -46,8 +46,43 @@ class FMBbcodeExtension extends Extension
         $container->setParameter('fm_bbcode.config.hooks', $hooks);
         $container->setParameter('fm_bbcode.config.messages', isset($config['config']['messages']) ? $config['config']['messages'] : null);
         $container->setParameter('fm_bbcode.config.templates', isset($config['config']['templates']) ? $config['config']['templates'] : array());
-        $container->setParameter('fm_bbcode.config.emoticonpath', $config['config']['emoticonpath']);
-        $container->setParameter('fm_bbcode.config.extraemoticonpath', $config['config']['extraemoticonpath']);
-        $container->setParameter('fm_bbcode.resources', $config['resources']);
+
+        if (isset($config['emoticon'])) {
+            $this->registerEmoticonConfiguration($config['emoticon'], $container, $loader);
+        }
+    }
+
+    /**
+     * Loads the emoticon configuration.
+     *
+     * @param array $config A router configuration array
+     * @param ContainerBuilder $container A ContainerBuilder instance
+     * @param XmlFileLoader $loader An XmlFileLoader instance
+     */
+    private function registerEmoticonConfiguration(array $config, ContainerBuilder $container, XmlFileLoader $loader)
+    {
+        $container->setParameter('fm_bbcode.emoticon.cache_class_prefix', $container->getParameter('kernel.name').ucfirst($container->getParameter('kernel.environment')));
+
+        $hook = $container->findDefinition('fm_bbcode.decoda.hook.emoticon');
+        $argument = $hook->getArgument(2);
+
+        if (isset($config['resource'])) {
+            $argument['resource'] = $config['resource'];
+        }
+
+        if (isset($config['type'])) {
+            $argument['resource_type'] = $config['type'];
+        }
+
+        if (isset($config['path'])) {
+            $argument['path'] = $config['path'];
+            $container->setParameter('fm_bbcode.emoticon.path', $config['path']);
+        }
+
+        if (isset($config['extension'])) {
+            $argument['extension'] = $config['extension'];
+        }
+
+        $hook->replaceArgument(2, $argument);
     }
 }
