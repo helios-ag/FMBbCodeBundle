@@ -8,22 +8,8 @@ use FM\BbcodeBundle\Translation\Loader\FileLoader;
 
 use FM\BbcodeBundle\Decoda\Decoda;
 use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
-use Decoda\Filter,
-    Decoda\Filter\DefaultFilter,
-    Decoda\Filter\BlockFilter,
-    Decoda\Filter\CodeFilter,
-    Decoda\Filter\EmailFilter,
-    Decoda\Filter\ImageFilter,
-    Decoda\Filter\ListFilter,
-    Decoda\Filter\QuoteFilter,
-    Decoda\Filter\TextFilter,
-    Decoda\Filter\UrlFilter,
-    Decoda\Filter\VideoFilter;
-use Decoda\Hook\CensorHook,
-    Decoda\Hook\ClickableHook,
-    Decoda\Hook\CodeHook,
-    Decoda\Hook\EmoticonHook,
-    Decoda\Hook;
+use Decoda\Filter;
+use Decoda\Hook;
 
 /**
  * @author Al Ganiev <helios.ag@gmail.com>
@@ -378,7 +364,6 @@ class DecodaManager
             'hooks'              => array(),
             'messages'           => null,
             'templates'          => array(),
-            'emoticonpath'       => '/emoticons/',
             'extraemoticonpath'  => null,
             'filter_sets'        => array(),
             'resources'          => array(),
@@ -444,45 +429,8 @@ class DecodaManager
      */
     private function applyFilter(Decoda $code, $id)
     {
-        $id = strtolower($id);
-
         if ($this->hasFilter($id)) {
             return $code->addFilter($this->getFilter($id), $id);
-        }
-
-        switch ($id) {
-            case 'block':
-                $code->addFilter(new BlockFilter());
-                break;
-            case 'code':
-                $code->addFilter(new CodeFilter());
-                break;
-            case 'email':
-                $code->addFilter(new EmailFilter());
-                break;
-            case 'image':
-                $code->addFilter(new ImageFilter());
-                break;
-            case 'list':
-                $code->addFilter(new ListFilter());
-                break;
-            case 'quote':
-                $code->addFilter(new QuoteFilter());
-                break;
-            case 'text':
-                $code->addFilter(new TextFilter());
-                break;
-            case 'url':
-                $code->addFilter(new UrlFilter());
-                break;
-            case 'video':
-                $code->addFilter(new VideoFilter());
-                break;
-            case 'default':
-                $code->addFilter(new DefaultFilter());
-                break;
-            default:
-                return $code;
         }
 
         return $code;
@@ -494,25 +442,8 @@ class DecodaManager
      */
     private function applyHook(Decoda $code, $id)
     {
-        $id = strtolower($id);
-
         if ($this->hasHook($id)) {
             return $code->addHook($this->getHook($id), $id);
-        }
-
-        switch ($id) {
-            case 'censor':
-                $code->addHook(new CensorHook());
-                break;
-            case 'clickable':
-                $code->addHook(new ClickableHook());
-                break;
-            case 'emoticon':
-                $code->addHook(new EmoticonHook(array('path' => $this->options['emoticonpath'])));
-                break;
-            case 'code':
-                $code->addHook(new CodeHook());
-                break;
         }
 
         return $code;
