@@ -2,6 +2,7 @@
 
 namespace FM\BbcodeBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -29,32 +30,10 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('resources')
-                    ->canBeUnset()
-                    ->defaultValue(array())
-                    ->prototype('variable')->end()
-                ->end()
                 ->arrayNode('config')
                 ->canBeUnset()
                 ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('extraemoticonpath')->defaultNull()->end()
-                        ->scalarNode('emoticonpath')
-                            ->defaultValue('/emoticons/')
-                            ->validate()
-                                ->ifTrue(function($v) { return 0 !== strpos($v, '/'); })
-                                ->then(function($v) {
-                                    $message = sprintf(
-                                        'The "fm_bbcode.config.emoticonpath" '.
-                                        'configuration must be start with a '.
-                                        '"/", "%s" given.',
-                                        $v
-                                    );
-
-                                    throw new \RuntimeException($message);
-                                })
-                            ->end()
-                        ->end()
                         ->arrayNode('filters')
                             ->canBeUnset()
                             ->ignoreExtraKeys()
@@ -118,6 +97,42 @@ class Configuration implements ConfigurationInterface
             ->end()
         ->end();
 
+        $this->addEmoticonSection($rootNode);
+
         return $treeBuilder;
+    }
+
+    private function addEmoticonSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('emoticon')
+                    ->info('emoticon configuration')
+                    ->canBeUnset()
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('resource')->end()
+                        ->scalarNode('type')->end()
+                        ->scalarNode('path')
+                            ->defaultValue('/emoticons/')
+                            ->validate()
+                                ->ifTrue(function($v) { return 0 !== strpos($v, '/'); })
+                                ->then(function($v) {
+                                    $message = sprintf(
+                                        'The "fm_bbcode.emoticon.path" '.
+                                        'configuration must be start with a '.
+                                        '"/", "%s" given.',
+                                        $v
+                                    );
+
+                                    throw new \RuntimeException($message);
+                                })
+                            ->end()
+                        ->end()
+                        ->scalarNode('extension')->defaultValue('png')->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }

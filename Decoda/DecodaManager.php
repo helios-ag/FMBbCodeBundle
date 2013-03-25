@@ -347,11 +347,8 @@ class DecodaManager
      *   * hooks:
      *   * messages:
      *   * templates:
-     *   * emoticonpath:
-     *   * extraemoticonpath:
      *   * filter_sets:
      *   * default_locale:
-     *   * resources:
      *
      * @param array $options An array of options
      *
@@ -364,9 +361,7 @@ class DecodaManager
             'hooks'              => array(),
             'messages'           => null,
             'templates'          => array(),
-            'extraemoticonpath'  => null,
             'filter_sets'        => array(),
-            'resources'          => array(),
             'default_locale'     => 'en',
         );
 
@@ -475,14 +470,6 @@ class DecodaManager
 
         if (null !== $this->options['messages']) {
             $decoda->addMessages($this->messageLoader->load($this->options['messages']));
-        }
-
-        if (!empty($this->options['extraemoticonpath'])) {
-            $decoda->addPath($this->locator->locate($this->options['extraemoticonpath']));
-        }
-
-        foreach ($this->options['resources'] as $resource) {
-            $decoda->addPath($this->locator->locate($resource));
         }
 
         $decoda->setEngine($this->getPhpEngine());
