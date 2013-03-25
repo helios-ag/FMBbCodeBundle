@@ -262,12 +262,16 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
      * @see \Decoda\Hook\EmoticonHook::setParser()
      *
      * @param Decoda $parser
+     *
+     * @return EmoticonHook
      */
     public function setParser(Decoda $parser)
     {
         parent::setParser($parser);
 
         $this->_emoticons = $this->getMatcher()->getEmoticons();
+
+        return $this;
     }
 
     /**
