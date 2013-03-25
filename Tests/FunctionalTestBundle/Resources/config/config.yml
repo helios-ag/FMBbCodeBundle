@@ -13,6 +13,8 @@ services:
          - { name: fm_bbcode.decoda.hook, id: bar }
 
 fm_bbcode:
+  emoticon:
+    resource: "@FunctionalTestBundle/Resources/config/emoticons.yml"
   config:
     templates:
       - path: "@FunctionalTestBundle/Resources/views/templates"
@@ -59,6 +61,9 @@ fm_bbcode:
     bar_hook:
       filters: [ url, email ]
       hooks: [ bar ]
+    emoticon_filter:
+      hooks: [ emoticon ]
+
 framework:
   form: ~
   router:

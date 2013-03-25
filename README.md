@@ -198,6 +198,31 @@ Your service must implement the `Decoda\Hook` interface.
 If your service is created by a factory, you **MUST** correctly set the class parameter for this tag to work correctly.
 
 
+### Customize your own emoticons
+
+Your own emoticons can be defined at `emoticon` node, the example below shows how:
+
+```yaml
+fm_bbcode:
+  emoticon:
+    resource: path/to/emoticons.yml
+```
+
+```yaml
+# path/to/emoticons.yml
+imports:
+  - { resource: path/to/another/emoticons.yml }
+
+emoticons:
+  my_emoticon:
+    url:   # Default: %fm_bbcode.emoticon.path%/my_emoticon.png
+    html:  # Default: <img src="%fm_bbcode.emoticon.path%/my_emoticon.png" alt="" >
+    xHtml: # Default: <img src="%fm_bbcode.emoticon.path%/my_emoticon.png" alt="" />
+    smilies:
+      - ":my_emoticon:"
+```
+
+
 ## Contributors
 
 * Gaiffe Antoine [toinouu](https://github.com/toinouu)
