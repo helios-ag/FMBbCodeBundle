@@ -312,11 +312,11 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
      */
     private function resolveParameters(EmoticonCollection $collection)
     {
-        // Sets emoticon url if not set
-        foreach ($this->collection as $name => $emoticon) {
+        foreach ($collection as $name => $emoticon) {
             $emoticon->setUrl($this->resolve($emoticon->getUrl()));
 
             if (!$emoticon->getUrl()) {
+                // Sets emoticon url
                 $emoticon->setUrl(sprintf('%s%s.%s',
                     $this->options['path'],
                     $name,
