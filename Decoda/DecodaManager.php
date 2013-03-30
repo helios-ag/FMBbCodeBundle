@@ -458,7 +458,6 @@ class DecodaManager
         if (isset($this->options['filter_sets'][$filterSet])) {
             $options = $this->options['filter_sets'][$filterSet];
         } else {
-            $this->decodaCollection[strtolower($filterSet)] = $decoda;
             return;
         }
 
