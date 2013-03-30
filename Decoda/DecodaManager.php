@@ -535,9 +535,12 @@ class DecodaManager
             $this->phpEngine = new DecodaPhpEngine();
 
             foreach ($this->options['templates'] as $template) {
-                // TODO use bundle hierachy (the third parameter of locate)
-                $path = $this->locator->locate($template['path']);
-                $this->phpEngine->addPath($path);
+                // Use bundle hierachy
+                $paths = $this->locator->locate($template['path'], null, false);
+                krsort($paths);
+                foreach ($paths as $path) {
+                    $this->phpEngine->addPath($path);
+                }
             }
         }
 
