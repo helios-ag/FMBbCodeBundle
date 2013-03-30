@@ -2,6 +2,8 @@
 
 namespace FM\BbcodeBundle\Templating;
 
+use FM\BbcodeBundle\Translation\Loader\FileLoader;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use FM\BbcodeBundle\Decoda\Decoda as Decoda;
 use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
@@ -14,38 +16,16 @@ use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
 class BbcodeExtension extends \Twig_Extension
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var DecodaManager
      */
-    protected $container;
-
-    /**
-     * @var mixed
-     */
-    protected $filterSets;
+    protected $decodaManager;
 
     /**
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(DecodaManager $decodaManager)
     {
-        $this->container = $container;
-        $extraFilters = $this->container->getParameter('fm_bbcode.config.filters');
-        $extraHooks   = $this->container->getParameter('fm_bbcode.config.hooks');
-        $extraTemplatePaths = $this->container->getParameter('fm_bbcode.config.templates');
-        $this->filterSets = $this->container->getParameter('fm_bbcode.filter_sets');
-
-        foreach ($extraFilters as $extraFilter) {
-            DecodaManager::addFilter($extraFilter['classname'], $extraFilter['class'] );
-        }
-        foreach ($extraHooks as $extraHook) {
-            DecodaManager::addHook($extraHook['classname'], $extraHook['class'] );
-        }
-        foreach ($extraTemplatePaths as $extraPath) {
-            $path = $extraPath['path'];
-            $path = $this->container->get("kernel")->locateResource($path);
-            DecodaManager::addTemplatePath($path);
-        }
-
+        $this->decodaManager = $decodaManager;
     }
 
     /**
@@ -63,71 +43,40 @@ class BbcodeExtension extends \Twig_Extension
 
     /**
      * @param $value
-     * @param $filter
+     * @param $filterSet
+     *
      * @return string
-     * @throws \Twig_Error_Runtime
+     *
      * @return \FM\BbcodeBundle\Decoda\Decoda
+     *
+     * @throws \Twig_Error_Runtime
      */
-    public function filter($value, $filter)
+    public function filter($value, $filterSet = DecodaManager::DECODA_DEFAULT)
     {
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
 
-        $messages = $this->container->getParameter('fm_bbcode.config.messages');
-        
-        if(!empty($messages))
-        {
-            $messages = $this->container->get("kernel")->locateResource($messages);
-            $messages = json_decode(\file_get_contents($messages), true);
-        }
-        else
-        {
-            $messages = array();
-        }
-
-        $code = new Decoda($value, $messages);
-
-        $currentFilter = $this->filterSets[$filter];
-
-        $locale = $currentFilter['locale'];
-        $isXhtml = $currentFilter['xhtml'];
-        $isStrict = $currentFilter['strict'];
-
-        if (empty($locale) || 'default' == $locale) {
-                $code->setLocale($this->container->get('request')->getLocale());
-            }
-        else {
-            $code->setLocale($locale);
-        }
-
-        if ($isXhtml)
-            $code->setXhtml();
-
-        if($isStrict)
-            $code->setStrict();
-
-        $decodaManager = new DecodaManager($code, $currentFilter['filters'], $currentFilter['hooks'], $currentFilter['whitelist']);
-
-        return $decodaManager->getResult()->parse();
+        return $this->decodaManager->get($value, $filterSet)->parse();
     }
 
     /**
-     *
      * Strip tags
+     *
      * @param $value
+     * @param $filterSet
+     *
      * @return string
+     *
      * @throws \Twig_Error_Runtime
      */
-    public function clean($value)
+    public function clean($value, $filterSet = DecodaManager::DECODA_DEFAULT)
     {
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
-        $code = new Decoda($value);
-        $decodaManager = new DecodaManager($code,array('default','block','code','email','image','list','quote','text','url','video'));
 
-        return $decodaManager->getResult()->strip(true);
+        return $this->decodaManager->get($value, $filterSet)->strip(true);
     }
 
     /**

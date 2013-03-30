@@ -3,11 +3,8 @@
 namespace FM\BbcodeBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\HelperInterface;
 /**
 *
 * @author Al Ganiev <helios.ag@gmail.com>
@@ -31,15 +28,15 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
      * @param $src
      * @param $dst
      */
-    private function recurse_copy($src,$dst) {
+    private function recurse_copy($src,$dst)
+    {
             $dir = opendir($src);
             @mkdir($dst);
-            while(false !== ( $file = readdir($dir)) ) {
+            while (false !== ( $file = readdir($dir)) ) {
                 if (( $file != '.' ) && ( $file != '..' )) {
                     if ( is_dir($src . '/' . $file) ) {
                         $this->recurse_copy($src . '/' . $file,$dst . '/' . $file);
-                    }
-                    else {
+                    } else {
                         copy($src . '/' . $file,$dst . '/' . $file);
                     }
                 }
@@ -48,15 +45,18 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
         }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
      * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $webFolder = $this->getContainer()->get('kernel')->getRootDir().'/../web/emoticons';
+        $webFolder = sprintf('%s%s',
+            $this->getContainer()->getParameter('assetic.write_to'),
+            $this->getContainer()->getParameter('fm_bbcode.emoticon.path')
+        );
         @mkdir($webFolder);
-        $emoticonsFolder = $this->getContainer()->get('kernel')->getRootDir().'/../vendor/mjohnson/decoda/emoticons';
+        $emoticonsFolder = $this->getContainer()->getParameter('kernel.root_dir').'/../vendor/mjohnson/decoda/emoticons';
         $this->recurse_copy($emoticonsFolder,$webFolder);
 
         $output->writeln('<comment>Emoticons dumped succesfully</comment>');

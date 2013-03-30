@@ -2,7 +2,6 @@
 
 namespace FM\BbcodeBundle\Composer;
 
-use Symfony\Component\ClassLoader\ClassCollectionLoader;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 

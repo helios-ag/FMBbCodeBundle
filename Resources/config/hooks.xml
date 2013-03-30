@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <parameters>
+    <parameter key="fm_bbcode.decoda.hook.censor.class">Decoda\Hook\CensorHook</parameter>
+    <parameter key="fm_bbcode.decoda.hook.clickable.class">Decoda\Hook\ClickableHook</parameter>
+    <parameter key="fm_bbcode.decoda.hook.emoticon.class">FM\BbcodeBundle\Decoda\Hook\EmoticonHook</parameter>
+    <parameter key="fm_bbcode.decoda.hook.code.class">Decoda\Hook\CodeHook</parameter>
+
+    <parameter key="fm_bbcode.emoticon.loader.yaml.class">FM\BbcodeBundle\Emoticon\Loader\YamlFileLoader</parameter>
+    <parameter key="fm_bbcode.emoticon.options.matcher_class">FM\BbcodeBundle\Emoticon\Matcher\Matcher</parameter>
+    <parameter key="fm_bbcode.emoticon.options.matcher_base_class">FM\BbcodeBundle\Emoticon\Matcher\Matcher</parameter>
+    <parameter key="fm_bbcode.emoticon.options.matcher_dumper_class">FM\BbcodeBundle\Emoticon\Matcher\Dumper\PhpMatcherDumper</parameter>
+    <parameter key="fm_bbcode.emoticon.options.matcher_cache_class">%fm_bbcode.emoticon.cache_class_prefix%FMBbcodeBundleEmoticonMatcher</parameter>
+    </parameters>
+
+  <services>
+    <service id="fm_bbcode.decoda.hook.censor" class="%fm_bbcode.decoda.hook.censor.class%">
+      <tag name="fm_bbcode.decoda.hook" id="censor" />
+    </service>
+    <service id="fm_bbcode.decoda.hook.clickable" class="%fm_bbcode.decoda.hook.clickable.class%">
+      <tag name="fm_bbcode.decoda.hook" id="clickable" />
+    </service>
+    <service id="fm_bbcode.decoda.hook.emoticon" class="%fm_bbcode.decoda.hook.emoticon.class%">
+      <tag name="fm_bbcode.decoda.hook" id="emoticon" />
+      <tag name="kernel.cache_warmer" />
+      <argument type="service" id="fm_bbcode.emoticon.loader.yaml" />
+      <argument type="service" id="service_container" />
+      <argument type="collection">
+        <argument key="cache_dir">%kernel.cache_dir%</argument>
+        <argument key="debug">%kernel.debug%</argument>
+        <argument key="matcher_class">%fm_bbcode.emoticon.options.matcher_class%</argument>
+        <argument key="matcher_base_class">%fm_bbcode.emoticon.options.matcher_base_class%</argument>
+        <argument key="matcher_dumper_class">%fm_bbcode.emoticon.options.matcher_dumper_class%</argument>
+        <argument key="matcher_cache_class">%fm_bbcode.emoticon.options.matcher_cache_class%</argument>
+      </argument>
+    </service>
+    <service id="fm_bbcode.decoda.hook.code" class="%fm_bbcode.decoda.hook.code.class%">
+      <tag name="fm_bbcode.decoda.hook" id="code" />
+    </service>
+
+    <service id="fm_bbcode.emoticon.loader.yaml" class="%fm_bbcode.emoticon.loader.yaml.class%">
+      <argument type="service" id="file_locator"/>
+    </service>
+  </services>
+</container>
