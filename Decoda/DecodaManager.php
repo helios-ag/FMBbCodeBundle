@@ -83,9 +83,6 @@ class DecodaManager
         $this->messageLoader = $messageLoader;
 
         $this->setOptions($options);
-
-        $this->setFilters($this->options['filters']);
-        $this->setHooks($this->options['hooks']);
     }
 
     /**
@@ -185,9 +182,6 @@ class DecodaManager
     public function addFilters(array $filters)
     {
         foreach ($filters as $id => $filter) {
-            if (is_string($filter)) {
-                $filter = new $filter();
-            }
             $this->setFilter($id, $filter);
         }
 
@@ -280,9 +274,6 @@ class DecodaManager
     public function addHooks(array $hooks)
     {
         foreach ($hooks as $id => $hook) {
-            if (is_string($hook)) {
-                $hook = new $hook();
-            }
             $this->setHook($id, $hook);
         }
 
@@ -343,8 +334,6 @@ class DecodaManager
      *
      * Available options:
      *
-     *   * filters:
-     *   * hooks:
      *   * messages:
      *   * templates:
      *   * filter_sets:
@@ -357,8 +346,6 @@ class DecodaManager
     private function setOptions(array $options)
     {
         $this->options = array(
-            'filters'            => array(),
-            'hooks'              => array(),
             'messages'           => null,
             'templates'          => array(),
             'filter_sets'        => array(),

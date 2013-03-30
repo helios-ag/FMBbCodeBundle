@@ -2,8 +2,8 @@
 
 namespace FM\BbcodeBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
@@ -14,6 +14,20 @@ class RegisterFiltersPass implements CompilerPassInterface
         if (!$container->hasDefinition('fm_bbcode.decoda_manager')) {
             return;
         }
+
+        $filters = $container->getParameter('fm_bbcode.config.filters');
+
+        $definitions = array();
+
+        foreach ($filters as $id => $class) {
+            $definition = new Definition($class);
+            $definition->addTag('fm_bbcode.decoda.filter', array(
+                'id' => $id,
+            ));
+            $definitions['fm_bbcode.decoda.filter.from_config.'.$id] = $definition;
+        }
+
+        $container->addDefinitions($definitions);
 
         $definition = $container->getDefinition('fm_bbcode.decoda_manager');
 
