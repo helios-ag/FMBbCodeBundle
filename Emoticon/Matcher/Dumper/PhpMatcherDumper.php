@@ -88,9 +88,9 @@ EOF;
         $code .= '        switch ($smiley) {';
         foreach ($emoticons as $emoticon) {
             foreach ($emoticon as $smiley) {
-                $smiley = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $smiley);
-                $xHtml = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $emoticon->getXhtml());
-                $html = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $emoticon->getHtml());
+                $smiley = $this->escapeForSingleQuotes($smiley);
+                $xHtml = $this->escapeForSingleQuotes($emoticon->getXhtml());
+                $html = $this->escapeForSingleQuotes($emoticon->getHtml());
                 $code .= <<<EOF
 
             case '$smiley':
@@ -141,7 +141,7 @@ EOF;
         $code = '';
         $code .= 'array(';
         foreach ($emoticons as $name => $emoticon) {
-            $name = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $name);
+            $name = $this->escapeForSingleQuotes($name);
 
             $code .= <<<EOF
 
@@ -149,7 +149,7 @@ EOF;
 
 EOF;
             foreach ($emoticon as $smiley) {
-                $smiley = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $smiley);
+                $smiley = $this->escapeForSingleQuotes($smiley);
 
                 $code .= <<<EOF
                 '$smiley',
@@ -166,5 +166,10 @@ EOF;
 EOF;
 
         return $code;
+    }
+
+    private function escapeForSingleQuotes($value)
+    {
+        return str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $value);
     }
 }
