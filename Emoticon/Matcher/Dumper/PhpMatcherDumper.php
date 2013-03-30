@@ -50,7 +50,7 @@ class {$options['class']} extends {$options['base_class']}
 
 {$this->generateMatchMethod()}
 
-{$this->generateGetEmoticonsMethod()}
+{$this->generateGetSmiliesMethod()}
 }
 
 EOF;
@@ -88,9 +88,9 @@ EOF;
         $code .= '        switch ($smiley) {';
         foreach ($emoticons as $emoticon) {
             foreach ($emoticon as $smiley) {
-                $smiley = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $smiley);
-                $xHtml = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $emoticon->getXhtml());
-                $html = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $emoticon->getHtml());
+                $smiley = $this->escapeForSingleQuotes($smiley);
+                $xHtml = $this->escapeForSingleQuotes($emoticon->getXhtml());
+                $html = $this->escapeForSingleQuotes($emoticon->getHtml());
                 $code .= <<<EOF
 
             case '$smiley':
@@ -105,7 +105,7 @@ EOF;
         $code .= <<<EOF
             default:
                 break;
-            }
+        }
 EOF;
 
         return $code;
@@ -117,12 +117,12 @@ EOF;
      *
      * @return string getEmoticons method as PHP code
      */
-    private function generateGetEmoticonsMethod()
+    private function generateGetSmiliesMethod()
     {
-        $code = rtrim($this->compileEmoticons($this->getEmoticons()), "\n");
+        $code = rtrim($this->compileSmilies($this->getEmoticons()), "\n");
 
         return <<<EOF
-    public function getEmoticons()
+    public function getSmilies()
     {
         return $code;
     }
@@ -136,35 +136,30 @@ EOF;
      *
      * @return string PHP code
      */
-    private function compileEmoticons(EmoticonCollection $emoticons)
+    private function compileSmilies(EmoticonCollection $emoticons)
     {
         $code = '';
         $code .= 'array(';
         foreach ($emoticons as $name => $emoticon) {
-            $name = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $name);
-
-            $code .= <<<EOF
-
-            '$name' => array(
-
-EOF;
             foreach ($emoticon as $smiley) {
-                $smiley = str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $smiley);
+                $smiley = $this->escapeForSingleQuotes($smiley);
 
                 $code .= <<<EOF
-                '$smiley',
 
+            '$smiley',
 EOF;
             }
-            $code .= <<<EOF
-            ),
-
-EOF;
         }
         $code .= <<<EOF
+
         )
 EOF;
 
         return $code;
+    }
+
+    private function escapeForSingleQuotes($value)
+    {
+        return str_replace(array("\x5C", "'"), array("\x5C\x5C", "\x5C'"), $value);
     }
 }

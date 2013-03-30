@@ -2,10 +2,13 @@
 
 namespace FM\BbcodeBundle\Decoda;
 
+use Decoda\Component;
+use Decoda\Loader\DataLoader;
+use Decoda\Loader;
 use Decoda\Hook;
 use Decoda\Filter;
 use Decoda\Decoda as BaseDecoda;
-use \DomainException;
+use \OutOfRangeException;
 
 /**
  * Class Decoda
@@ -17,21 +20,6 @@ class Decoda extends BaseDecoda
      * @var string
      */
     protected $defaultLocale;
-
-
-    /**
-     * @param string $string    The string to parse
-     * @param array  $messages  An array of messages translation
-     */
-    public function __construct($string = '', array $messages = array())
-    {
-        parent::__construct($string);
-
-        // Force the generation of default Decoda messages
-        $this->message(null);
-
-        $this->setMessages(array_merge($this->_messages, $messages));
-    }
 
     /**
      * Set the locale.
@@ -49,7 +37,7 @@ class Decoda extends BaseDecoda
 
         try {
             parent::setLocale($locale);
-        } catch (\DomainException $e) {
+        } catch (OutOfRangeException $e) {
             if (null !== $this->defaultLocale) {
                 parent::setLocale($this->defaultLocale);
             } else {
@@ -77,12 +65,12 @@ class Decoda extends BaseDecoda
         }
 
         if (!isset($this->_messages[$locale])) {
-            throw new DomainException(sprintf('Localized strings for %s do not exist', $locale));
+            throw new OutOfRangeException(sprintf('Localized strings for %s do not exist', $locale));
         }
 
         $this->defaultLocale = $locale;
 
-        if (null === $this->config('locale')) {
+        if (null === $this->getConfig('locale')) {
             parent::setLocale($locale);
         }
 
@@ -103,7 +91,7 @@ class Decoda extends BaseDecoda
 
         if (!empty($key) && $this->defaultLocale !== null && empty($translated)) {
             // fallback default locale
-            $locale = $this->config('locale');
+            $locale = $this->getConfig('locale');
             parent::setLocale($this->defaultLocale);
 
             $translated = parent::message($key, $vars);
@@ -122,21 +110,29 @@ class Decoda extends BaseDecoda
     public function setMessages(array $messages = array())
     {
         $this->_messages = array();
-        $this->addMessages($messages);
+        $this->addMessages(new DataLoader($messages));
     }
 
     /**
-     * Adds messages to the parser messeges.
+     * Add a loader that will generate localization messages.
      *
-     * @param array $messages An array of messages with keys are locales
+     * @param \Decoda\Loader $loader
+     * @return \Decoda\Decoda
      */
-    public function addMessages(array $messages)
-    {
-        foreach ($messages as $locale => $value){
-            foreach ($value as $id => $message){
-                $this->setMessage($locale, $id, $message);
+    public function addMessages(Loader $loader) {
+        if ($loader instanceof Component) {
+            $loader->setParser($this);
+        }
+
+        if ($messages = $loader->read()) {
+            foreach ($messages as $locale => $strings) {
+                foreach ($strings as $id => $message){
+                    $this->setMessage($locale, $id, $message);
+                }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -213,7 +209,7 @@ class Decoda extends BaseDecoda
 
         $id = strtolower($id);
 
-        $tags = $filter->tags();
+        $tags = $filter->getTags();
 
         $this->_filters[$id] = $filter;
 

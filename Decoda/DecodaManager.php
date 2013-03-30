@@ -1,13 +1,15 @@
 <?php
 namespace FM\BbcodeBundle\Decoda;
 
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\HttpKernel\Config\FileLocator;
-use FM\BbcodeBundle\Translation\Loader\FileLoader;
 
 use FM\BbcodeBundle\Decoda\Decoda;
 use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
+
+use Decoda\Loader\FileLoader;
 use Decoda\Filter;
 use Decoda\Hook;
 
@@ -24,11 +26,6 @@ class DecodaManager
      * @var FileLocator
      */
     protected $locator;
-
-    /**
-     * @var FileLoader
-     */
-    protected $messageLoader;
 
     /**
      * @var ContainerInterface
@@ -76,11 +73,10 @@ class DecodaManager
     /**
      * @param array $options  An array of options
      */
-    public function __construct(ContainerInterface $container, FileLocator $locator, FileLoader $messageLoader, array $options = array())
+    public function __construct(ContainerInterface $container, FileLocator $locator, array $options = array())
     {
         $this->container = $container;
         $this->locator = $locator;
-        $this->messageLoader = $messageLoader;
 
         $this->setOptions($options);
 
@@ -469,7 +465,7 @@ class DecodaManager
         $decoda = new Decoda();
 
         if (null !== $this->options['messages']) {
-            $decoda->addMessages($this->messageLoader->load($this->options['messages']));
+            $decoda->addMessages(new FileLoader($this->locator->locate($this->options['messages'])));
         }
 
         $decoda->setEngine($this->getPhpEngine());
@@ -535,9 +531,12 @@ class DecodaManager
             $this->phpEngine = new DecodaPhpEngine();
 
             foreach ($this->options['templates'] as $template) {
-                // TODO use bundle hierachy (the third parameter of locate)
-                $path = $this->locator->locate($template['path']);
-                $this->phpEngine->addPath($path);
+                // Use bundle hierachy
+                $paths = $this->locator->locate($template['path'], null, false);
+                krsort($paths);
+                foreach ($paths as $path) {
+                    $this->phpEngine->addPath($path);
+                }
             }
         }
 

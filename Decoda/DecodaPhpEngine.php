@@ -1,9 +1,10 @@
 <?php
 
 namespace FM\BbcodeBundle\Decoda;
+
+use Decoda\Exception\IoException;
 use Decoda\Engine\PhpEngine;
 use Decoda\Filter;
-use Exception;
 
 /**
  * DecodaPhpEngine
@@ -35,8 +36,10 @@ class DecodaPhpEngine extends PhpEngine
      */
     protected $_filter;
 
-    public function __construct()
+    public function __construct(array $config = array())
     {
+        parent::__construct($config);
+
         $this->getPath();
     }
 
@@ -58,13 +61,12 @@ class DecodaPhpEngine extends PhpEngine
      * @access public
      * @param  array $tag
      * @param  string $content
-     * @throws \Exception
      * @return string
-     * @throws Exception
+     * @throws IoException
      */
     public function render(array $tag, $content)
     {
-        $setup = $this->getFilter()->tag($tag['tag']);
+        $setup = $this->getFilter()->getTag($tag['tag']);
 
         $paths = $this->getPaths();
         $pathMap = 0;
@@ -78,7 +80,7 @@ class DecodaPhpEngine extends PhpEngine
         }
 
         if ($pathMap == count((array) $paths)) {
-            throw new Exception(sprintf('Template file %s does not exist.', $setup['template']));
+            throw new IoException(sprintf('Template file %s does not exist.', $setup['template']));
         }
 
         $vars = array();
