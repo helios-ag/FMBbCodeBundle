@@ -416,46 +416,6 @@ class DecodaManager
     }
 
     /**
-     * Applies filter specified in parameter
-     * @param \FM\BbcodeBundle\Decoda\Decoda $code
-     * @param string                         $id
-     *
-     * @return \FM\BbcodeBundle\Decoda\Decoda
-     */
-    private function applyFilter(Decoda $code, $id)
-    {
-        if ($this->hasFilter($id)) {
-            return $code->addFilter($this->getFilter($id), $id);
-        }
-
-        return $code;
-    }
-    /**
-     * @param Decoda $code
-     * @param $id
-     * @return Decoda
-     */
-    private function applyHook(Decoda $code, $id)
-    {
-        if ($this->hasHook($id)) {
-            return $code->addHook($this->getHook($id), $id);
-        }
-
-        return $code;
-    }
-
-    /**
-     * @param  Decoda $code
-     * @param  array  $whitelist
-     * @return Decoda
-     */
-    private function applyWhitelist(Decoda $code, array $whitelist)
-    {
-        return $code->whitelist($whitelist);
-    }
-
-
-    /**
      * Gets a pre-configured decoda.
      *
      * @return Decoda
@@ -510,15 +470,15 @@ class DecodaManager
         $decoda->setStrict($options['strict']);
 
 
-        foreach ($options['filters'] as $filter) {
-            $this->applyFilter($decoda, $filter);
+        foreach ($options['filters'] as $id) {
+            $decoda->addFilter($this->getFilter($id), $id);
         }
 
-        foreach ($options['hooks'] as $hook) {
-            $this->applyHook($decoda, $hook);
+        foreach ($options['hooks'] as $id) {
+            $decoda->addHook($this->getHook($id), $id);
         }
 
-        $this->applyWhitelist($decoda, $options['whitelist']);
+        $decoda->whitelist($options['whitelist']);
 
         $this->decodaCollection[strtolower($filterSet)] = $decoda;
     }
