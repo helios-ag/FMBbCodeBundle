@@ -24,8 +24,6 @@
             <argument type="service" id="service_container"/>
             <argument type="service" id="file_locator" />
             <argument type="collection">
-                <argument key="filters">%fm_bbcode.config.filters%</argument>
-                <argument key="hooks">%fm_bbcode.config.hooks%</argument>
                 <argument key="messages">%fm_bbcode.config.messages%</argument>
                 <argument key="templates">%fm_bbcode.config.templates%</argument>
                 <argument key="filter_sets">%fm_bbcode.filter_sets%</argument>
