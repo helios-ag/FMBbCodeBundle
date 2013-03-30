@@ -38,11 +38,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
     protected $collection;
 
     /**
-     * @var mixed
-     */
-    protected $resource;
-
-    /**
      * @var array
      */
     protected $options = array();
