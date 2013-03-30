@@ -169,6 +169,11 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
         // Convert a default decoda emoticons array to an EmoticonCollection
         $collection = new EmoticonCollection();
 
+        // Sets a Decoda parser when is not set yet
+        if (! $this->getParser() instanceof Decoda) {
+            $this->setParser(new Decoda());
+        }
+
         // Populate decoda emoticons
         $this->startup();
 
