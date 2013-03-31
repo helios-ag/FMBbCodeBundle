@@ -4,10 +4,11 @@ namespace FM\BbcodeBundle\Decoda;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\HttpKernel\Config\FileLocator;
-use FM\BbcodeBundle\Translation\Loader\FileLoader;
 
 use FM\BbcodeBundle\Decoda\Decoda;
-use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
+
+use Decoda\Engine\PhpEngine;
+use Decoda\Loader\FileLoader;
 use Decoda\Filter;
 use Decoda\Hook;
 
@@ -26,11 +27,6 @@ class DecodaManager
     protected $locator;
 
     /**
-     * @var FileLoader
-     */
-    protected $messageLoader;
-
-    /**
      * @var ContainerInterface
      */
     protected $container;
@@ -47,7 +43,7 @@ class DecodaManager
 
 
     /**
-     * @var DecodaPhpEngine
+     * @var PhpEngine
      */
     private $phpEngine;
 
@@ -76,16 +72,12 @@ class DecodaManager
     /**
      * @param array $options  An array of options
      */
-    public function __construct(ContainerInterface $container, FileLocator $locator, FileLoader $messageLoader, array $options = array())
+    public function __construct(ContainerInterface $container, FileLocator $locator, array $options = array())
     {
         $this->container = $container;
         $this->locator = $locator;
-        $this->messageLoader = $messageLoader;
 
         $this->setOptions($options);
-
-        $this->setFilters($this->options['filters']);
-        $this->setHooks($this->options['hooks']);
     }
 
     /**
@@ -136,12 +128,12 @@ class DecodaManager
 
         $decoda = clone $this->decodaCollection[strtolower($filterSet)];
 
-        $writeList = $decoda->getWriteList();
-        $blacklist = $decoda->getBlackList();
+        $writelist = $decoda->getWhitelist();
+        $blacklist = $decoda->getBlacklist();
 
         $decoda->reset($string);
 
-        $decoda->whitelist($writeList);
+        $decoda->whitelist($writelist);
         $decoda->blacklist($blacklist);
 
         return $decoda;
@@ -185,9 +177,6 @@ class DecodaManager
     public function addFilters(array $filters)
     {
         foreach ($filters as $id => $filter) {
-            if (is_string($filter)) {
-                $filter = new $filter();
-            }
             $this->setFilter($id, $filter);
         }
 
@@ -280,9 +269,6 @@ class DecodaManager
     public function addHooks(array $hooks)
     {
         foreach ($hooks as $id => $hook) {
-            if (is_string($hook)) {
-                $hook = new $hook();
-            }
             $this->setHook($id, $hook);
         }
 
@@ -343,8 +329,6 @@ class DecodaManager
      *
      * Available options:
      *
-     *   * filters:
-     *   * hooks:
      *   * messages:
      *   * templates:
      *   * filter_sets:
@@ -357,8 +341,6 @@ class DecodaManager
     private function setOptions(array $options)
     {
         $this->options = array(
-            'filters'            => array(),
-            'hooks'              => array(),
             'messages'           => null,
             'templates'          => array(),
             'filter_sets'        => array(),
@@ -416,46 +398,6 @@ class DecodaManager
     }
 
     /**
-     * Applies filter specified in parameter
-     * @param \FM\BbcodeBundle\Decoda\Decoda $code
-     * @param string                         $id
-     *
-     * @return \FM\BbcodeBundle\Decoda\Decoda
-     */
-    private function applyFilter(Decoda $code, $id)
-    {
-        if ($this->hasFilter($id)) {
-            return $code->addFilter($this->getFilter($id), $id);
-        }
-
-        return $code;
-    }
-    /**
-     * @param Decoda $code
-     * @param $id
-     * @return Decoda
-     */
-    private function applyHook(Decoda $code, $id)
-    {
-        if ($this->hasHook($id)) {
-            return $code->addHook($this->getHook($id), $id);
-        }
-
-        return $code;
-    }
-
-    /**
-     * @param  Decoda $code
-     * @param  array  $whitelist
-     * @return Decoda
-     */
-    private function applyWhitelist(Decoda $code, array $whitelist)
-    {
-        return $code->whitelist($whitelist);
-    }
-
-
-    /**
      * Gets a pre-configured decoda.
      *
      * @return Decoda
@@ -469,7 +411,7 @@ class DecodaManager
         $decoda = new Decoda();
 
         if (null !== $this->options['messages']) {
-            $decoda->addMessages($this->messageLoader->load($this->options['messages']));
+            $decoda->addMessages(new FileLoader($this->locator->locate($this->options['messages'])));
         }
 
         $decoda->setEngine($this->getPhpEngine());
@@ -498,7 +440,6 @@ class DecodaManager
         if (isset($this->options['filter_sets'][$filterSet])) {
             $options = $this->options['filter_sets'][$filterSet];
         } else {
-            $this->decodaCollection[strtolower($filterSet)] = $decoda;
             return;
         }
 
@@ -510,15 +451,15 @@ class DecodaManager
         $decoda->setStrict($options['strict']);
 
 
-        foreach ($options['filters'] as $filter) {
-            $this->applyFilter($decoda, $filter);
+        foreach ($options['filters'] as $id) {
+            $decoda->addFilter($this->getFilter($id), $id);
         }
 
-        foreach ($options['hooks'] as $hook) {
-            $this->applyHook($decoda, $hook);
+        foreach ($options['hooks'] as $id) {
+            $decoda->addHook($this->getHook($id), $id);
         }
 
-        $this->applyWhitelist($decoda, $options['whitelist']);
+        $decoda->whitelist($options['whitelist']);
 
         $this->decodaCollection[strtolower($filterSet)] = $decoda;
     }
@@ -532,11 +473,20 @@ class DecodaManager
     private function getPhpEngine()
     {
         if (null === $this->phpEngine) {
-            $this->phpEngine = new DecodaPhpEngine();
+            $this->phpEngine = new PhpEngine();
 
             foreach ($this->options['templates'] as $template) {
-                // TODO use bundle hierachy (the third parameter of locate)
-                $path = $this->locator->locate($template['path']);
+                // Use bundle hierachy
+                $paths = $this->locator->locate($template['path'], null, false);
+
+                foreach ($paths as $path) {
+                    $this->phpEngine->addPath($path);
+                }
+            }
+
+            $decoda = new Decoda();
+            $defaultPaths = $decoda->getEngine()->getPaths();
+            foreach ($defaultPaths as $path) {
                 $this->phpEngine->addPath($path);
             }
         }

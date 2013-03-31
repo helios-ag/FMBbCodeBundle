@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "mjohnson/decoda": "5.*",
+        "mjohnson/decoda": "6.*",
         "symfony/twig-bundle": ">=2.0,<2.3-dev",
         "symfony/assetic-bundle": ">=2.0,<2.3-dev",
         "symfony/config": ">=2.0,<2.3-dev",
@@ -33,5 +33,10 @@
         "psr-0": { "FM\\BbcodeBundle": "" }
     },
     "target-dir": "FM/BbcodeBundle",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "6.x-dev"
+        }
+    }
 }

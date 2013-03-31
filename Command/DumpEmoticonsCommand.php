@@ -53,7 +53,7 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
     {
         $webFolder = sprintf('%s%s',
             $this->getContainer()->getParameter('assetic.write_to'),
-            $this->getContainer()->getParameter('fm_bbcode.config.emoticonpath')
+            $this->getContainer()->getParameter('fm_bbcode.emoticon.path')
         );
         @mkdir($webFolder);
         $emoticonsFolder = $this->getContainer()->getParameter('kernel.root_dir').'/../vendor/mjohnson/decoda/emoticons';

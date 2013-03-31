@@ -19,9 +19,9 @@ interface MatcherInterface
     public function match($smiley);
 
     /**
-     * Returns all emoticons.
+     * Returns all smilies.
      *
-     * @return array An array of emoticons
+     * @return string[] An array of smilies
      */
-    public function getEmoticons();
+    public function getSmilies();
 }
