@@ -22,6 +22,19 @@ class Decoda extends BaseDecoda
     protected $defaultLocale;
 
     /**
+     * Store the text and single instance configuration.
+     *
+     * @param string $string
+     * @param array $config
+     */
+    public function __construct($string = '', array $config = array())
+    {
+        parent::__construct($string, $config);
+
+        $this->_loadMessages();
+    }
+
+    /**
      * Set the locale.
      *
      * @param string $locale
@@ -35,17 +48,7 @@ class Decoda extends BaseDecoda
             $locale = $locales[0];
         }
 
-        try {
-            parent::setLocale($locale);
-        } catch (OutOfRangeException $e) {
-            if (null !== $this->defaultLocale) {
-                parent::setLocale($this->defaultLocale);
-            } else {
-                throw $e;
-            }
-        }
-
-        return $this;
+        return parent::setLocale($locale);
     }
 
     /**
@@ -62,10 +65,6 @@ class Decoda extends BaseDecoda
         if (false !== strpos($locale, '-')) {
             $locales = explode('-', $locale);
             $locale = $locales[0];
-        }
-
-        if (!isset($this->_messages[$locale])) {
-            throw new OutOfRangeException(sprintf('Localized strings for %s do not exist', $locale));
         }
 
         $this->defaultLocale = $locale;
@@ -120,11 +119,9 @@ class Decoda extends BaseDecoda
      * @return \Decoda\Decoda
      */
     public function addMessages(Loader $loader) {
-        if ($loader instanceof Component) {
-            $loader->setParser($this);
-        }
+        $loader->setParser($this);
 
-        if ($messages = $loader->read()) {
+        if ($messages = $loader->load()) {
             foreach ($messages as $locale => $strings) {
                 foreach ($strings as $id => $message){
                     $this->setMessage($locale, $id, $message);
@@ -156,38 +153,6 @@ class Decoda extends BaseDecoda
     }
 
     /**
-     * @return array
-     */
-    public function getWriteList()
-    {
-        return $this->_whitelist;
-    }
-
-    /**
-     * @return array
-     */
-    public function getBlackList()
-    {
-        return $this->_blacklist;
-    }
-
-    /**
-     * Add a configuration lookup path.
-     *
-     * @param string $path
-     * @return \Decoda\Decoda
-     */
-    public function addPath($path)
-    {
-        if (substr($path, -1) !== '/') {
-            $path .= '/';
-        }
-
-        return parent::addPath($path);
-    }
-
-
-    /**
      * Add additional filters.
      *
      * @see \Decoda\Decoda::addFilter()
@@ -199,29 +164,13 @@ class Decoda extends BaseDecoda
      */
     public function addFilter(Filter $filter, $id = null)
     {
-        $filter->setParser($this);
-
         if (null === $id) {
             // this is to keep method signature
             $id = explode('\\', get_class($filter));
             $id = str_replace('Filter', '', end($id));
         }
 
-        $id = strtolower($id);
-
-        $tags = $filter->getTags();
-
-        $this->_filters[$id] = $filter;
-
-        $this->_tags = $tags + $this->_tags;
-
-        foreach ($tags as $tag => $options) {
-            $this->_filterMap[$tag] = $id;
-        }
-
-        $filter->setupHooks($this);
-
-        return $this;
+        return parent::addFilter($filter, strtolower($id));
     }
 
     /**
@@ -274,19 +223,13 @@ class Decoda extends BaseDecoda
      */
     public function addHook(Hook $hook, $id = null)
     {
-        $hook->setParser($this);
-
         if (null === $id) {
             // this is to keep method signature
             $id = explode('\\', get_class($hook));
             $id = str_replace('Filter', '', end($id));
         }
 
-        $this->_hooks[strtolower($id)] = $hook;
-
-        $hook->setupFilters($this);
-
-        return $this;
+        return parent::addHook($hook, strtolower($id));
     }
 
 

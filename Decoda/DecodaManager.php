@@ -1,14 +1,13 @@
 <?php
 namespace FM\BbcodeBundle\Decoda;
 
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
 use FM\BbcodeBundle\Decoda\Decoda;
-use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
 
+use Decoda\Engine\PhpEngine;
 use Decoda\Loader\FileLoader;
 use Decoda\Filter;
 use Decoda\Hook;
@@ -44,7 +43,7 @@ class DecodaManager
 
 
     /**
-     * @var DecodaPhpEngine
+     * @var PhpEngine
      */
     private $phpEngine;
 
@@ -129,12 +128,12 @@ class DecodaManager
 
         $decoda = clone $this->decodaCollection[strtolower($filterSet)];
 
-        $writeList = $decoda->getWriteList();
-        $blacklist = $decoda->getBlackList();
+        $writelist = $decoda->getWhitelist();
+        $blacklist = $decoda->getBlacklist();
 
         $decoda->reset($string);
 
-        $decoda->whitelist($writeList);
+        $decoda->whitelist($writelist);
         $decoda->blacklist($blacklist);
 
         return $decoda;
@@ -474,15 +473,21 @@ class DecodaManager
     private function getPhpEngine()
     {
         if (null === $this->phpEngine) {
-            $this->phpEngine = new DecodaPhpEngine();
+            $this->phpEngine = new PhpEngine();
 
             foreach ($this->options['templates'] as $template) {
                 // Use bundle hierachy
                 $paths = $this->locator->locate($template['path'], null, false);
-                krsort($paths);
+
                 foreach ($paths as $path) {
                     $this->phpEngine->addPath($path);
                 }
+            }
+
+            $decoda = new Decoda();
+            $defaultPaths = $decoda->getEngine()->getPaths();
+            foreach ($defaultPaths as $path) {
+                $this->phpEngine->addPath($path);
             }
         }
 
