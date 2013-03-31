@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <parameters>
+    <parameter key="fm_bbcode.decoda.filter.block.class">Decoda\Filter\BlockFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.code.class">Decoda\Filter\CodeFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.email.class">Decoda\Filter\EmailFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.image.class">Decoda\Filter\ImageFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.list.class">Decoda\Filter\ListFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.quote.class">Decoda\Filter\QuoteFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.text.class">Decoda\Filter\TextFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.url.class">Decoda\Filter\UrlFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.default.class">Decoda\Filter\DefaultFilter</parameter>
+  </parameters>
+
+  <services>
+    <service id="fm_bbcode.decoda.filter.block" class="%fm_bbcode.decoda.filter.block.class%">
+      <tag name="fm_bbcode.decoda.filter" id="block" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.code" class="%fm_bbcode.decoda.filter.code.class%">
+      <tag name="fm_bbcode.decoda.filter" id="code" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.email" class="%fm_bbcode.decoda.filter.email.class%">
+      <tag name="fm_bbcode.decoda.filter" id="email" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.image" class="%fm_bbcode.decoda.filter.image.class%">
+      <tag name="fm_bbcode.decoda.filter" id="image" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.list" class="%fm_bbcode.decoda.filter.list.class%">
+      <tag name="fm_bbcode.decoda.filter" id="list" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.quote" class="%fm_bbcode.decoda.filter.quote.class%">
+      <tag name="fm_bbcode.decoda.filter" id="quote" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.text" class="%fm_bbcode.decoda.filter.text.class%">
+      <tag name="fm_bbcode.decoda.filter" id="text" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.url" class="%fm_bbcode.decoda.filter.url.class%">
+      <tag name="fm_bbcode.decoda.filter" id="url" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.default" class="%fm_bbcode.decoda.filter.default.class%">
+      <tag name="fm_bbcode.decoda.filter" id="default" />
+    </service>
+  </services>
+</container>

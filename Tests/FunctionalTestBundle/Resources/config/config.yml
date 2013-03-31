@@ -1,8 +1,28 @@
+parameters:
+  fm_bbcode.filter.bar.class: Decoda\Filter\DefaultFilter
+  fm_bbcode.hook.bar.class: Decoda\Hook\ClickableHook
+
+services:
+  fm_bbcode.filter.bar:
+    class: %fm_bbcode.filter.bar.class%
+    tags:
+         - { name: fm_bbcode.decoda.filter, id: bar }
+  fm_bbcode.hook.bar:
+    class: %fm_bbcode.hook.bar.class%
+    tags:
+         - { name: fm_bbcode.decoda.hook, id: bar }
+
 fm_bbcode:
+  emoticon:
+    resource: "@FunctionalTestBundle/Resources/config/emoticons.yml"
   config:
     templates:
-      - path: "@FMBbcodeBundle/Tests/FunctionalTestBundle/Resources/views/templates"
-    messages: "@FMBbcodeBundle/Tests/FunctionalTestBundle/Resources/config/messages.json"
+      - path: "@FunctionalTestBundle/Resources/views/templates"
+    messages: "%kernel.root_dir%/FunctionalTestBundle/Resources/config/messages.json"
+    filters:
+      - { classname: foo, class: %fm_bbcode.filter.bar.class% }
+    hooks:
+      - { classname: foo, class: %fm_bbcode.hook.bar.class% }
   filter_sets:
     default_filter:
       locale: ru
@@ -29,6 +49,21 @@ fm_bbcode:
       xhtml: true
       filters: [ url ]
       strict: false
+    foo_filter:
+      xhtml: true
+      filters: [ foo ]
+    bar_filter:
+      xhtml: true
+      filters: [ bar ]
+    foo_hook:
+      filters: [ url, email ]
+      hooks: [ foo ]
+    bar_hook:
+      filters: [ url, email ]
+      hooks: [ bar ]
+    emoticon_filter:
+      hooks: [ emoticon ]
+
 framework:
   form: ~
   router:
@@ -39,6 +74,7 @@ framework:
   test: ~
   translator:
     fallback: en
+  session: ~
 
 twig:
   debug: %kernel.debug%

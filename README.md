@@ -1,15 +1,17 @@
 FMBBCodeBundle
 ==============
 
-[![Build Status](https://secure.travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)
+[![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)
 
-[PHP-Decoda](/milesj/php-decoda) integration in Symfony2
+[![knpbundles.com](http://knpbundles.com/helios-ag/FMBbCodeBundle/badge)](http://knpbundles.com/helios-ag/FMBbCodeBundle)
+
+[PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
 
 ## Installation
 
-To install this bundle, you'll need both the [Decoda library](/milesj/php-decoda)
+To install this bundle, you'll need both the [Decoda library](https://github.com/milesj/decoda)
 and this bundle. Installation depends on how your project is setup:
 
 ### Step 1: Installation
@@ -147,7 +149,7 @@ messages: node. File should be json formatted.
 ```yaml
 fm_bbcode:
     config:
-      messages: @BundleName/Resources/config/messages.json
+      messages: @SomeBundle/Resources/config/messages.json
 ```
 
 ### Adding own templates
@@ -157,6 +159,79 @@ Your own templates can be defined at templates node, the example below shows how
     fm_bbcode:
         config:
           templates:
-            - path: @BundleName/Resources/views/templates
+            - path: @SomeBundle/Resources/views/templates
 ```
 Template examples can be found inside decoda library
+
+
+### Adding own filter
+
+To enable a custom filter, add it as a regular service in one of your configuration, and tag it with `fm_bbcode.decoda.filter`:
+
+```yaml
+services:
+  acme_demo.decoda.filter.your_filter_name:
+    class: Fully\Qualified\Filter\Class\Name
+    tags:
+      - { name: fm_bbcode.decoda.filter, id: your_filter_name }
+```
+
+Your service must implement the `Decoda\Filter` interface.
+
+If your service is created by a factory, you **MUST** correctly set the class parameter for this tag to work correctly.
+
+
+### Adding own hook
+
+To enable a custom hook, add it as a regular service in one of your configuration, and tag it with `fm_bbcode.decoda.hook`:
+
+```yaml
+services:
+  acme_demo.decoda.hook.your_hook_name:
+    class: Fully\Qualified\Hook\Class\Name
+    tags:
+      - { name: fm_bbcode.decoda.hook, id: your_hook_name }
+```
+
+Your service must implement the `Decoda\Hook` interface.
+
+If your service is created by a factory, you **MUST** correctly set the class parameter for this tag to work correctly.
+
+
+### Customize your own emoticons
+
+Your own emoticons can be defined at `emoticon` node, the example below shows how:
+
+```yaml
+fm_bbcode:
+  emoticon:
+    resource: path/to/emoticons.yml
+```
+
+```yaml
+# path/to/emoticons.yml
+imports:
+  - { resource: path/to/another/emoticons.yml }
+
+emoticons:
+  my_emoticon:
+    url:   # Default: %fm_bbcode.emoticon.path%/my_emoticon.png
+    html:  # Default: <img src="%fm_bbcode.emoticon.path%/my_emoticon.png" alt="" >
+    xHtml: # Default: <img src="%fm_bbcode.emoticon.path%/my_emoticon.png" alt="" />
+    smilies:
+      - ":my_emoticon:"
+```
+
+
+## Contributors
+
+* Gaiffe Antoine [toinouu](https://github.com/toinouu)
+* Luis Íñiguez [idetia](https://github.com/idetia)
+* Sebastian [slider](https://github.com/slider)
+* [olleyyy](https://github.com/olleyyy)
+* Dirk Olbertz [dolbertz](https://github.com/dolbertz)
+* Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
+* [predakanga](https://github.com/predakanga)
+* Dan [piratadelfuturo](https://github.com/piratadelfuturo)
+* Alexandre Quercia [alquerci](https://github.com/alquerci)
+
