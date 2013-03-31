@@ -2,8 +2,8 @@
 
 namespace FM\BbcodeBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
@@ -14,6 +14,20 @@ class RegisterHooksPass implements CompilerPassInterface
         if (!$container->hasDefinition('fm_bbcode.decoda_manager')) {
             return;
         }
+
+        $hooks = $container->getParameter('fm_bbcode.config.hooks');
+
+        $definitions = array();
+
+        foreach ($hooks as $id => $class) {
+            $definition = new Definition($class);
+            $definition->addTag('fm_bbcode.decoda.hook', array(
+                'id' => $id,
+            ));
+            $definitions['fm_bbcode.decoda.hook.from_config.'.$id] = $definition;
+        }
+
+        $container->addDefinitions($definitions);
 
         $definition = $container->getDefinition('fm_bbcode.decoda_manager');
 

@@ -157,6 +157,16 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Gets all smilies
+     *
+     * @return string[]
+     */
+    public function getSmilies()
+    {
+        return array_keys($this->smileyMap);
+    }
+
+    /**
      * Returns an array of resources loaded to build this collection.
      *
      * @return ResourceInterface[] An array of resources

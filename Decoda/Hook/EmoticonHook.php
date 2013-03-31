@@ -38,11 +38,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
     protected $collection;
 
     /**
-     * @var mixed
-     */
-    protected $resource;
-
-    /**
      * @var array
      */
     protected $options = array();
@@ -166,15 +161,10 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
 
         $this->collection = new EmoticonCollection();
 
-        if (null === $this->_parser) {
-            // Gets default decoda emoticons ($this->_emoticons)
-            parent::setParser(new Decoda());
-        }
-
         // Convert a default decoda emoticons array to an EmoticonCollection
         $collection = new EmoticonCollection();
 
-        foreach ($this->_emoticons as $name => $smilies) {
+        foreach ($this->getEmoticons() as $name => $smilies) {
             $emoticon = new Emoticon();
             foreach ($smilies as $smiley) {
                 $emoticon->setSmiley($smiley);
@@ -182,12 +172,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
             $collection->add($name, $emoticon);
         }
 
-        foreach ($this->getParser()->getPaths() as $path) {
-            if (!file_exists($path . '/emoticons.json')) {
-                continue;
-            }
-            $collection->addResource(new FileResource($path . '/emoticons.json'));
-        }
 
         $this->collection->addCollection($collection);
 
@@ -245,7 +229,8 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
 
         // force cache generation
         $this->setOption('cache_dir', $cacheDir);
-        $this->getMatcher();
+        $this->setParser($this->container->get('fm_bbcode.decoda_manager')->get(''));
+        $this->startup();
 
         $this->setOption('cache_dir', $currentDir);
     }
@@ -259,48 +244,55 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
     }
 
     /**
-     * @see \Decoda\Hook\EmoticonHook::setParser()
-     *
-     * @param Decoda $parser
-     *
-     * @return EmoticonHook
+     * {@inheritdoc}
      */
-    public function setParser(Decoda $parser)
+    public function startup()
     {
-        parent::setParser($parser);
+        parent::startup();
 
-        $this->_emoticons = $this->getMatcher()->getEmoticons();
-
-        return $this;
+        $this->getMatcher();
     }
 
     /**
-     * Callback for smiley processing.
+     * Returns all available smilies.
      *
-     * @param array $matches
-     * @return string
+     * @return string[] An array of smiley
      */
-    protected function _emoticonCallback($matches)
+    public function getSmilies()
     {
-        $smiley = trim($matches[0]);
-        $parameters = $this->getMatcher()->match($smiley);
-
-        if (count($matches) === 1 || empty($parameters)) {
-            return $matches[0];
-        }
-
-        $l = isset($matches[1]) ? $matches[1] : '';
-        $r = isset($matches[2]) ? $matches[2] : '';
-
-        if ($this->getParser()->config('xhtmlOutput')) {
-            $image = $parameters['xHtml'];
-        } else {
-            $image = $parameters['html'];
-        }
-
-        return $l . $image . $r;
+        return $this->getMatcher()->getSmilies();
     }
 
+    /**
+     * Checks if a smiley is set for the given id.
+     *
+     * @param string $smiley  A smiley
+     *
+     * @return Boolean true if the smiley is set, false otherwise
+     */
+    public function hasSmiley($smiley)
+    {
+        return (boolean) $this->getMatcher()->match($smiley);
+    }
+
+    /**
+     * Convert a smiley to html representation
+     *
+     * @param string  $smiley   A smiley
+     * @param Boolean $isXhtml  Ask for respected the xHtml standard code
+     *
+     * @return string
+     */
+    public function render($smiley, $isXhtml = true)
+    {
+        $parameters = $this->getMatcher()->match($smiley);
+
+        if (empty($parameters)) {
+            return $smiley;
+        }
+
+        return $isXhtml ? $parameters['xHtml'] : $parameters['html'];
+    }
 
     /**
      * Replaces placeholders with service container parameter values in:
@@ -312,11 +304,11 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
      */
     private function resolveParameters(EmoticonCollection $collection)
     {
-        // Sets emoticon url if not set
-        foreach ($this->collection as $name => $emoticon) {
+        foreach ($collection as $name => $emoticon) {
             $emoticon->setUrl($this->resolve($emoticon->getUrl()));
 
             if (!$emoticon->getUrl()) {
+                // Sets emoticon url
                 $emoticon->setUrl(sprintf('%s%s.%s',
                     $this->options['path'],
                     $name,
@@ -385,6 +377,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
 
         }, $value);
 
-            return str_replace('%%', '%', $escapedValue);
+        return str_replace('%%', '%', $escapedValue);
     }
 }

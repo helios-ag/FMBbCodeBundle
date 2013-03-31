@@ -44,12 +44,12 @@ class Matcher implements MatcherInterface
     }
 
     /**
-     * Returns all emoticons.
+     * Returns all smilies.
      *
-     * @return array An array of emoticons
+     * @return string[] An array of smilies
      */
-    public function getEmoticons()
+    public function getSmilies()
     {
-        return iterator_to_array($this->emoticons, true);
+        return $this->emoticons->getSmilies();
     }
 }
