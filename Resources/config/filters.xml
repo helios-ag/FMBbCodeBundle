@@ -14,6 +14,8 @@
     <parameter key="fm_bbcode.decoda.filter.text.class">Decoda\Filter\TextFilter</parameter>
     <parameter key="fm_bbcode.decoda.filter.url.class">Decoda\Filter\UrlFilter</parameter>
     <parameter key="fm_bbcode.decoda.filter.default.class">Decoda\Filter\DefaultFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.video.class">Decoda\Filter\VideoFilter</parameter>
+    <parameter key="fm_bbcode.decoda.filter.table.class">Decoda\Filter\TableFilter</parameter>
   </parameters>
 
   <services>
@@ -43,6 +45,12 @@
     </service>
     <service id="fm_bbcode.decoda.filter.default" class="%fm_bbcode.decoda.filter.default.class%">
       <tag name="fm_bbcode.decoda.filter" id="default" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.video" class="%fm_bbcode.decoda.filter.video.class%">
+      <tag name="fm_bbcode.decoda.filter" id="video" />
+    </service>
+    <service id="fm_bbcode.decoda.filter.table" class="%fm_bbcode.decoda.filter.table.class%">
+      <tag name="fm_bbcode.decoda.filter" id="table" />
     </service>
   </services>
 </container>
