@@ -2,6 +2,7 @@
 
 namespace FM\BbcodeBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -11,7 +12,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * This information is solely responsible for how the different configuration
  * sections are normalized, and merged.
  * @author Al Ganiev <helios.ag@gmail.com>
- * @copyright 2011 Al Ganiev
+ * @copyright 2013 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -31,6 +32,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('config')
                 ->canBeUnset()
+                ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('filters')
                             ->canBeUnset()
@@ -55,6 +57,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->scalarNode('messages')
+                            ->defaultNull()
                         ->end()
                         ->arrayNode('templates')
                             ->canBeUnset()
@@ -68,11 +71,12 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+
                 ->arrayNode('filter_sets')
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('locale')->defaultValue('ru-ru')->end()
+                            ->scalarNode('locale')->defaultValue('default')->end()
                             ->booleanNode('xhtml')->defaultValue(true)->end()
                             ->booleanNode('strict')->defaultValue(true)->end()
                             ->arrayNode('filters')
@@ -93,6 +97,42 @@ class Configuration implements ConfigurationInterface
             ->end()
         ->end();
 
+        $this->addEmoticonSection($rootNode);
+
         return $treeBuilder;
+    }
+
+    private function addEmoticonSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('emoticon')
+                    ->info('emoticon configuration')
+                    ->canBeUnset()
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('resource')->end()
+                        ->scalarNode('type')->end()
+                        ->scalarNode('path')
+                            ->defaultValue('/emoticons/')
+                            ->validate()
+                                ->ifTrue(function($v) { return 0 !== strpos($v, '/'); })
+                                ->then(function($v) {
+                                    $message = sprintf(
+                                        'The "fm_bbcode.emoticon.path" '.
+                                        'configuration must be start with a '.
+                                        '"/", "%s" given.',
+                                        $v
+                                    );
+
+                                    throw new \RuntimeException($message);
+                                })
+                            ->end()
+                        ->end()
+                        ->scalarNode('extension')->defaultValue('png')->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }

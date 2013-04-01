@@ -4,6 +4,7 @@ namespace FM\BbcodeBundle\Decoda;
 use Decoda\Engine\PhpEngine;
 use Decoda\Filter;
 use Exception;
+
 /**
  * DecodaPhpEngine
  *
@@ -17,13 +18,14 @@ use Exception;
  */
 class DecodaPhpEngine extends PhpEngine
 {
+
     /**
-     * Current path.
+     * Current path list.
      *
      * @access protected
      * @var string
      */
-    protected $_path = array();
+    protected $paths = array();
 
     /**
      * Current filter.
@@ -49,27 +51,13 @@ class DecodaPhpEngine extends PhpEngine
         return $this->_filter;
     }
 
-    /**
-     * Return the template path. If no path has been set, set it.
-     *
-     * @access public
-     * @return array
-     */
-    public function getPath()
-    {
-        if (empty($this->_path)) {
-            $this->setPath(DECODA . '/templates/');
-        }
-
-        return $this->_path;
-    }
 
     /**
      * Renders the tag by using php templates.
      *
      * @access public
-     * @param  array     $tag
-     * @param  string    $content
+     * @param  array $tag
+     * @param  string $content
      * @throws \Exception
      * @return string
      * @throws Exception
@@ -78,7 +66,7 @@ class DecodaPhpEngine extends PhpEngine
     {
         $setup = $this->getFilter()->tag($tag['tag']);
 
-        $paths = $this->getPath();
+        $paths = $this->getPaths();
         $pathMap = 0;
         foreach ($paths as $path) {
             $path = $path . $setup['template'] . '.php';
@@ -115,7 +103,7 @@ class DecodaPhpEngine extends PhpEngine
      * Sets the current filter.
      *
      * @access public
-     * @param \Decoda\Filter $filter
+     * @param  \Decoda\Filter $filter
      * @return \Decoda\Engine|\FM\BbcodeBundle\Decoda\DecodaPhpEngine
      */
     public function setFilter(Filter $filter)
@@ -129,17 +117,41 @@ class DecodaPhpEngine extends PhpEngine
      * Sets the path to the tag templates.
      *
      * @access public
-     * @param  string                        $path
+     * @param  string $path
      * @return \Decoda\Engine|\FM\BbcodeBundle\Decoda\DecodaPhpEngine
      */
     public function setPath($path)
+    {
+        parent::setPath($path);
+
+        return $this->addPath($path);
+    }
+
+    /**
+     * Gets all lookup template path
+     *
+     * @return array
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+
+    /**
+     * Adds the path to the templates location.
+     *
+     * @access public
+     * @param  string $path
+     * @return \Decoda\Engine|\FM\BbcodeBundle\Decoda\DecodaPhpEngine
+     */
+    public function addPath($path)
     {
         if (substr($path, -1) !== '/') {
             $path .= '/';
         }
 
         // Allow $path to overwrite all others
-        array_unshift($this->_path, $path);
+        array_unshift($this->paths, $path);
 
         return $this;
     }
