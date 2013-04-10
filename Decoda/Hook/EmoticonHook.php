@@ -12,7 +12,7 @@ use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\ConfigCache;
 
 use Decoda\Decoda;
-use Decoda\Hook\EmoticonHook as BaseEmoticonHook;
+use \Decoda\Hook\EmoticonHook as BaseEmoticonHook;
 
 use FM\BbcodeBundle\Emoticon\Emoticon;
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
