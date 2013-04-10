@@ -86,9 +86,13 @@ class Decoda extends BaseDecoda
      */
     public function message($key, array $vars = array())
     {
-        $translated = parent::message($key, $vars);
+        try {
+            $translated = parent::message($key, $vars);
+        } catch (OutOfRangeException $e) {
+            if ($this->defaultLocale === null) {
+                throw $e;
+            }
 
-        if (!empty($key) && $this->defaultLocale !== null && empty($translated)) {
             // fallback default locale
             $locale = $this->getConfig('locale');
             $this->setLocale($this->defaultLocale);
