@@ -1,6 +1,6 @@
 <?php
 
-namespace FM\BbcodeBundle\Translation\Loader;
+namespace FM\BbcodeBundle\Emoticon\Loader;
 
 use Symfony\Component\Config\Loader\FileLoader as BaseFileLoader;
 
