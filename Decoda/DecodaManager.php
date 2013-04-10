@@ -4,8 +4,8 @@ namespace FM\BbcodeBundle\Decoda;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\HttpKernel\Config\FileLocator;
+use FM\BbcodeBundle\Translation\Loader\FileLoader;
 
-use FM\BbcodeBundle\Translation\Loader\LoaderInterface;
 use FM\BbcodeBundle\Decoda\Decoda;
 use FM\BbcodeBundle\Decoda\DecodaPhpEngine;
 use Decoda\Filter;
@@ -26,7 +26,7 @@ class DecodaManager
     protected $locator;
 
     /**
-     * @var LoaderInterface
+     * @var FileLoader
      */
     protected $messageLoader;
 
@@ -76,7 +76,7 @@ class DecodaManager
     /**
      * @param array $options  An array of options
      */
-    public function __construct(ContainerInterface $container, FileLocator $locator, LoaderInterface $messageLoader, array $options = array())
+    public function __construct(ContainerInterface $container, FileLocator $locator, FileLoader $messageLoader, array $options = array())
     {
         $this->container = $container;
         $this->locator = $locator;
