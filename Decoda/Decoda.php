@@ -91,11 +91,11 @@ class Decoda extends BaseDecoda
         if (!empty($key) && $this->defaultLocale !== null && empty($translated)) {
             // fallback default locale
             $locale = $this->getConfig('locale');
-            parent::setLocale($this->defaultLocale);
+            $this->setLocale($this->defaultLocale);
 
             $translated = parent::message($key, $vars);
 
-            parent::setLocale($locale);
+            $this->setLocale($locale);
         }
 
         return $translated;
