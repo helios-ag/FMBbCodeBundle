@@ -3,8 +3,6 @@
 namespace FM\BbcodeBundle\Emoticon\Loader;
 
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\Config\Loader\FileLoader;
-
 use Symfony\Component\Yaml\Yaml;
 
 use FM\BbcodeBundle\Emoticon\Emoticon;
@@ -16,7 +14,7 @@ use FM\BbcodeBundle\Emoticon\EmoticonCollection;
  *
  * @author Alexandre Quercia <alquerci@email.com>
  */
-class YamlFileLoader extends FileLoader implements LoaderInterface
+class YamlFileLoader extends FileLoader
 {
     /**
      * Loads the resource and return the result.
