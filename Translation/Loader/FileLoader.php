@@ -21,21 +21,4 @@ abstract class FileLoader extends BaseFileLoader
     {
         parent::__construct($locator);
     }
-
-    /**
-     * Loads a resource.
-     *
-     * @see \Symfony\Component\Config\Loader\LoaderInterface::load()
-     *
-     * @param mixed  $resource
-     * @param string $type
-     *
-     * @return array An array of translation messages like:
-     *               array(
-     *                   'en' => array(
-     *                        'id' => "translation",
-     *                   ),
-     *               )
-     */
-    abstract public function load($resource, $type = null);
 }
