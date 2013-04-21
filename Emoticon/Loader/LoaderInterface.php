@@ -13,13 +13,4 @@ use FM\BbcodeBundle\Emoticon\EmoticonCollection;
  */
 interface LoaderInterface extends BaseLoaderInterface
 {
-    /**
-     * Loads a resource.
-     *
-     * @param mixed  $resource The resource
-     * @param string $type     The resource type
-     *
-     * @return EmoticonCollection
-     */
-    public function load($resource, $type = null);
 }
