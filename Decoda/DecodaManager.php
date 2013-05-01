@@ -92,7 +92,7 @@ class DecodaManager
         if (isset($this->decodaCollection[strtolower($filterSet)])
             || isset($this->options['filter_sets'][$filterSet])
             || $filterSet === self::DECODA_DEFAULT
-            ) {
+        ) {
             return true;
         }
 
@@ -100,14 +100,14 @@ class DecodaManager
     }
 
 
-   /**
-    * Gets a specific decoda
-    *
-    * @param string $string      The string to parse
-    * @param string $filterSet  The specific filter_set to apply
-    * @return Decoda
-    * @throws \InvalidArgumentException
-    */
+    /**
+     * Gets a specific decoda
+     *
+     * @param string $string      The string to parse
+     * @param string $filterSet  The specific filter_set to apply
+     * @return Decoda
+     * @throws \InvalidArgumentException
+     */
     public function get($string, $filterSet = self::DECODA_DEFAULT)
     {
         if (!isset($this->decodaCollection[strtolower($filterSet)])) {
