@@ -164,6 +164,14 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
         // Convert a default decoda emoticons array to an EmoticonCollection
         $collection = new EmoticonCollection();
 
+        if (!$this->getEmoticons()) {
+            if (null === $this->getParser()) {
+                $this->setParser(new Decoda());
+            }
+
+            $this->startup();
+        }
+
         foreach ($this->getEmoticons() as $name => $smilies) {
             $emoticon = new Emoticon();
             foreach ($smilies as $smiley) {
@@ -229,8 +237,7 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
 
         // force cache generation
         $this->setOption('cache_dir', $cacheDir);
-        $this->setParser($this->container->get('fm_bbcode.decoda_manager')->get(''));
-        $this->startup();
+        $this->getMatcher();
 
         $this->setOption('cache_dir', $currentDir);
     }
@@ -241,16 +248,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
     public function isOptional()
     {
         return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function startup()
-    {
-        parent::startup();
-
-        $this->getMatcher();
     }
 
     /**
