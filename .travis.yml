@@ -12,8 +12,7 @@ matrix:
     - php: 5.5
 
 before_script:
-  - curl -s http://getcomposer.org/installer | php --
-  - php composer.phar install --dev
+  - composer install --dev --prefer-source
 
 script: phpunit --coverage-text
 
