@@ -5,6 +5,10 @@ FMBBCodeBundle
 
 [![knpbundles.com](http://knpbundles.com/helios-ag/FMBbCodeBundle/badge)](http://knpbundles.com/helios-ag/FMBbCodeBundle)
 
+[![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
+
+[![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
+
 [PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
