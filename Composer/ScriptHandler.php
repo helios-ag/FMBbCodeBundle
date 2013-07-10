@@ -10,7 +10,7 @@ use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler as BaseHandler;
  * Composer ScriptHandler can be used to run postInstall/postUpdate dump emoticons
  * when running composer.phar update/install.
  */
-class ScriptHandler
+class ScriptHandler extends BaseHandler
 {
     public static function installEmoticons($event)
     {
