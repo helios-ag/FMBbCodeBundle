@@ -24,7 +24,8 @@
         "symfony/http-kernel": "~2.0",
         "symfony/process": "~2.0",
         "symfony/templating": "~2.0",
-        "symfony/yaml": "~2.0"
+        "symfony/yaml": "~2.0",
+        "sensio/distribution-bundle": "~2.0"
     },
     "require-dev": {
         "symfony/symfony": "~2.1"
@@ -38,5 +39,13 @@
         "branch-alias": {
             "dev-master": "6.x-dev"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
+        ],
+        "post-update-cmd": [
+            "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
+        ]
     }
 }
