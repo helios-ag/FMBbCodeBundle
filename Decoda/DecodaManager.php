@@ -449,6 +449,8 @@ class DecodaManager
 
         $decoda->setXhtml($options['xhtml']);
         $decoda->setStrict($options['strict']);
+        $decoda->setEscaping($options['escaping']);
+        $decoda->convertLineBreaks($options['lineBreaks']);
 
 
         foreach ($options['filters'] as $id) {

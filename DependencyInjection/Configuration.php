@@ -79,6 +79,8 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('locale')->defaultValue('default')->end()
                             ->booleanNode('xhtml')->defaultValue(true)->end()
                             ->booleanNode('strict')->defaultValue(true)->end()
+                            ->booleanNode('escaping')->defaultValue(false)->end()
+                            ->booleanNode('lineBreaks')->defaultValue(false)->end()
                             ->arrayNode('filters')
                                 ->useAttributeAsKey('name')
                                 ->prototype('variable')->end()
