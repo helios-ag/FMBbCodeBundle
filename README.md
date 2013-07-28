@@ -28,7 +28,7 @@ Add FMBbcodeBundle in your composer.json:
 ```json
 {
     "require": {
-        "helios-ag/fm-bbcode-bundle": "dev-master"
+        "helios-ag/fm-bbcode-bundle": "6.2"
     }
 }
 ```
@@ -143,8 +143,8 @@ This filter will eliminate any known to decoda tags
 
 ### Escaping and line breaks
 
-    Escaping and line breaks can be controlled via "escaping" and "line_breaks" parameters under filter configuration.
-    Default configuration for them is 'true'. If you wish to pipeline filters, set escaping to false.
+Escaping and line breaks can be controlled via "escaping" and "line_breaks" parameters under filter configuration.
+Default configuration for them is 'true'. If you wish to pipeline filters, set escaping to false.
 
 ## Advanced configuration
 
