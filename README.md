@@ -141,6 +141,10 @@ example:
 ```
 This filter will eliminate any known to decoda tags
 
+### Escaping and line breaks
+
+    Escaping and line breaks can be controlled via "escaping" and "line_breaks" parameters under filter configuration.
+    Default configuration for them is 'true'. If you wish to pipeline filters, set escaping to false.
 
 ## Advanced configuration
 
@@ -226,6 +230,21 @@ emoticons:
       - ":my_emoticon:"
 ```
 
+### How to automatically dump emoticons on each deploy
+
+Add the following commands to you projects composer.json:
+
+```json
+# composer.json
+    "scripts": {
+        "post-install-cmd": [
+            "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
+        ],
+        "post-update-cmd": [
+            "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
+        ]
+    }
+```
 
 ## Contributors
 
