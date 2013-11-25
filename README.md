@@ -258,3 +258,7 @@ Add the following commands to you projects composer.json:
 * Dan [piratadelfuturo](https://github.com/piratadelfuturo)
 * Alexandre Quercia [alquerci](https://github.com/alquerci)
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/helios-ag/fmbbcodebundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
