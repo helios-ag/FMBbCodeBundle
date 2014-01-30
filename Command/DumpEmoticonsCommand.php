@@ -4,6 +4,7 @@ namespace FM\BbcodeBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 /**
 *
@@ -20,7 +21,9 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
     {
         $this
             ->setName('bbcode:dump')
-            ->setDescription('dump emoticons to public folder');
+            ->setDescription('dump emoticons to public folder')
+            ->addOption('emoticons-folder', null, InputOption::VALUE_OPTIONAL, null, '/../vendor/mjohnson/decoda/emoticons')
+        ;
     }
 
     /**
@@ -56,7 +59,13 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
             $this->getContainer()->getParameter('fm_bbcode.emoticon.path')
         );
         @mkdir($webFolder);
-        $emoticonsFolder = $this->getContainer()->getParameter('kernel.root_dir').'/../vendor/mjohnson/decoda/emoticons';
+
+        $emoticonsFolder = $this->getContainer()->getParameter('kernel.root_dir').$input->getOption('emoticons-folder');
+
+        if (!file_exists($emoticonsFolder) and !is_dir($emoticonsFolder)) {
+            return $output->writeln('<error>Emoticons folder does not exist</error>');
+        }
+
         $this->recurse_copy($emoticonsFolder,$webFolder);
 
         $output->writeln('<comment>Emoticons dumped succesfully</comment>');
