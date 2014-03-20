@@ -80,6 +80,7 @@ Define BBCode filter in your config.yml:
     fm_bbcode:
       filter_sets:
         my_default_filter:
+          strict: false # if you want to parse attr values without quotes
           locale: ru
           xhtml: true
           filters: [ default ]
