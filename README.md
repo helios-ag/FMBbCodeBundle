@@ -28,7 +28,7 @@ Add FMBbcodeBundle in your composer.json:
 ```json
 {
     "require": {
-        "helios-ag/fm-bbcode-bundle": "6.2"
+        "helios-ag/fm-bbcode-bundle": "6.2.1"
     }
 }
 ```
