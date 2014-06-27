@@ -200,10 +200,10 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     public function dataEmoticonHook()
     {
         return array(
-            array(':)', '<img src="/emoticons/happy.png" alt="" />'),
+            array(':)', ':)'),
             array(':tester:', '<img src="/emoticons/tester.png" alt="" />'),
             array(':url_tester:', '<img src="/foo.gif" alt="" />'),
-            array(':\\', '<img src="/emoticons/hm.png" alt="" />'),
+            array(':\\', ':\\'),
             //array(':place_holder:', '<img src="/emoticons//foo.gif" alt="" />'), // FIXME Decoda Bug: result => <img src="/emoticons/tongue.png" alt="" />lace_holder:
             array(':_lace_holder:', '<img src="/emoticons//foo.gif" alt="" />'),
             array(':my_emoticon:', '<img src="/emoticons//my_emoticon.png" alt="" title="my_emoticon" />'),
