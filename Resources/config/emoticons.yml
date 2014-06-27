@@ -1,0 +1,17 @@
+emoticons:
+    angry: { smilies: ['&gt;(', '&gt;:(', '&gt;[', '&gt;:[', ':angry:'] }
+    aw: { smilies: [':aw:'] }
+    cool: { smilies: [8), '8]', ':cool:'] }
+    ecstatic: { smilies: [':D', 8D, ':ecstatic:'] }
+    furious: { smilies: ['&gt;:D', '&gt;&lt;', ':furious:'] }
+    gah: { smilies: ['D:', ':O', ':gah:'] }
+    happy: { smilies: [':)', ':]', ':happy:'] }
+    heart: { smilies: ['&lt;3', ':heart:'] }
+    hm: { smilies: [':/', ':\', ':hm:'] }
+    kiss: { smilies: [':3', ':kiss:'] }
+    meh: { smilies: [':|', '-.-', '&lt;_&lt;', '&gt;_&gt;', ':meh:'] }
+    mmf: { smilies: [':x', ':X', ':mmf:'] }
+    sad: { smilies: [':(', ':[', ;(, ';[', ':''(', ':''[', ';''(', ';''[', ':sad:'] }
+    tongue: { smilies: [':P', ':p', ':tongue:'] }
+    what: { smilies: [':o', ':?', ':what:'] }
+    wink: { smilies: [;), ';]', ;D, ':wink:'] }

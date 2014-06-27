@@ -113,7 +113,7 @@ class Configuration implements ConfigurationInterface
                     ->canBeUnset()
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('resource')->end()
+                        ->scalarNode('resource')->defaultValue('@FMBbcodeBundle/Resources/config/emoticons.yml')->end()
                         ->scalarNode('type')->end()
                         ->scalarNode('path')
                             ->defaultValue('/emoticons/')

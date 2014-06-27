@@ -220,6 +220,7 @@ fm_bbcode:
 ```yaml
 # path/to/emoticons.yml
 imports:
+  - { resource: '@FMBbcodeBundle/Resources/config/emoticons.yml' } # Add the emoticons configuration from Decoda
   - { resource: path/to/another/emoticons.yml }
 
 emoticons:

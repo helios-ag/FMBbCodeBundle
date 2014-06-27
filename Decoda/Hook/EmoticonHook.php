@@ -161,29 +161,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
 
         $this->collection = new EmoticonCollection();
 
-        // Convert a default decoda emoticons array to an EmoticonCollection
-        $collection = new EmoticonCollection();
-
-        if (!$this->getEmoticons()) {
-            if (null === $this->getParser()) {
-                $this->setParser(new Decoda());
-            }
-
-            $this->startup();
-        }
-
-        foreach ($this->getEmoticons() as $name => $smilies) {
-            $emoticon = new Emoticon();
-            foreach ($smilies as $smiley) {
-                $emoticon->setSmiley($smiley);
-            }
-            $collection->add($name, $emoticon);
-        }
-
-
-        $this->collection->addCollection($collection);
-
-
         if (null !== $this->options['resource']) {
             $subCollection = $this->loader->load($this->options['resource'], $this->options['resource_type']);
             $this->collection->addCollection($subCollection);
