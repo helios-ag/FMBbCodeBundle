@@ -245,6 +245,17 @@ Add the following commands to you projects composer.json:
     }
 ```
 
+To custumize emoticons assets folders, use `path` and `folder` node configuration:
+
+```yaml
+# app/config.yml
+
+fm_bbcode:
+  emoticon:
+    path:   # Default: /emoticons
+    folder: # Default: %kernel.root_dir%/../vendor/mjohnson/decoda/emoticons%
+```
+
 ## Contributors
 
 * Gaiffe Antoine [toinouu](https://github.com/toinouu)

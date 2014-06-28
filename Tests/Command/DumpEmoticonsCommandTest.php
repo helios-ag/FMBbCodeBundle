@@ -14,6 +14,7 @@ class DumpEmoticonsCommandTest extends \PHPUnit_Framework_TestCase
     private $rootDir;
     private $webDir;
     private $emoticonPath;
+    private $emoticonFolder;
 
     public function setUp()
     {
@@ -23,6 +24,7 @@ class DumpEmoticonsCommandTest extends \PHPUnit_Framework_TestCase
             mkdir($this->webDir);
         }
         $this->emoticonPath = '/emoticons';
+        $this->emoticonFolder = $this->rootDir.'/../vendor/mjohnson/decoda/emoticons'; 
     }
 
     public function tearDown()
@@ -54,18 +56,21 @@ class DumpEmoticonsCommandTest extends \PHPUnit_Framework_TestCase
         $webDir = $this->webDir;
         $emoticonPath = $this->emoticonPath;
         $rootDir = $this->rootDir;
+        $emoticonFolder = $this->emoticonFolder;
 
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container
             ->expects($this->any())
             ->method('getParameter')
             ->withAnyParameters()
-            ->will($this->returnCallback(function ($v) use ($webDir, $emoticonPath, $rootDir) {
+            ->will($this->returnCallback(function ($v) use ($webDir, $emoticonPath, $rootDir, $emoticonFolder) {
                 switch ($v) {
                     case 'assetic.write_to':
                         return $webDir;
                     case 'fm_bbcode.emoticon.path':
                         return $emoticonPath;
+                    case 'fm_bbcode.emoticon.folder':
+                        return $emoticonFolder;
                     case 'kernel.root_dir':
                         return $rootDir;
                     default:
