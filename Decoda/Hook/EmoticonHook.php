@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\Config\Loader\LoaderInterface;
 
 use Decoda\Decoda;
 use \Decoda\Hook\EmoticonHook as BaseEmoticonHook;
@@ -16,7 +17,6 @@ use \Decoda\Hook\EmoticonHook as BaseEmoticonHook;
 use FM\BbcodeBundle\Emoticon\Emoticon;
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
 use FM\BbcodeBundle\Emoticon\Matcher\MatcherInterface;
-use FM\BbcodeBundle\Emoticon\Loader\FileLoader;
 
 
 /**
@@ -27,7 +27,7 @@ use FM\BbcodeBundle\Emoticon\Loader\FileLoader;
 class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
 {
     /**
-     * @var FileLoader
+     * @var LoaderInterface
      */
     protected $loader;
 
@@ -55,11 +55,11 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
     /**
      * Constructor.
      *
-     * @param FileLoader $loader   A LoaderInterface instance
+     * @param LoaderInterface $loader   A LoaderInterface instance
      * @param mixed           $resource The main resource to load
      * @param array           $options  An array of options
      */
-    public function __construct(FileLoader $loader, ContainerInterface $container, array $options = array())
+    public function __construct(LoaderInterface $loader, ContainerInterface $container, array $options = array())
     {
         $this->loader = $loader;
         $this->container = $container;
