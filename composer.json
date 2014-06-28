@@ -39,13 +39,5 @@
         "branch-alias": {
             "dev-master": "6.x-dev"
         }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
-        ],
-        "post-update-cmd": [
-            "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
-        ]
     }
 }
