@@ -12,9 +12,19 @@ matrix:
     - php: 5.6
     - hhvm
 
+env:
+  - SYMFONY_VERSION="2.1.*"
+    DECODA_VERSION="6.0.*"
+  - SYMFONY_VERSION="2.1.*"
+    DECODA_VERSION="6.*"
+  - SYMFONY_VERSION="2.*"
+    DECODA_VERSION="6.0.*"
+  - SYMFONY_VERSION="2.*"
+    DECODA_VERSION="6.*"
+
 before_script:
 - travis_retry composer self-update
-- travis_retry composer install --dev --prefer-source
+- travis_retry composer require symfony/symfony:"${SYMFONY_VERSION}" mjohnson/decoda:"${DECODA_VERSION}" --dev --prefer-source
 
 script: phpunit --coverage-text
 
