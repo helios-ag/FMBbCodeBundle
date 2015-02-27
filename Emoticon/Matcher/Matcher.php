@@ -53,3 +53,4 @@ class Matcher implements MatcherInterface
         return $this->emoticons->getSmilies();
     }
 }
+

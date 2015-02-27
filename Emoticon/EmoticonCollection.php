@@ -186,3 +186,4 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
         $this->resources[] = $resource;
     }
 }
+
