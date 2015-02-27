@@ -2,7 +2,6 @@
 
 namespace FM\BbcodeBundle\Decoda;
 
-use Decoda\Component;
 use Decoda\Loader\DataLoader;
 use Decoda\Loader;
 use Decoda\Hook;

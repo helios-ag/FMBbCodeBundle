@@ -82,7 +82,7 @@ class YamlFileLoader extends FileLoader
         }
 
         if (!is_array($content)) {
-            throw new InvalidArgumentException(sprintf('The emoticon file "%s" is not valid.', $file));
+            throw new \InvalidArgumentException(sprintf('The emoticon file "%s" is not valid.', $file));
         }
 
         return $content;

@@ -3,8 +3,6 @@ FMBBCodeBundle
 
 [![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)
 
-[![knpbundles.com](http://knpbundles.com/helios-ag/FMBbCodeBundle/badge)](http://knpbundles.com/helios-ag/FMBbCodeBundle)
-
 [![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/d/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
 
 [![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
@@ -259,7 +257,4 @@ Add the following commands to you projects composer.json:
 * Dan [piratadelfuturo](https://github.com/piratadelfuturo)
 * Alexandre Quercia [alquerci](https://github.com/alquerci)
 
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/helios-ag/fmbbcodebundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

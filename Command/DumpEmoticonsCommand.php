@@ -31,7 +31,7 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
      * @param $src
      * @param $dst
      */
-    private function recurse_copy($src,$dst)
+    private function recurseCopy($src,$dst)
     {
             $dir = opendir($src);
             @mkdir($dst);
@@ -62,11 +62,11 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
 
         $emoticonsFolder = $this->getContainer()->getParameter('kernel.root_dir').$input->getOption('emoticons-folder');
 
-        if (!file_exists($emoticonsFolder) and !is_dir($emoticonsFolder)) {
+        if (!file_exists($emoticonsFolder) && !is_dir($emoticonsFolder)) {
             return $output->writeln('<error>Emoticons folder does not exist</error>');
         }
 
-        $this->recurse_copy($emoticonsFolder,$webFolder);
+        $this->recurseCopy($emoticonsFolder,$webFolder);
 
         $output->writeln('<comment>Emoticons dumped succesfully</comment>');
     }
