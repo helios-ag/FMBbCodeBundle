@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
-use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\ConfigCache;
 
 use Decoda\Decoda;

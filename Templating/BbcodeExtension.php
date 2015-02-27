@@ -2,8 +2,6 @@
 
 namespace FM\BbcodeBundle\Templating;
 
-use FM\BbcodeBundle\Translation\Loader\FileLoader;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use FM\BbcodeBundle\Decoda\Decoda as Decoda;
 use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
@@ -88,3 +86,4 @@ class BbcodeExtension extends \Twig_Extension
         return 'fm_bbcode';
     }
 }
+
