@@ -66,14 +66,11 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
      */
     public function add($name, Emoticon $emoticon)
     {
-        if ($this->has($name)) {
-            $this->remove($name);
-        }
+        unset($this->emoticons[$name]);
 
         foreach ($emoticon as $smiley) {
-            if (isset($this->smileyMap[$smiley])) {
-                throw new \InvalidArgumentException(sprintf('The smiley "%s" already exists.', $smiley));
-            }
+            unset($this->smileyMap[$smiley]);
+
             $this->smileyMap[$smiley] = $emoticon;
         }
 
