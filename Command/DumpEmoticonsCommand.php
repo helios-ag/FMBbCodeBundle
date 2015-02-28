@@ -22,7 +22,7 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
         $this
             ->setName('bbcode:dump')
             ->setDescription('dump emoticons to public folder')
-            ->addOption('emoticons-folder', null, InputOption::VALUE_OPTIONAL, null, '/../vendor/mjohnson/decoda/emoticons')
+            ->addOption('emoticons-folder', null, InputOption::VALUE_OPTIONAL, null, null)
         ;
     }
 
@@ -60,7 +60,10 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
         );
         @mkdir($webFolder);
 
-        $emoticonsFolder = $this->getContainer()->getParameter('kernel.root_dir').$input->getOption('emoticons-folder');
+        $emoticonsFolder = $input->getOption('emoticons-folder');
+        if (!$emoticonsFolder) {
+            $emoticonsFolder = $this->getContainer()->getParameter('fm_bbcode.emoticon.folder');
+        }
 
         if (!file_exists($emoticonsFolder) && !is_dir($emoticonsFolder)) {
             return $output->writeln('<error>Emoticons folder does not exist</error>');

@@ -62,6 +62,7 @@ class FMBbcodeExtension extends Extension
     private function registerEmoticonConfiguration(array $config, ContainerBuilder $container, XmlFileLoader $loader)
     {
         $container->setParameter('fm_bbcode.emoticon.cache_class_prefix', $container->getParameter('kernel.name').ucfirst($container->getParameter('kernel.environment')));
+        $container->setParameter('fm_bbcode.emoticon.folder', $config['folder']);
 
         $hook = $container->findDefinition('fm_bbcode.decoda.hook.emoticon');
         $argument = $hook->getArgument(2);

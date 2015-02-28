@@ -131,6 +131,7 @@ class Configuration implements ConfigurationInterface
                                 })
                             ->end()
                         ->end()
+                        ->scalarNode('folder')->defaultValue('%kernel.root_dir%/../vendor/mjohnson/decoda/emoticons')->end()
                         ->scalarNode('extension')->defaultValue('png')->end()
                     ->end()
                 ->end()
