@@ -10,7 +10,10 @@
     <parameter key="fm_bbcode.decoda.hook.emoticon.class">FM\BbcodeBundle\Decoda\Hook\EmoticonHook</parameter>
     <parameter key="fm_bbcode.decoda.hook.code.class">Decoda\Hook\CodeHook</parameter>
 
+    <parameter key="fm_bbcode.emoticon.delegating_loader.class">Symfony\Component\Config\Loader\DelegatingLoader</parameter>
+    <parameter key="fm_bbcode.emoticon.loader_resolver.class">Symfony\Component\Config\Loader\LoaderResolver</parameter>
     <parameter key="fm_bbcode.emoticon.loader.yaml.class">FM\BbcodeBundle\Emoticon\Loader\YamlFileLoader</parameter>
+    <parameter key="fm_bbcode.emoticon.loader.php.class">FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader</parameter>
     <parameter key="fm_bbcode.emoticon.options.matcher_class">FM\BbcodeBundle\Emoticon\Matcher\Matcher</parameter>
     <parameter key="fm_bbcode.emoticon.options.matcher_base_class">FM\BbcodeBundle\Emoticon\Matcher\Matcher</parameter>
     <parameter key="fm_bbcode.emoticon.options.matcher_dumper_class">FM\BbcodeBundle\Emoticon\Matcher\Dumper\PhpMatcherDumper</parameter>
@@ -27,7 +30,7 @@
     <service id="fm_bbcode.decoda.hook.emoticon" class="%fm_bbcode.decoda.hook.emoticon.class%">
       <tag name="fm_bbcode.decoda.hook" id="emoticon" />
       <tag name="kernel.cache_warmer" />
-      <argument type="service" id="fm_bbcode.emoticon.loader.yaml" />
+      <argument type="service" id="fm_bbcode.emoticon.loader" />
       <argument type="service" id="service_container" />
       <argument type="collection">
         <argument key="cache_dir">%kernel.cache_dir%</argument>
@@ -42,7 +45,20 @@
       <tag name="fm_bbcode.decoda.hook" id="code" />
     </service>
 
+    <service id="fm_bbcode.emoticon.loader" alias="fm_bbcode.emoticon.delegating_loader" />
+    <service id="fm_bbcode.emoticon.delegating_loader" class="%fm_bbcode.emoticon.delegating_loader.class%">
+      <argument type="service" id="fm_bbcode.emoticon.loader_resolver" />
+    </service>
+    <service id="fm_bbcode.emoticon.loader_resolver" class="%fm_bbcode.emoticon.loader_resolver.class%">
+      <argument type="collection">
+        <argument type="service" id="fm_bbcode.emoticon.loader.yaml" />
+        <argument type="service" id="fm_bbcode.emoticon.loader.php" />
+      </argument>
+    </service>
     <service id="fm_bbcode.emoticon.loader.yaml" class="%fm_bbcode.emoticon.loader.yaml.class%">
+      <argument type="service" id="file_locator"/>
+    </service>
+    <service id="fm_bbcode.emoticon.loader.php" class="%fm_bbcode.emoticon.loader.php.class%">
       <argument type="service" id="file_locator"/>
     </service>
   </services>
