@@ -2,10 +2,9 @@ FMBBCodeBundle
 ==============
 
 [![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)
-
 [![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/d/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
-
 [![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
+[![Dependency Status](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207)
 
 [PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony2
 
@@ -23,18 +22,14 @@ Using Composer, just add the following configuration to your `composer.json`:
 Or you can use composer to install this bundle:
 Add FMBbcodeBundle in your composer.json:
 
-```json
-{
-    "require": {
-        "helios-ag/fm-bbcode-bundle": "6.2.1"
-    }
-}
+```sh
+    composer require helios-ag/fm-elfinder-bundle
 ```
 
 Now tell composer to download the bundle by running the command:
 
-``` bash
-$ php composer.phar update helios-ag/fm-bbcode-bundle
+```sh
+    composer update helios-ag/fm-bbcode-bundle
 ```
 
 ### Step 2: Enable the bundle
