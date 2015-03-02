@@ -5,22 +5,19 @@ php:
   - 5.5
   - 5.6
   - hhvm
-
+  - 7.0
 
 matrix:
   allow_failures:
     - php: 5.6
     - hhvm
-
+    - 7.0
+    
 env:
-  - SYMFONY_VERSION="2.1.*"
-    DECODA_VERSION="6.0.*"
-  - SYMFONY_VERSION="2.1.*"
-    DECODA_VERSION="6.*"
-  - SYMFONY_VERSION="2.*"
-    DECODA_VERSION="6.0.*"
-  - SYMFONY_VERSION="2.*"
-    DECODA_VERSION="6.*"
+  - SYMFONY_VERSION="2.1.*" DECODA_VERSION="6.0.*"
+  - SYMFONY_VERSION="2.1.*" DECODA_VERSION="6.*"
+  - SYMFONY_VERSION="2.*" DECODA_VERSION="6.0.*"
+  - SYMFONY_VERSION="2.*" DECODA_VERSION="6.*"
 
 before_script:
 - travis_retry composer self-update
