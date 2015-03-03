@@ -9,10 +9,12 @@ php:
 
 matrix:
   allow_failures:
-    - php: 5.6
-    - hhvm
-    - 7.0
-    
+    - php:
+      - 5.6
+      - hhvm
+      - 7.0
+  fast_finish: true
+
 env:
   - SYMFONY_VERSION="2.1.*" DECODA_VERSION="6.0.*"
   - SYMFONY_VERSION="2.1.*" DECODA_VERSION="6.*"
