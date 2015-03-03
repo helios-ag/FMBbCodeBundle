@@ -273,4 +273,20 @@ class Decoda extends BaseDecoda
     {
         return parent::removeHook(array_map('strtolower', (array) $ids));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _extractChunks($string)
+    {
+        if (isset($this->_filters['list'])) {
+            $this->_filters['List'] = true;
+        }
+
+        $nodes = parent::_extractChunks($string);
+
+        unset($this->_filters['List']);
+
+        return $nodes;
+    }
 }
