@@ -2,6 +2,8 @@
 
 namespace FM\BbcodeBundle\Tests\Templating;
 
+use Decoda\Filter\ListFilter;
+
 use FM\BbcodeBundle\Tests\TwigBasedTestCase;
 
 class BbcodeExtensionTest extends TwigBasedTestCase
@@ -207,6 +209,31 @@ class BbcodeExtensionTest extends TwigBasedTestCase
             //array(':place_holder:', '<img src="/emoticons//foo.gif" alt="" />'), // FIXME Decoda Bug: result => <img src="/emoticons/tongue.png" alt="" />lace_holder:
             array(':_lace_holder:', '<img src="/emoticons//foo.gif" alt="" />'),
             array(':my_emoticon:', '<img src="/emoticons//my_emoticon.png" alt="" title="my_emoticon" />'),
+        );
+    }
+
+
+    /**
+     * @dataProvider dataListFilterWithStar
+     */
+    public function testListFilterWithStar($value, $expected)
+    {
+        $filter = new ListFilter();
+        if (!array_key_exists('*', $filter->getTags())) {
+            $this->markTestSkipped('Required Decoda version >= 6.2.0');
+        }
+
+        $this->assertSame($expected,
+            $this->getTwig()->render('FunctionalTestBundle:filters:list.html.twig', array(
+                'value' => $value,
+            )));
+    }
+
+    public function dataListFilterWithStar()
+    {
+        return array(
+            array('[list][*]Item 1[*]Item 2[/list]', '<ul class="decoda-list"><li>Item 1</li><li>Item 2</li></ul>'),
+            array('[list][*]Item 1[olist][*]Item 1[*]Item 2[/olist][*]Item 2[/list]', '<ul class="decoda-list"><li>Item 1</li><li>Item 1</li><li>Item 2</li><li>Item 2</li></ul>'),
         );
     }
 }
