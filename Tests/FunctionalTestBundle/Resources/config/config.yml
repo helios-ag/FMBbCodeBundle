@@ -63,6 +63,8 @@ fm_bbcode:
       hooks: [ bar ]
     emoticon_filter:
       hooks: [ emoticon ]
+    list_filter:
+      filters: [ list ]
 
 framework:
   form: ~
