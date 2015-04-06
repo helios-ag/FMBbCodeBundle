@@ -1,10 +1,13 @@
 FMBBCodeBundle
 ==============
 
-[![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)
-[![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/d/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
-[![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
-[![Dependency Status](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207)
+|Stable Version|Downloads | SensioLabs Insight | Travis CI | Scrutinizer CI| Version Eye | Scrutinizer CI|
+|----------------- | -------------- | ------------------------|-------------|-----------------|-----------------|-----------------|
+|[![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)|[![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/d/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle) | [![SensioLabsInsight](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5/big.png)](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5) |[![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)|
+[![Dependency Status](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207)|
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/?branch=master)
+
 
 [PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony2
 
