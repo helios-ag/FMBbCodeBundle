@@ -38,7 +38,7 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
             while (false !== ( $file = readdir($dir)) ) {
                 if (( $file != '.' ) && ( $file != '..' )) {
                     if ( is_dir($src . '/' . $file) ) {
-                        $this->recurse_copy($src . '/' . $file,$dst . '/' . $file);
+                        $this->recurseCopy($src . '/' . $file,$dst . '/' . $file);
                     } else {
                         copy($src . '/' . $file,$dst . '/' . $file);
                     }
