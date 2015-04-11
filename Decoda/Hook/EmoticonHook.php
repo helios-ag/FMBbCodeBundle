@@ -209,7 +209,8 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
         }
 
         $class = $this->options['matcher_cache_class'];
-        $cache = new ConfigCache($this->options['cache_dir'].'/'.$class.'.php', $this->options['debug']);
+        $cacheFile = $this->options['cache_dir'].'/'.$class.'.php';
+        $cache = new ConfigCache($cacheFile, $this->options['debug']);
         if (!$cache->isFresh($class)) {
             $dumper = new $this->options['matcher_dumper_class']($this->getEmoticonCollection());
 
@@ -221,7 +222,7 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
             $cache->write($dumper->dump($options), $this->getEmoticonCollection()->getResources());
         }
 
-        require_once $cache;
+        require_once $cacheFile;
 
         return $this->matcher = new $class();
 
