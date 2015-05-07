@@ -32,7 +32,7 @@ Or you can use composer to install this bundle:
 Add FMBbcodeBundle in your composer.json:
 
 ```sh
-    composer require helios-ag/fm-elfinder-bundle
+    composer require helios-ag/fm-bbcode-bundle
 ```
 
 Now tell composer to download the bundle by running the command:
