@@ -249,7 +249,7 @@ Add the following commands to you projects composer.json:
     }
 ```
 
-To custumize emoticons assets folders, use `path` and `folder` node configuration:
+To customize emoticons assets folders, use `path` and `folder` node configuration:
 
 ```yaml
 # app/config.yml
@@ -271,3 +271,4 @@ fm_bbcode:
 * [predakanga](https://github.com/predakanga)
 * Dan [piratadelfuturo](https://github.com/piratadelfuturo)
 * Alexandre Quercia [alquerci](https://github.com/alquerci)
+
