@@ -208,6 +208,16 @@ Your service must implement the `Decoda\Hook` interface.
 
 If your service is created by a factory, you **MUST** correctly set the class parameter for this tag to work correctly.
 
+Then enable it in your configuration:
+
+``` yaml
+    fm_bbcode:
+      filter_sets:
+        my_default_filter:
+          filters: [ default ]
+          hooks: [ your_hook_name ]
+```
+
 
 ### Customize your own emoticons
 
