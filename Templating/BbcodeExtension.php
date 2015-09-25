@@ -34,11 +34,11 @@ class BbcodeExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        $options = array('is_safe'=>array('html'));
+        $options = array('is_safe' => array('html'));
 
         return array(
             new \Twig_SimpleFilter('bbcode_filter', array($this, 'filter'), $options),
-            new \Twig_SimpleFilter('bbcode_clean', array($this, 'clean'), $options)
+            new \Twig_SimpleFilter('bbcode_clean', array($this, 'clean'), $options),
         );
     }
 
