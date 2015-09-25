@@ -7,7 +7,7 @@ use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
 
 /**
  * @author Al Ganiev <helios.ag@gmail.com>
- * @copyright 2012 Al Ganiev
+ * @copyright 2012-2015 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 class BbcodeExtension extends \Twig_Extension
@@ -34,9 +34,11 @@ class BbcodeExtension extends \Twig_Extension
      */
     public function getFilters()
     {
+        $options = array('is_safe'=>array('html'));
+
         return array(
-            'bbcode_filter' => new \Twig_Filter_Method($this, 'filter', array('is_safe' => array('html'))),
-            'bbcode_clean'  => new \Twig_Filter_Method($this, 'clean', array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('bbcode_filter', array($this, 'filter'), $options),
+            new \Twig_SimpleFilter('bbcode_clean', array($this, 'clean'), $options)
         );
     }
 
