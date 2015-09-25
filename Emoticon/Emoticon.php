@@ -28,7 +28,7 @@ class Emoticon implements \IteratorAggregate
     private $url;
 
     /**
-     * Gets the emoticon url
+     * Gets the emoticon url.
      *
      * @return string
      */
@@ -38,7 +38,7 @@ class Emoticon implements \IteratorAggregate
     }
 
     /**
-     * Sets the emoticon url
+     * Sets the emoticon url.
      *
      * @param string $url
      *
@@ -52,7 +52,7 @@ class Emoticon implements \IteratorAggregate
     }
 
     /**
-     * Gets the html representation
+     * Gets the html representation.
      *
      * @return string
      */
@@ -70,7 +70,7 @@ class Emoticon implements \IteratorAggregate
     }
 
     /**
-     * Sets the html representation
+     * Sets the html representation.
      *
      * @param string $html
      *
@@ -84,7 +84,7 @@ class Emoticon implements \IteratorAggregate
     }
 
     /**
-     * Gets the xhtml representation
+     * Gets the xhtml representation.
      *
      * @return string
      */
@@ -102,7 +102,7 @@ class Emoticon implements \IteratorAggregate
     }
 
     /**
-     * Sets the xhtml representation
+     * Sets the xhtml representation.
      *
      * @param string $xhtml
      *
@@ -114,7 +114,6 @@ class Emoticon implements \IteratorAggregate
 
         return  $this;
     }
-
 
     /**
      * Returns the smilies.
@@ -165,7 +164,7 @@ class Emoticon implements \IteratorAggregate
      *
      * This method implements a fluent interface.
      *
-     * @param string  $smiley The smiley
+     * @param string $smiley The smiley
      *
      * @return Emoticon The current Emoticon instance
      */
@@ -179,9 +178,9 @@ class Emoticon implements \IteratorAggregate
     /**
      * Checks if a smile is set for the given id.
      *
-     * @param string $smile  A smile
+     * @param string $smile A smile
      *
-     * @return Boolean true if the smile is set, false otherwise
+     * @return bool true if the smile is set, false otherwise
      */
     public function hasSmiley($smiley)
     {

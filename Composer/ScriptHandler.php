@@ -3,7 +3,6 @@
 namespace FM\BbcodeBundle\Composer;
 
 use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler as BaseHandler;
-
 use Composer\Script\CommandEvent;
 
 /**
@@ -21,6 +20,4 @@ class ScriptHandler extends BaseHandler
         $event->getIO()->write('<info>Dumping emoticons...</info>');
         static::executeCommand($event, $consoleDir, 'bbcode:dump');
     }
-
 }
-

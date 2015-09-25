@@ -78,7 +78,7 @@ EOF;
     /**
      * Generates PHP code to match a EmoticonCollection with all its emoticons.
      *
-     * @param EmoticonCollection $routes  A EmoticonCollection instance
+     * @param EmoticonCollection $routes A EmoticonCollection instance
      *
      * @return string PHP code
      */
@@ -89,8 +89,8 @@ EOF;
         foreach ($emoticons as $emoticon) {
             foreach ($emoticon as $smiley) {
                 $smiley = $this->escapeForSingleQuotes($smiley);
-                $xHtml = $this->escapeForSingleQuotes($emoticon->getXhtml());
-                $html = $this->escapeForSingleQuotes($emoticon->getHtml());
+                $xHtml  = $this->escapeForSingleQuotes($emoticon->getXhtml());
+                $html   = $this->escapeForSingleQuotes($emoticon->getHtml());
                 $code .= <<<EOF
 
             case '$smiley':
@@ -110,7 +110,6 @@ EOF;
 
         return $code;
     }
-
 
     /**
      * Generates the code for the getEmoticons method implementing SmileyMatcherInterface.
@@ -132,7 +131,7 @@ EOF;
     /**
      * Generates PHP code to match a EmoticonCollection with all its emoticons.
      *
-     * @param EmoticonCollection $routes  A EmoticonCollection instance
+     * @param EmoticonCollection $routes A EmoticonCollection instance
      *
      * @return string PHP code
      */

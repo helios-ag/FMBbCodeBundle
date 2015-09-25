@@ -4,10 +4,8 @@ namespace FM\BbcodeBundle\Emoticon\Loader;
 
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Yaml\Yaml;
-
 use FM\BbcodeBundle\Emoticon\Emoticon;
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
-
 
 /**
  * YamlFileLoader loads Yaml files emoticons.
@@ -19,7 +17,7 @@ class YamlFileLoader extends FileLoader
     /**
      * Loads the resource and return the result.
      *
-     * @param mixed $resource
+     * @param mixed  $resource
      * @param string $type
      *
      * @return EmoticonCollection
@@ -46,7 +44,7 @@ class YamlFileLoader extends FileLoader
     }
 
     /**
-     * @param mixed $resource
+     * @param mixed  $resource
      * @param string $type
      */
     public function supports($resource, $type = null)
@@ -58,6 +56,7 @@ class YamlFileLoader extends FileLoader
      * Parse a file.
      *
      * @param string $file
+     *
      * @return array
      */
     protected function loadFile($file)
@@ -89,7 +88,7 @@ class YamlFileLoader extends FileLoader
     }
 
     /**
-     * Parses all imports
+     * Parses all imports.
      *
      * @param EmoticonCollection $collection
      * @param array              $content
@@ -109,7 +108,7 @@ class YamlFileLoader extends FileLoader
     }
 
     /**
-     * Parses emoticons
+     * Parses emoticons.
      *
      * @param EmoticonCollection $collection
      * @param array              $config
@@ -125,9 +124,8 @@ class YamlFileLoader extends FileLoader
         }
     }
 
-
     /**
-     * Parses emoticons
+     * Parses emoticons.
      *
      * @param EmoticonCollection $collection
      * @param string             $name

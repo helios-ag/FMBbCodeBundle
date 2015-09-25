@@ -4,7 +4,6 @@ namespace FM\BbcodeBundle\Templating\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Templating\Helper\Helper;
-use FM\BbcodeBundle\Decoda\Decoda as Decoda;
 use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
 
 /**
@@ -45,7 +44,7 @@ class BbcodeHelper extends Helper
     }
 
     /**
-     * Strip tags
+     * Strip tags.
      *
      * @param $value
      * @param $filterSet
@@ -67,5 +66,4 @@ class BbcodeHelper extends Helper
     {
         return 'fm_bbcode';
     }
-
 }

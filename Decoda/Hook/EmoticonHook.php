@@ -5,19 +5,14 @@ namespace FM\BbcodeBundle\Decoda\Hook;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
-
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Loader\LoaderInterface;
-
 use Decoda\Decoda;
-use \Decoda\Hook\EmoticonHook as BaseEmoticonHook;
-
+use Decoda\Hook\EmoticonHook as BaseEmoticonHook;
 use FM\BbcodeBundle\Emoticon\Emoticon;
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
 use FM\BbcodeBundle\Emoticon\Matcher\MatcherInterface;
-
 
 /**
  * Converts smiley faces into emoticon images.
@@ -46,7 +41,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
      */
     protected $matcher;
 
-
     /**
      * @var ContainerInterface
      */
@@ -61,7 +55,7 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
      */
     public function __construct(LoaderInterface $loader, ContainerInterface $container, array $options = array())
     {
-        $this->loader = $loader;
+        $this->loader    = $loader;
         $this->container = $container;
         $this->setOptions($options);
 
@@ -179,9 +173,7 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
             $collection->add($name, $emoticon);
         }
 
-
         $this->collection->addCollection($collection);
-
 
         if (null !== $this->options['resource']) {
             $subCollection = $this->loader->load($this->options['resource'], $this->options['resource_type']);
@@ -208,9 +200,9 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
             return $this->matcher = new $this->options['matcher_class']($this->getEmoticonCollection());
         }
 
-        $class = $this->options['matcher_cache_class'];
+        $class     = $this->options['matcher_cache_class'];
         $cacheFile = $this->options['cache_dir'].'/'.$class.'.php';
-        $cache = new ConfigCache($cacheFile, $this->options['debug']);
+        $cache     = new ConfigCache($cacheFile, $this->options['debug']);
         if (!$cache->isFresh($class)) {
             $dumper = new $this->options['matcher_dumper_class']($this->getEmoticonCollection());
 
@@ -225,7 +217,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
         require_once $cacheFile;
 
         return $this->matcher = new $class();
-
     }
 
     /**
@@ -263,9 +254,9 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
     /**
      * Checks if a smiley is set for the given id.
      *
-     * @param string $smiley  A smiley
+     * @param string $smiley A smiley
      *
-     * @return Boolean true if the smiley is set, false otherwise
+     * @return bool true if the smiley is set, false otherwise
      */
     public function hasSmiley($smiley)
     {
@@ -273,10 +264,10 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
     }
 
     /**
-     * Convert a smiley to html representation
+     * Convert a smiley to html representation.
      *
-     * @param string  $smiley   A smiley
-     * @param Boolean $isXhtml  Ask for respected the xHtml standard code
+     * @param string $smiley  A smiley
+     * @param bool   $isXhtml Ask for respected the xHtml standard code
      *
      * @return string
      */
@@ -317,7 +308,6 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
             $emoticon->setXhtml($this->resolve($emoticon->getXhtml()));
         }
     }
-
 
     /**
      * Recursively replaces placeholders with the service container parameters.
@@ -365,7 +355,7 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
             }
 
             throw new RuntimeException(sprintf(
-                'A string value must be composed of strings and/or numbers,' .
+                'A string value must be composed of strings and/or numbers,'.
                 'but found parameter "%s" of type %s inside string value "%s".',
                 $key,
                 gettype($resolved),

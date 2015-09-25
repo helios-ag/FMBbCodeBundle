@@ -1,8 +1,8 @@
 <?php
+
 namespace FM\BbcodeBundle\Tests\Decoda;
 
 use FM\BbcodeBundle\Decoda\DecodaManager;
-
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class DecodaManagerTest extends \PHPUnit_Framework_TestCase
@@ -15,8 +15,8 @@ class DecodaManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');
-        $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
-        $locator = new FileLocator($kernel);
+        $kernel    = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
+        $locator   = new FileLocator($kernel);
 
         $options = array(
             'filter_sets' => array(
@@ -29,7 +29,6 @@ class DecodaManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testHas()
     {
-
         $this->assertTrue($this->object->has(DecodaManager::DECODA_DEFAULT));
         $this->assertTrue($this->object->has('foo'));
         $this->assertFalse($this->object->has('bar'));

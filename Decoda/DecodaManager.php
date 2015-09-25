@@ -1,12 +1,9 @@
 <?php
+
 namespace FM\BbcodeBundle\Decoda;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Symfony\Component\HttpKernel\Config\FileLocator;
-
-use FM\BbcodeBundle\Decoda\Decoda;
-
 use Decoda\Engine\PhpEngine;
 use Decoda\Loader\FileLoader;
 use Decoda\Filter;
@@ -19,7 +16,7 @@ use Decoda\Hook;
  */
 class DecodaManager
 {
-    const DECODA_DEFAULT = "_default";
+    const DECODA_DEFAULT = '_default';
 
     /**
      * @var FileLocator
@@ -41,18 +38,15 @@ class DecodaManager
      */
     private $options = array();
 
-
     /**
      * @var PhpEngine
      */
     private $phpEngine;
 
-
     /**
      * @var Filter[]
      */
     private $filters = array();
-
 
     /**
      * @var Hook[]
@@ -70,12 +64,12 @@ class DecodaManager
     private $preConfiguredDecoda;
 
     /**
-     * @param array $options  An array of options
+     * @param array $options An array of options
      */
     public function __construct(ContainerInterface $container, FileLocator $locator, array $options = array())
     {
         $this->container = $container;
-        $this->locator = $locator;
+        $this->locator   = $locator;
 
         $this->setOptions($options);
     }
@@ -85,7 +79,7 @@ class DecodaManager
      *
      * @param string $filterSet
      *
-     * @return Boolean true if a specific filterSet exist
+     * @return bool true if a specific filterSet exist
      */
     public function has($filterSet)
     {
@@ -99,13 +93,14 @@ class DecodaManager
         return false;
     }
 
-
     /**
-     * Gets a specific decoda
+     * Gets a specific decoda.
      *
-     * @param string $string      The string to parse
-     * @param string $filterSet  The specific filter_set to apply
+     * @param string $string    The string to parse
+     * @param string $filterSet The specific filter_set to apply
+     *
      * @return Decoda
+     *
      * @throws \InvalidArgumentException
      */
     public function get($string, $filterSet = self::DECODA_DEFAULT)
@@ -203,9 +198,9 @@ class DecodaManager
     /**
      * Checks if a filter is set for the given id.
      *
-     * @param string $id  A filter id
+     * @param string $id A filter id
      *
-     * @return Boolean true if the filter is set, false otherwise
+     * @return bool true if the filter is set, false otherwise
      */
     public function hasFilter($id)
     {
@@ -229,7 +224,6 @@ class DecodaManager
 
         return $this->filters[strtolower($id)];
     }
-
 
     /**
      * Returns the hooks.
@@ -280,8 +274,8 @@ class DecodaManager
      *
      * This method implements a fluent interface.
      *
-     * @param string $id    A hook id
-     * @param mixed  $hook  The hook
+     * @param string $id   A hook id
+     * @param mixed  $hook The hook
      *
      * @return DecodaManager The current DecodaManager instance
      */
@@ -295,9 +289,9 @@ class DecodaManager
     /**
      * Checks if a hook is set for the given id.
      *
-     * @param string $id  A hook id
+     * @param string $id A hook id
      *
-     * @return Boolean true if the hook is set, false otherwise
+     * @return bool true if the hook is set, false otherwise
      */
     public function hasHook($id)
     {
@@ -321,8 +315,6 @@ class DecodaManager
 
         return $this->hooks[strtolower($id)];
     }
-
-
 
     /**
      * Sets options.
@@ -424,7 +416,6 @@ class DecodaManager
         return $decoda;
     }
 
-
     /**
      * @param string $filterName
      * @param Decoda $decoda
@@ -433,6 +424,7 @@ class DecodaManager
     {
         if (null !== $decoda) {
             $this->decodaCollection[strtolower($filterSet)] = $decoda;
+
             return;
         }
 
@@ -465,9 +457,8 @@ class DecodaManager
         $this->decodaCollection[strtolower($filterSet)] = $decoda;
     }
 
-
     /**
-     * Gets a DecodaPhpEngine
+     * Gets a DecodaPhpEngine.
      *
      * @return DecodaPhpEngine
      */
@@ -485,7 +476,7 @@ class DecodaManager
                 }
             }
 
-            $decoda = new Decoda();
+            $decoda       = new Decoda();
             $defaultPaths = $decoda->getEngine()->getPaths();
             foreach ($defaultPaths as $path) {
                 $this->phpEngine->addPath($path);

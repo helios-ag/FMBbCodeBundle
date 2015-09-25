@@ -3,7 +3,6 @@
 namespace FM\BbcodeBundle\Tests\Emoticon\Loader;
 
 use Symfony\Component\Config\FileLocator;
-
 use FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader;
 
 /**

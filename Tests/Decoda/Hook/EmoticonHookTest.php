@@ -38,9 +38,9 @@ class EmoticonHookTest extends \PHPUnit_Framework_TestCase
 
         $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');
 
-        $result = new EmoticonHook($loader, $container, array('resource' => 'bar'));
+        $result     = new EmoticonHook($loader, $container, array('resource' => 'bar'));
         $collection = $result->getEmoticonCollection();
-        $matcher = $result->getMatcher();
+        $matcher    = $result->getMatcher();
 
         $this->assertSame($collection->get('foo'), $expectEmoticon);
         $this->assertContains(':foo:', $matcher->getSmilies());

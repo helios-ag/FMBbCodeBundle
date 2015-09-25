@@ -60,9 +60,8 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
     /**
      * Adds an emoticon.
      *
-     * @param string    $name     The emoticon name
-     * @param Emoticon  $emoticon A Emoticon instance
-     *
+     * @param string   $name     The emoticon name
+     * @param Emoticon $emoticon A Emoticon instance
      */
     public function add($name, Emoticon $emoticon)
     {
@@ -76,7 +75,6 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
 
         $this->emoticons[$name] = $emoticon;
     }
-
 
     /**
      * Returns all emoticons in this collection.
@@ -93,7 +91,7 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
      *
      * @param string $name The emoticon name
      *
-     * @return Boolean true if the emoticon exists
+     * @return bool true if the emoticon exists
      */
     public function has($name)
     {
@@ -113,7 +111,7 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Removes an emoticon or an array of emoticons by name from the collection
+     * Removes an emoticon or an array of emoticons by name from the collection.
      *
      * @param string|array $name The emoticon name or an array of emoticon names
      */
@@ -130,7 +128,7 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
     /**
      * Adds an emoticon collection.
      *
-     * @param EmoticonCollection $collection  A EmoticonCollection instance
+     * @param EmoticonCollection $collection A EmoticonCollection instance
      */
     public function addCollection(EmoticonCollection $collection)
     {
@@ -142,7 +140,7 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Gets an emoticon by smiley
+     * Gets an emoticon by smiley.
      *
      * @param string $smiley
      *
@@ -154,7 +152,7 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Gets all smilies
+     * Gets all smilies.
      *
      * @return string[]
      */
@@ -183,4 +181,3 @@ class EmoticonCollection implements \IteratorAggregate, \Countable
         $this->resources[] = $resource;
     }
 }
-

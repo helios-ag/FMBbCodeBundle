@@ -13,7 +13,7 @@ class EmoticonCollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddOverriddenEmoticon()
     {
         $collection = new EmoticonCollection();
-        $emoticon = new Emoticon();
+        $emoticon   = new Emoticon();
         $emoticon->setSmilies(array(':foo:'));
         $emoticon1 = new Emoticon();
         $emoticon1->setSmilies(array(':bar:'));
@@ -34,7 +34,7 @@ class EmoticonCollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddOverriddenSmiley()
     {
         $collection = new EmoticonCollection();
-        $emoticon = new Emoticon();
+        $emoticon   = new Emoticon();
         $emoticon->setSmilies(array(':foo:', ':foofoo:'));
         $emoticon1 = new Emoticon();
         $emoticon1->setSmilies(array(':foo:', ':bar:'));
