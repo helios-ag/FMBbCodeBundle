@@ -4,6 +4,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
   - hhvm
 
 cache:
@@ -14,7 +15,7 @@ cache:
 matrix:
   allow_failures:
     - php:
-      - 5.6
+      - 7.0
       - hhvm
   fast_finish: true
 
@@ -24,9 +25,11 @@ env:
   - SYMFONY_VERSION="2.*" DECODA_VERSION="6.0.*"
   - SYMFONY_VERSION="2.*" DECODA_VERSION="6.*"
 
-before_script:
-- travis_retry composer self-update
-- travis_retry composer require symfony/symfony:"${SYMFONY_VERSION}" mjohnson/decoda:"${DECODA_VERSION}" --dev --prefer-source
+before_install:
+  - composer selfupdate
+  - composer require symfony/symfony:"${SYMFONY_VERSION}" mjohnson/decoda:"${DECODA_VERSION}" --dev --prefer-source
+
+install: composer update --no-interaction
 
 script: phpunit --coverage-clover=clover.xml
 
@@ -37,4 +40,3 @@ after_script:
 notifications:
   email:
     - helios.ag@gmail.com
-
