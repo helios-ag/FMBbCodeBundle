@@ -18,25 +18,26 @@ class FMBbcodeExtension extends Extension
 {
     /**
      * @see Symfony\Component\DependencyInjection\Extension.ExtensionInterface::load()
+     *
      * @param array                                                   $configs
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('bbcode.xml');
         $loader->load('filters.xml');
         $loader->load('hooks.xml');
 
         $hooksConfig = isset($config['config']['hooks']) ? $config['config']['hooks'] : array();
-        $hooks = array();
+        $hooks       = array();
         foreach ($hooksConfig as $hook) {
             $hooks[$hook['classname']] = $hook['class'];
         }
 
         $filtersConfig = isset($config['config']['filters']) ? $config['config']['filters'] : array();
-        $filters = array();
+        $filters       = array();
         foreach ($filtersConfig as $filter) {
             $filters[$filter['classname']] = $filter['class'];
         }
@@ -55,16 +56,16 @@ class FMBbcodeExtension extends Extension
     /**
      * Loads the emoticon configuration.
      *
-     * @param array $config A router configuration array
+     * @param array            $config    A router configuration array
      * @param ContainerBuilder $container A ContainerBuilder instance
-     * @param XmlFileLoader $loader An XmlFileLoader instance
+     * @param XmlFileLoader    $loader    An XmlFileLoader instance
      */
     private function registerEmoticonConfiguration(array $config, ContainerBuilder $container, XmlFileLoader $loader)
     {
         $container->setParameter('fm_bbcode.emoticon.cache_class_prefix', $container->getParameter('kernel.name').ucfirst($container->getParameter('kernel.environment')));
         $container->setParameter('fm_bbcode.emoticon.folder', $config['folder']);
 
-        $hook = $container->findDefinition('fm_bbcode.decoda.hook.emoticon');
+        $hook     = $container->findDefinition('fm_bbcode.decoda.hook.emoticon');
         $argument = $hook->getArgument(2);
 
         if (isset($config['resource'])) {

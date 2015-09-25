@@ -2,7 +2,6 @@
 
 use Decoda\Decoda;
 use Decoda\Hook\EmoticonHook;
-
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
 use FM\BbcodeBundle\Emoticon\Emoticon;
 
@@ -10,7 +9,7 @@ use FM\BbcodeBundle\Emoticon\Emoticon;
 $collection = new EmoticonCollection();
 
 $decoda = new Decoda();
-$hook = new EmoticonHook();
+$hook   = new EmoticonHook();
 $hook->setParser($decoda);
 $hook->startup();
 $emoticons = $hook->getEmoticons();

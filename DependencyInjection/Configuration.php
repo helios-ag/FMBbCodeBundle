@@ -7,15 +7,15 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This class contains the configuration information for the bundle
+ * This class contains the configuration information for the bundle.
  *
  * This information is solely responsible for how the different configuration
  * sections are normalized, and merged.
+ *
  * @author Al Ganiev <helios.ag@gmail.com>
  * @copyright 2013 Al Ganiev
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 class Configuration implements ConfigurationInterface
 {
     /**
@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fm_bbcode', 'array');
+        $rootNode    = $treeBuilder->root('fm_bbcode', 'array');
 
         $rootNode
             ->children()
@@ -118,8 +118,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('path')
                             ->defaultValue('/emoticons/')
                             ->validate()
-                                ->ifTrue(function($v) { return 0 !== strpos($v, '/'); })
-                                ->then(function($v) {
+                                ->ifTrue(function ($v) { return 0 !== strpos($v, '/'); })
+                                ->then(function ($v) {
                                     $message = sprintf(
                                         'The "fm_bbcode.emoticon.path" '.
                                         'configuration must be start with a '.

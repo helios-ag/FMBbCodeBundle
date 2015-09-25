@@ -24,7 +24,7 @@ class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
     public function testUserLoadThrowsExceptionUnlessDriverIsValid()
     {
         $loader = new FMBbcodeExtension();
-        $config = array('filter_sets' => array('foo'=>array('filters'=>'default')));
+        $config = array('filter_sets' => array('foo' => array('filters' => 'default')));
         $loader->load(array($config), new ContainerBuilder());
     }
 
@@ -34,7 +34,7 @@ class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
     protected function createEmptyConfiguration()
     {
         $this->containerBuilder = new ContainerBuilder();
-        $loader = new FMBbcodeExtension();
+        $loader                 = new FMBbcodeExtension();
         $loader->load(array(array()), $this->containerBuilder);
         $this->assertTrue($this->containerBuilder instanceof ContainerBuilder);
     }
@@ -45,7 +45,7 @@ class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
     protected function createFullConfiguration()
     {
         $this->containerBuilder = new ContainerBuilder();
-        $loader = new FMBbcodeExtension();
+        $loader                 = new FMBbcodeExtension();
         $loader->load(array($this->getFullConfig()), $this->containerBuilder);
         $this->assertTrue($this->containerBuilder instanceof ContainerBuilder);
     }

@@ -3,7 +3,6 @@
 namespace FM\BbcodeBundle\Templating;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use FM\BbcodeBundle\Decoda\Decoda as Decoda;
 use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
 
 /**
@@ -27,15 +26,17 @@ class BbcodeExtension extends \Twig_Extension
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see Twig_Extension::getFilters()
+     *
      * @return array
      */
     public function getFilters()
     {
         return array(
             'bbcode_filter' => new \Twig_Filter_Method($this, 'filter', array('is_safe' => array('html'))),
-            'bbcode_clean' => new \Twig_Filter_Method($this, 'clean', array('is_safe' => array('html')))
+            'bbcode_clean'  => new \Twig_Filter_Method($this, 'clean', array('is_safe' => array('html'))),
         );
     }
 
@@ -44,7 +45,6 @@ class BbcodeExtension extends \Twig_Extension
      * @param $filterSet
      *
      * @return string
-     *
      * @return \FM\BbcodeBundle\Decoda\Decoda
      *
      * @throws \Twig_Error_Runtime
@@ -59,7 +59,7 @@ class BbcodeExtension extends \Twig_Extension
     }
 
     /**
-     * Strip tags
+     * Strip tags.
      *
      * @param $value
      * @param $filterSet
@@ -78,7 +78,8 @@ class BbcodeExtension extends \Twig_Extension
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see Twig_ExtensionInterface::getName()
      */
     public function getName()
@@ -86,4 +87,3 @@ class BbcodeExtension extends \Twig_Extension
         return 'fm_bbcode';
     }
 }
-

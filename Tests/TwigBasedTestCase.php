@@ -31,5 +31,4 @@ abstract class TwigBasedTestCase extends WebTestCase
     {
         return $this->twig;
     }
-
 }

@@ -3,9 +3,7 @@
 namespace FM\BbcodeBundle\Emoticon\Loader;
 
 use Symfony\Component\Config\Resource\FileResource;
-
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
-
 
 /**
  * PhpFileLoader loads PHP files emoticons.

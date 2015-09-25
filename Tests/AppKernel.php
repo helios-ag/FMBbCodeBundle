@@ -50,5 +50,4 @@ class AppKernel extends Kernel
     {
         $this->__construct($config);
     }
-
 }

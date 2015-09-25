@@ -7,11 +7,10 @@ use Decoda\Loader;
 use Decoda\Hook;
 use Decoda\Filter;
 use Decoda\Decoda as BaseDecoda;
-use \OutOfRangeException;
+use OutOfRangeException;
 
 /**
- * Class Decoda
- * @package FM\BbcodeBundle\Decoda
+ * Class Decoda.
  */
 class Decoda extends BaseDecoda
 {
@@ -24,7 +23,7 @@ class Decoda extends BaseDecoda
      * Store the text and single instance configuration.
      *
      * @param string $string
-     * @param array $config
+     * @param array  $config
      */
     public function __construct($string = '', array $config = array())
     {
@@ -37,14 +36,16 @@ class Decoda extends BaseDecoda
      * Set the locale.
      *
      * @param string $locale
+     *
      * @return Decoda
+     *
      * @throws DomainException
      */
     public function setLocale($locale)
     {
         if (false !== strpos($locale, '-')) {
             $locales = explode('-', $locale);
-            $locale = $locales[0];
+            $locale  = $locales[0];
         }
 
         return parent::setLocale($locale);
@@ -63,7 +64,7 @@ class Decoda extends BaseDecoda
     {
         if (false !== strpos($locale, '-')) {
             $locales = explode('-', $locale);
-            $locale = $locales[0];
+            $locale  = $locales[0];
         }
 
         $this->defaultLocale = $locale;
@@ -105,7 +106,7 @@ class Decoda extends BaseDecoda
     }
 
     /**
-     * Set messages
+     * Set messages.
      *
      * @param array $messages
      */
@@ -119,14 +120,16 @@ class Decoda extends BaseDecoda
      * Add a loader that will generate localization messages.
      *
      * @param \Decoda\Loader $loader
+     *
      * @return \Decoda\Decoda
      */
-    public function addMessages(Loader $loader) {
+    public function addMessages(Loader $loader)
+    {
         $loader->setParser($this);
 
         if ($messages = $loader->load()) {
             foreach ($messages as $locale => $strings) {
-                foreach ($strings as $id => $message){
+                foreach ($strings as $id => $message) {
                     $this->setMessage($locale, $id, $message);
                 }
             }
@@ -138,9 +141,9 @@ class Decoda extends BaseDecoda
     /**
      * Sets a message translation.
      *
-     * @param string $locale        The locale
-     * @param string $id            The message id
-     * @param string $translation   The messages translation
+     * @param string $locale      The locale
+     * @param string $id          The message id
+     * @param string $translation The messages translation
      */
     public function setMessage($locale, $id, $translation)
     {
@@ -182,7 +185,8 @@ class Decoda extends BaseDecoda
      * @see \Decoda\Decoda::hasFilter()
      *
      * @param string $id
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasFilter($id)
     {
@@ -195,7 +199,9 @@ class Decoda extends BaseDecoda
      * @see \Decoda\Decoda::getFilter()
      *
      * @param string $id
+     *
      * @throws InvalidArgumentException
+     *
      * @return \Decoda\Filter[]
      */
     public function getFilter($id)
@@ -207,6 +213,7 @@ class Decoda extends BaseDecoda
      * Remove filter(s).
      *
      * @param string|array $filters
+     *
      * @return \Decoda\Decoda
      */
     public function removeFilter($ids)
@@ -235,14 +242,14 @@ class Decoda extends BaseDecoda
         return parent::addHook($hook, strtolower($id));
     }
 
-
     /**
      * Check if a hook exists.
      *
      * @see \Decoda\Decoda::hasHook()
      *
      * @param string $id
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasHook($id)
     {
@@ -255,7 +262,9 @@ class Decoda extends BaseDecoda
      * @see \Decoda\Decoda::getHook()
      *
      * @param string $id
+     *
      * @throws InvalidArgumentException
+     *
      * @return \Decoda\Hook[]
      */
     public function getHook($id)
@@ -267,6 +276,7 @@ class Decoda extends BaseDecoda
      * Remove hook(s).
      *
      * @param string|array $hooks
+     *
      * @return \Decoda\Decoda
      */
     public function removeHook($ids)

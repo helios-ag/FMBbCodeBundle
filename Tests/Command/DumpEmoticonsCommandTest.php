@@ -3,7 +3,6 @@
 namespace FM\BbcodeBundle\Tests\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-
 use FM\BbcodeBundle\Command\DumpEmoticonsCommand;
 
 /**
@@ -19,12 +18,12 @@ class DumpEmoticonsCommandTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->rootDir = __DIR__.'/..';
-        $this->webDir = sys_get_temp_dir().'/symfonyFMBbcodeweb';
+        $this->webDir  = sys_get_temp_dir().'/symfonyFMBbcodeweb';
         if (!file_exists($this->webDir)) {
             mkdir($this->webDir);
         }
-        $this->emoticonPath = '/emoticons';
-        $this->emoticonFolder = $this->rootDir.'/../vendor/mjohnson/decoda/emoticons'; 
+        $this->emoticonPath   = '/emoticons';
+        $this->emoticonFolder = $this->rootDir.'/../vendor/mjohnson/decoda/emoticons';
     }
 
     public function tearDown()
@@ -53,9 +52,9 @@ class DumpEmoticonsCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $webDir = $this->webDir;
-        $emoticonPath = $this->emoticonPath;
-        $rootDir = $this->rootDir;
+        $webDir         = $this->webDir;
+        $emoticonPath   = $this->emoticonPath;
+        $rootDir        = $this->rootDir;
         $emoticonFolder = $this->emoticonFolder;
 
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
