@@ -7,6 +7,8 @@ php:
   - 7.0
   - hhvm
 
+sudo: false
+
 cache:
     directories:
         - vendor
@@ -38,7 +40,7 @@ after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover clover.xml
   - php vendor/bin/coveralls -v
-  
+
 notifications:
   email:
     - helios.ag@gmail.com
