@@ -81,7 +81,7 @@ class Configuration implements ConfigurationInterface
                             ->booleanNode('strict')->defaultTrue()->end()
                             ->booleanNode('escaping')->defaultTrue()->end()
                             ->booleanNode('line_breaks')->defaultTrue()->end()
-                            ->integerNode('max_newlines')->defaultValue(3)->end()
+                            ->scalarNode('max_newlines')->defaultValue(3)->end()
                             ->arrayNode('filters')
                                 ->useAttributeAsKey('name')
                                 ->prototype('variable')->end()
