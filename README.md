@@ -17,7 +17,7 @@ A lightweight lexical string parser for BBCode styled markup.
 [![Dependency Status](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207)
 [![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
 [![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/d/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
-
+[![Coverage Status](https://coveralls.io/repos/helios-ag/FMBbCodeBundle/badge.svg?branch=master&service=github)](https://coveralls.io/github/helios-ag/FMBbCodeBundle?branch=master)
 
 ## Installation
 
@@ -272,6 +272,7 @@ fm_bbcode:
 
 ## Contributors
 
+* **Alexandre Quercia [alquerci](https://github.com/alquerci)**
 * Gaiffe Antoine [toinouu](https://github.com/toinouu)
 * Luis Íñiguez [idetia](https://github.com/idetia)
 * Sebastian [slider](https://github.com/slider)
@@ -280,5 +281,3 @@ fm_bbcode:
 * Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
 * [predakanga](https://github.com/predakanga)
 * Dan [piratadelfuturo](https://github.com/piratadelfuturo)
-* Alexandre Quercia [alquerci](https://github.com/alquerci)
-

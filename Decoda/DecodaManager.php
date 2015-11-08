@@ -443,6 +443,7 @@ class DecodaManager
         $decoda->setStrict($options['strict']);
         $decoda->setEscaping($options['escaping']);
         $decoda->setConfig(array('lineBreaks' => $options['line_breaks']));
+        $decoda->setMaxNewlines($options['max_newlines']);
 
         foreach ($options['filters'] as $id) {
             $decoda->addFilter($this->getFilter($id), $id);
