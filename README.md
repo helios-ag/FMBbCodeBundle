@@ -4,20 +4,30 @@ FMBBCodeBundle
 [PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony2
 
 A lightweight lexical string parser for BBCode styled markup.
-### Gitter chat ###
 
-[![Join the chat at https://gitter.im/helios-ag/FMBbCodeBundle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/helios-ag/FMBbCodeBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Contributors
+
+* **Alexandre Quercia [alquerci](https://github.com/alquerci)**
+* Gaiffe Antoine [toinouu](https://github.com/toinouu)
+* Luis Íñiguez [idetia](https://github.com/idetia)
+* Sebastian [slider](https://github.com/slider)
+* [olleyyy](https://github.com/olleyyy)
+* Dirk Olbertz [dolbertz](https://github.com/dolbertz)
+* Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
+* [predakanga](https://github.com/predakanga)
+* Dan [piratadelfuturo](https://github.com/piratadelfuturo)
+
 
 ### Code Quality Assurance ###
 
-| SensioLabs Insight | Travis CI | Scrutinizer CI|
-| ------------------------|-------------|-----------------|
-| [![SensioLabsInsight](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5/big.png)](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5) |[![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)|[![Build Status](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/badges/build.png?b=scrutinizer-enabled)](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/build-status/scrutinizer-enabled)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/helios-ag/FMBbCodeBundle/?branch=master)
+| SLInsight | Travis CI |  Gitter | Coverage |
+| ----------|-----------|---------|----------|
+|[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5/big.png)](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5) |[![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)|[![Join the chat at https://gitter.im/helios-ag/FMBbCodeBundle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/helios-ag/FMBbCodeBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)|[![Coverage Status](https://coveralls.io/repos/helios-ag/FMBbCodeBundle/badge.svg?branch=master&service=github)](https://coveralls.io/github/helios-ag/FMBbCodeBundle?branch=master)|
 
-[![Dependency Status](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207)
-[![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
-[![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/d/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)
-[![Coverage Status](https://coveralls.io/repos/helios-ag/FMBbCodeBundle/badge.svg?branch=master&service=github)](https://coveralls.io/github/helios-ag/FMBbCodeBundle?branch=master)
+
+| Deps Status | Version |  Downloads |
+| ----------|-----------|---------|
+|[![Dependency Status](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53db56c04b3ac87d6a000207)|[![Latest Stable Version](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/version.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)|[![Total Downloads](https://poser.pugx.org/helios-ag/fm-bbcode-bundle/d/total.png)](https://packagist.org/packages/helios-ag/fm-bbcode-bundle)|
 
 ## Installation
 
@@ -269,15 +279,3 @@ fm_bbcode:
     path:   # Default: /emoticons
     folder: # Default: %kernel.root_dir%/../vendor/mjohnson/decoda/emoticons%
 ```
-
-## Contributors
-
-* **Alexandre Quercia [alquerci](https://github.com/alquerci)**
-* Gaiffe Antoine [toinouu](https://github.com/toinouu)
-* Luis Íñiguez [idetia](https://github.com/idetia)
-* Sebastian [slider](https://github.com/slider)
-* [olleyyy](https://github.com/olleyyy)
-* Dirk Olbertz [dolbertz](https://github.com/dolbertz)
-* Florian Krauthan [fkrauthan](https://github.com/fkrauthan)
-* [predakanga](https://github.com/predakanga)
-* Dan [piratadelfuturo](https://github.com/piratadelfuturo)
