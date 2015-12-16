@@ -46,8 +46,8 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     public function dataUrlTags()
     {
         return array(
-            array('[url]http://example.org[/url]','<a href="http://example.org">http://example.org</a>'),
-            array('[url="http://example.com"]Example[/url]','<a href="http://example.com">Example</a>'),
+            array('[url]http://example.org[/url]', '<a href="http://example.org">http://example.org</a>'),
+            array('[url="http://example.com"]Example[/url]', '<a href="http://example.com">Example</a>'),
         );
     }
 
@@ -65,8 +65,8 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     public function dataImgTags()
     {
         return array(
-            array('[img]http://github.com/picture.jpg[/img]','<img src="http://github.com/picture.jpg" alt="" />'),
-            array('[img width="500"]http://github.com/picture.jpg[/img]','<img width="500" src="http://github.com/picture.jpg" alt="" />'),
+            array('[img]http://github.com/picture.jpg[/img]', '<img src="http://github.com/picture.jpg" alt="" />'),
+            array('[img width="500"]http://github.com/picture.jpg[/img]', '<img width="500" src="http://github.com/picture.jpg" alt="" />'),
         );
     }
 
@@ -84,7 +84,7 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     public function dataQuoteTags()
     {
         return array(
-            array('[quote]text[/quote]','text'),
+            array('[quote]text[/quote]', 'text'),
         );
     }
 
@@ -102,8 +102,8 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     public function dataStrict()
     {
         return array(
-            array('[url]http://example.org[/url]','<a href="http://example.org">http://example.org</a>'),
-            array('[url=http://example.com]Example[/url]','<a href="http://example.com">Example</a>'),
+            array('[url]http://example.org[/url]', '<a href="http://example.org">http://example.org</a>'),
+            array('[url=http://example.com]Example[/url]', '<a href="http://example.com">Example</a>'),
         );
     }
 
@@ -179,8 +179,8 @@ class BbcodeExtensionTest extends TwigBasedTestCase
             array('[sub]subscript[/sub]', '<sub>subscript</sub>'),
             array('[sup]superscript[/sup]', '<sup>superscript</sup>'),
             array('[abbr="Object relational mapper"]ORM[/abbr]', '<abbr title="Object relational mapper">ORM</abbr>'),
-            array('[url]http://example.org[/url]','<a href="http://example.org">http://example.org</a>'),
-            array('[url="http://example.com"]Example[/url]','<a href="http://example.com">Example</a>'),
+            array('[url]http://example.org[/url]', '<a href="http://example.org">http://example.org</a>'),
+            array('[url="http://example.com"]Example[/url]', '<a href="http://example.com">Example</a>'),
             array('[email]email@domain.com[/email]', '<a href="mailto:&#101;&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#99;&#111;&#109;">&#101;&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#99;&#111;&#109;</a>'),
         );
     }
