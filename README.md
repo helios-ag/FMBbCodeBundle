@@ -22,8 +22,7 @@ A lightweight lexical string parser for BBCode styled markup.
 
 | SLInsight | Travis CI |  Gitter | Coverage |
 | ----------|-----------|---------|----------|
-|[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5/big.png)](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5) |[![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)|[![Join the chat at https://gitter.im/helios-ag/FMBbCodeBundle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/helios-ag/FMBbCodeBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)|[![Coverage Status](https://coveralls.io/repos/helios-ag/FMBbCodeBundle/badge.svg?branch=master&service=github)](https://coveralls.io/github/helios-ag/FMBbCodeBundle?branch=master)
-|
+|[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5/big.png)](https://insight.sensiolabs.com/projects/f355c58b-f9b6-482c-8d2d-d1bc8791c9e5) |[![Build Status](https://travis-ci.org/helios-ag/FMBbCodeBundle.png?branch=master)](https://travis-ci.org/helios-ag/FMBbCodeBundle)|[![Join the chat at https://gitter.im/helios-ag/FMBbCodeBundle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/helios-ag/FMBbCodeBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)|[![Coverage Status](https://coveralls.io/repos/helios-ag/FMBbCodeBundle/badge.svg?branch=master&service=github)](https://coveralls.io/github/helios-ag/FMBbCodeBundle?branch=master)|
 
 
 | Deps Status | Version |  Downloads |
