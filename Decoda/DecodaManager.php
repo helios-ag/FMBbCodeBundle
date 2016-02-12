@@ -490,8 +490,9 @@ class DecodaManager
     private function getLocale()
     {
         if (null === $this->locale) {
-            if ($this->container->isScopeActive('request') && $this->container->has('request')) {
-                $this->locale = $this->container->get('request')->getLocale();
+            $request = $this->container->get('request_stack')->getCurrentRequest();
+            if (null !== $request) {
+                $this->locale = $request->getLocale();
             } else {
                 $this->locale = $this->options['default_locale'];
             }
