@@ -12,23 +12,23 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.5",
         "mjohnson/decoda": "6.*",
-        "symfony/twig-bundle": "~2.7|~3.0",
+        "symfony/twig-bundle": "~3.0",
         "symfony/assetic-bundle": "~2.4",
-        "symfony/config": "~2.7|~3.0",
-        "symfony/console": "~2.7|~3.0",
-        "symfony/dependency-injection": "~2.7|~3.0",
-        "symfony/framework-bundle": "~2.7|~3.0",
-        "symfony/http-foundation": "~2.7|~3.0",
-        "symfony/http-kernel": "~2.7|~3.0",
-        "symfony/process": "~2.7|~3.0",
-        "symfony/templating": "~2.7|~3.0",
-        "symfony/yaml": "~2.7|~3.0",
-        "sensio/distribution-bundle": "~4.0|~5.0"
+        "symfony/config": "~3.0",
+        "symfony/console": "~3.0",
+        "symfony/dependency-injection": "~3.0",
+        "symfony/framework-bundle": "~3.0",
+        "symfony/http-foundation": "~3.0",
+        "symfony/http-kernel": "~3.0",
+        "symfony/process": "~3.0",
+        "symfony/templating": "~3.0",
+        "symfony/yaml": "~3.0",
+        "sensio/distribution-bundle": "~5.0"
     },
     "require-dev": {
-        "symfony/symfony": "~2.7|~3.0",
+        "symfony/symfony": "~3.0",
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
