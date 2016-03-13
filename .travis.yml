@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.4
   - 5.5
   - 5.6
   - 7.0
@@ -16,16 +15,14 @@ cache:
 
 matrix:
   allow_failures:
-    - php:
-      - 7.0
-      - hhvm
+    php:
+      7.0
+      hhvm
   fast_finish: true
 
 env:
-  - SYMFONY_VERSION="2.1.*" DECODA_VERSION="6.0.*"
-  - SYMFONY_VERSION="2.1.*" DECODA_VERSION="6.*"
-  - SYMFONY_VERSION="2.*" DECODA_VERSION="6.0.*"
-  - SYMFONY_VERSION="2.*" DECODA_VERSION="6.*"
+  - SYMFONY_VERSION="3.0.*" DECODA_VERSION="6.0.*"
+  - SYMFONY_VERSION="3.0.*" DECODA_VERSION="6.*"
 
 before_install:
   - composer self-update
