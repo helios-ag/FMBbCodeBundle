@@ -260,7 +260,7 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
      */
     public function hasSmiley($smiley)
     {
-        return (boolean) $this->getMatcher()->match($smiley);
+        return (bool) $this->getMatcher()->match($smiley);
     }
 
     /**

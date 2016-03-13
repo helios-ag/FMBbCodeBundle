@@ -102,7 +102,7 @@ EOF;
 EOF;
             }
         }
-        $code .= <<<EOF
+        $code .= <<<'EOF'
             default:
                 break;
         }
@@ -149,7 +149,7 @@ EOF;
 EOF;
             }
         }
-        $code .= <<<EOF
+        $code .= <<<'EOF'
 
         )
 EOF;
