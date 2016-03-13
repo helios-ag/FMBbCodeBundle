@@ -52,7 +52,7 @@ class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
 
     protected function getFullConfig()
     {
-        $yaml = <<<EOF
+        $yaml = <<<'EOF'
 filter_sets:
     forum_post_filter:
         locale: ru
