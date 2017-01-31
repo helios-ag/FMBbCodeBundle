@@ -214,7 +214,9 @@ class EmoticonHook extends BaseEmoticonHook implements CacheWarmerInterface
             $cache->write($dumper->dump($options), $this->getEmoticonCollection()->getResources());
         }
 
-        require_once $cacheFile;
+        if (!class_exists($class)) {
+            require_once $cacheFile;
+        }
 
         return $this->matcher = new $class();
     }
