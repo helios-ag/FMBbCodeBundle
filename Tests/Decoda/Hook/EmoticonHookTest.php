@@ -5,20 +5,11 @@ namespace FM\BbcodeBundle\Tests\Decoda\Hook;
 use FM\BbcodeBundle\Emoticon\Emoticon;
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
 use FM\BbcodeBundle\Decoda\Hook\EmoticonHook;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use FM\BbcodeBundle\Emoticon\Loader\FileLoader;
 
-class EmoticonHookTest extends \PHPUnit_Framework_TestCase
+class EmoticonHookTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructor()
-    {
-        $loader = $this->getMockBuilder('FM\\BbcodeBundle\\Emoticon\\Loader\\FileLoader')
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass()
-        ;
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');
-
-        $result = new EmoticonHook($loader, $container);
-    }
-
     public function testGetMatcher()
     {
         $expectEmoticon = new Emoticon();
@@ -27,7 +18,7 @@ class EmoticonHookTest extends \PHPUnit_Framework_TestCase
         $expectCollection = new EmoticonCollection();
         $expectCollection->add('foo', $expectEmoticon);
 
-        $loader = $this->getMockBuilder('FM\\BbcodeBundle\\Emoticon\\Loader\\FileLoader')
+        $loader = $this->getMockBuilder(FileLoader::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass()
         ;
@@ -36,7 +27,7 @@ class EmoticonHookTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($expectCollection))
         ;
 
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');
+        $container = $this->createMock(ContainerInterface::class);
 
         $result     = new EmoticonHook($loader, $container, array('resource' => 'bar'));
         $collection = $result->getEmoticonCollection();

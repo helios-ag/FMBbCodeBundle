@@ -8,7 +8,7 @@ use FM\BbcodeBundle\Emoticon\EmoticonCollection;
 /**
  * @author Alexandre Quercia <alquerci@email.com>
  */
-class EmoticonCollectionTest extends \PHPUnit_Framework_TestCase
+class EmoticonCollectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testAddOverriddenEmoticon()
     {

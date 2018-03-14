@@ -40,26 +40,33 @@ Using Composer, just add the following configuration to your `composer.json`:
 
 Or you can use composer to install this bundle:
 
-For symfony <3.0, use latest ~6 version
+For Symfony <3.0, use latest ~6 version
 
 ```sh
 composer require helios-ag/fm-bbcode-bundle:~6
 ```
 
-for Symfony 3
+For Symfony 3.0, use latest ~7 version
 
 ```sh
 composer require helios-ag/fm-bbcode-bundle
 ```
+
 or
 
 ```sh
 composer require helios-ag/fm-bbcode-bundle:~7
 ```
 
+For Symfony 4.0 you can use the ~8 version
+
+```sh
+composer require helios-ag/fm-bbcode-bundle:~8
+```
+
 ### Step 2: Enable the bundle
 
-Finally, enable the bundle in the kernel:
+Finally, for Symfony2 and Symfony3, enable the bundle in the AppKernel:
 
 ``` php
 <?php
@@ -73,13 +80,30 @@ public function registerBundles()
     );
 }
 ```
+
+For Symfony4, you'll need to enable the bundle in your `bundles.php`-file:
+``` php
+// config/bundles.php
+
+return [
+    // ...
+    FM\BbcodeBundle\FMBbcodeBundle::class => ['all' => true],
+];
+```
+
 ### Step 3: Dump emoticons (optional)
 
 To enable emoticons via emoticon hook, use the following command to copy emoticons images to
 public folder (web/emoticons)
 
+For Symfony2:
 ``` bash
     ./app/console bbcode:dump
+```
+
+For Symfony3 and Symfony4:
+``` bash
+    ./bin/console bbcode:dump
 ```
 
 ## Basic configuration
@@ -259,12 +283,27 @@ emoticons:
       - ":my_emoticon:"
 ```
 
+### How to customize the emoticons assets 
+
+To customize emoticons assets folders, use `path` and `folder` node configuration:
+
+```yaml
+# app/config.yml
+
+fm_bbcode:
+  public_path: # Default: %kernel.project_dir%/public
+  emoticon:
+    path:   # Default: /emoticons
+    folder: # Default: %kernel.project_dir%/vendor/mjohnson/decoda/emoticons%
+```
+
+Using the default configuration it would dump the emoticons in ` %kernel.project_dir%/public/emoticons`
+
 ### How to automatically dump emoticons on each deploy
 
-Add the following commands to you projects composer.json:
+Add the following commands to you projects `composer.json`:
 
 ```json
-# composer.json
     "scripts": {
         "post-install-cmd": [
             "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
@@ -273,15 +312,4 @@ Add the following commands to you projects composer.json:
             "FM\\BbcodeBundle\\Composer\\ScriptHandler::installEmoticons"
         ]
     }
-```
-
-To customize emoticons assets folders, use `path` and `folder` node configuration:
-
-```yaml
-# app/config.yml
-
-fm_bbcode:
-  emoticon:
-    path:   # Default: /emoticons
-    folder: # Default: %kernel.root_dir%/../vendor/mjohnson/decoda/emoticons%
 ```

@@ -1,5 +1,8 @@
-.idea
 composer.lock
-Tests/cache
-Tests/log
+clover.xml
 
+/.idea/
+/var/
+/vendor/
+/Tests/cache
+/Tests/log

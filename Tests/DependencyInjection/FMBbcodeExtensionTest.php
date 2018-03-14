@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use FM\BbcodeBundle\DependencyInjection\FMBbcodeExtension;
 use Symfony\Component\Yaml\Parser;
 
-class FMBbcodeExtensionTest extends \PHPUnit_Framework_TestCase
+class FMBbcodeExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerBuilder

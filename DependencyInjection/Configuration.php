@@ -97,6 +97,7 @@ class Configuration implements ConfigurationInterface
                            ->end()
                         ->end()
                     ->end()
+                ->scalarNode('public_path')->defaultValue('%kernel.project_dir%/public')->end()
             ->end()
         ->end();
 
@@ -132,7 +133,9 @@ class Configuration implements ConfigurationInterface
                                 })
                             ->end()
                         ->end()
-                        ->scalarNode('folder')->defaultValue('%kernel.root_dir%/../vendor/mjohnson/decoda/emoticons')->end()
+                        ->scalarNode('folder')
+                            ->defaultValue('%kernel.project_dir%/vendor/mjohnson/decoda/emoticons')
+                            ->end()
                         ->scalarNode('extension')->defaultValue('png')->end()
                     ->end()
                 ->end()

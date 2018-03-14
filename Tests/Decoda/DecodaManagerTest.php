@@ -4,8 +4,12 @@ namespace FM\BbcodeBundle\Tests\Decoda;
 
 use FM\BbcodeBundle\Decoda\DecodaManager;
 use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Decoda\Filter;
+use Decoda\Hook;
 
-class DecodaManagerTest extends \PHPUnit_Framework_TestCase
+class DecodaManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var DecodaManager
@@ -14,8 +18,8 @@ class DecodaManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');
-        $kernel    = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
+        $container = $this->createMock(ContainerInterface::class);
+        $kernel    = $this->createMock(KernelInterface::class);
         $locator   = new FileLocator($kernel);
 
         $options = array(
@@ -36,7 +40,7 @@ class DecodaManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFilter()
     {
-        $filter = $this->getMock('Decoda\\Filter');
+        $filter = $this->createMock(Filter::class);
         $this->object->setFilter('foo', $filter);
         $this->assertTrue($this->object->hasFilter('foo'));
         $this->assertSame($filter, $this->object->getFilter('foo'));
@@ -44,7 +48,7 @@ class DecodaManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetHook()
     {
-        $hook = $this->getMock('Decoda\\Hook');
+        $hook = $this->createMock(Hook::class);
         $this->object->setHook('foo', $hook);
         $this->assertTrue($this->object->hasHook('foo'));
         $this->assertSame($hook, $this->object->getHook('foo'));
