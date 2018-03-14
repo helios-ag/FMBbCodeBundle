@@ -19,37 +19,37 @@
   </parameters>
 
   <services>
-    <service id="fm_bbcode.decoda.filter.block" class="%fm_bbcode.decoda.filter.block.class%">
+    <service id="fm_bbcode.decoda.filter.block" class="%fm_bbcode.decoda.filter.block.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="block" />
     </service>
-    <service id="fm_bbcode.decoda.filter.code" class="%fm_bbcode.decoda.filter.code.class%">
+    <service id="fm_bbcode.decoda.filter.code" class="%fm_bbcode.decoda.filter.code.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="code" />
     </service>
-    <service id="fm_bbcode.decoda.filter.email" class="%fm_bbcode.decoda.filter.email.class%">
+    <service id="fm_bbcode.decoda.filter.email" class="%fm_bbcode.decoda.filter.email.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="email" />
     </service>
-    <service id="fm_bbcode.decoda.filter.image" class="%fm_bbcode.decoda.filter.image.class%">
+    <service id="fm_bbcode.decoda.filter.image" class="%fm_bbcode.decoda.filter.image.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="image" />
     </service>
-    <service id="fm_bbcode.decoda.filter.list" class="%fm_bbcode.decoda.filter.list.class%">
+    <service id="fm_bbcode.decoda.filter.list" class="%fm_bbcode.decoda.filter.list.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="list" />
     </service>
-    <service id="fm_bbcode.decoda.filter.quote" class="%fm_bbcode.decoda.filter.quote.class%">
+    <service id="fm_bbcode.decoda.filter.quote" class="%fm_bbcode.decoda.filter.quote.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="quote" />
     </service>
-    <service id="fm_bbcode.decoda.filter.text" class="%fm_bbcode.decoda.filter.text.class%">
+    <service id="fm_bbcode.decoda.filter.text" class="%fm_bbcode.decoda.filter.text.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="text" />
     </service>
-    <service id="fm_bbcode.decoda.filter.url" class="%fm_bbcode.decoda.filter.url.class%">
+    <service id="fm_bbcode.decoda.filter.url" class="%fm_bbcode.decoda.filter.url.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="url" />
     </service>
-    <service id="fm_bbcode.decoda.filter.default" class="%fm_bbcode.decoda.filter.default.class%">
+    <service id="fm_bbcode.decoda.filter.default" class="%fm_bbcode.decoda.filter.default.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="default" />
     </service>
-    <service id="fm_bbcode.decoda.filter.video" class="%fm_bbcode.decoda.filter.video.class%">
+    <service id="fm_bbcode.decoda.filter.video" class="%fm_bbcode.decoda.filter.video.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="video" />
     </service>
-    <service id="fm_bbcode.decoda.filter.table" class="%fm_bbcode.decoda.filter.table.class%">
+    <service id="fm_bbcode.decoda.filter.table" class="%fm_bbcode.decoda.filter.table.class%" public="true">
       <tag name="fm_bbcode.decoda.filter" id="table" />
     </service>
   </services>

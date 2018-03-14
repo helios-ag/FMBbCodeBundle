@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Decoda\Filter;
 
 class RegisterFiltersPass implements CompilerPassInterface
 {
@@ -37,7 +38,7 @@ class RegisterFiltersPass implements CompilerPassInterface
             $class = $container->getDefinition($id)->getClass();
 
             $refClass  = new \ReflectionClass($class);
-            $interface = 'Decoda\Filter';
+            $interface = Filter::class;
             if (!$refClass->implementsInterface($interface)) {
                 throw new \InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, $interface));
             }
