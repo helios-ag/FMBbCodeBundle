@@ -51,6 +51,8 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
+     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -67,10 +69,13 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
 
         if (!file_exists($emoticonsFolder) && !is_dir($emoticonsFolder)) {
             $output->writeln('<error>Emoticons folder does not exist</error>');
+            return 2; // ENOENT - No such file or directory
         }
 
         $this->recurseCopy($emoticonsFolder, $webFolder);
 
         $output->writeln('<comment>Emoticons dumped succesfully</comment>');
+
+        return 0;
     }
 }

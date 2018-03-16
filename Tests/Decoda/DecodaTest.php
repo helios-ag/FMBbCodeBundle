@@ -3,8 +3,9 @@
 namespace FM\BbcodeBundle\Tests\Decoda;
 
 use FM\BbcodeBundle\Decoda\Decoda;
+use \PHPUnit\Framework\TestCase;
 
-class DecodaTest extends \PHPUnit\Framework\TestCase
+class DecodaTest extends TestCase
 {
     public function testSetLocale()
     {

@@ -7,8 +7,9 @@ use FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader;
 
 /**
  * @author Alexandre Quercia <alquerci@email.com>
- */
-class PhpFileLoaderTest extends \PHPUnit\Framework\TestCase
+ */use \PHPUnit\Framework\TestCase;
+
+class PhpFileLoaderTest extends TestCase
 {
     /**
      * @covers FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader::supports

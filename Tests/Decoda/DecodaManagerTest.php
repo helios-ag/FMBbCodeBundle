@@ -8,8 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Decoda\Filter;
 use Decoda\Hook;
+use \PHPUnit\Framework\TestCase;
 
-class DecodaManagerTest extends \PHPUnit\Framework\TestCase
+class DecodaManagerTest extends TestCase
 {
     /**
      * @var DecodaManager

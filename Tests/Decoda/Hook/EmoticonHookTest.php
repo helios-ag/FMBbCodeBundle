@@ -7,8 +7,9 @@ use FM\BbcodeBundle\Emoticon\EmoticonCollection;
 use FM\BbcodeBundle\Decoda\Hook\EmoticonHook;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use FM\BbcodeBundle\Emoticon\Loader\FileLoader;
+use \PHPUnit\Framework\TestCase;
 
-class EmoticonHookTest extends \PHPUnit\Framework\TestCase
+class EmoticonHookTest extends TestCase
 {
     public function testGetMatcher()
     {
