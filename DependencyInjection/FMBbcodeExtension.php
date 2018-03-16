@@ -17,10 +17,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class FMBbcodeExtension extends Extension
 {
     /**
-     * @see Symfony\Component\DependencyInjection\Extension.ExtensionInterface::load()
+     * @see \Symfony\Component\DependencyInjection\Extension\ExtensionInterface::load()
      *
-     * @param array                                                   $configs
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param array            $configs
+     * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container)
     {

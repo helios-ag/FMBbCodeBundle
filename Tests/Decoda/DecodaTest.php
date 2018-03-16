@@ -3,14 +3,10 @@
 namespace FM\BbcodeBundle\Tests\Decoda;
 
 use FM\BbcodeBundle\Decoda\Decoda;
+use PHPUnit\Framework\TestCase;
 
-class DecodaTest extends \PHPUnit_Framework_TestCase
+class DecodaTest extends TestCase
 {
-    public function testConstructor()
-    {
-        $result = new Decoda();
-    }
-
     public function testSetLocale()
     {
         $result = new Decoda();
@@ -30,7 +26,8 @@ class DecodaTest extends \PHPUnit_Framework_TestCase
     public function testMessage($defaultLocale, $locale, $value, $expect)
     {
         if ($expect instanceof \Exception) {
-            $this->setExpectedException(get_class($expect), $expect->getMessage());
+            $this->expectException(get_class($expect));
+            $this->expectExceptionMessage($expect->getMessage());
         }
 
         $result = new Decoda();

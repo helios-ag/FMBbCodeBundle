@@ -8,11 +8,11 @@ emoticons:
     smilies:
       - ":url_tester:"
   place_holder:
-    url: %fm_bbcode.emoticon.path%/foo.gif
+    url: '%fm_bbcode.emoticon.path%/foo.gif'
     smilies:
       - ":_lace_holder:"
   my_emoticon:
-    url: %fm_bbcode.emoticon.path%/my_emoticon.png
+    url: '%fm_bbcode.emoticon.path%/my_emoticon.png'
     html: '<img src="%fm_bbcode.emoticon.path%/my_emoticon.png" alt="" title="my_emoticon" >'
     xHtml: '<img src="%fm_bbcode.emoticon.path%/my_emoticon.png" alt="" title="my_emoticon" />'
     smilies:

@@ -21,18 +21,18 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
     {
         $this
             ->setName('bbcode:dump')
-            ->setDescription('dump emoticons to public folder')
-            ->addOption('emoticons-folder', null, InputOption::VALUE_OPTIONAL, null, null)
+            ->setDescription('Dumps the emoticons to their configured folder')
+            ->addOption('emoticons-folder', null, InputOption::VALUE_OPTIONAL)
         ;
     }
 
     /**
      * Copies one folder to another.
      *
-     * @param $src
-     * @param $dst
+     * @param string $src
+     * @param string $dst
      */
-    private function recurseCopy($src, $dst)
+    private function recurseCopy(string $src, string $dst)
     {
         $dir = opendir($src);
         @mkdir($dst);
@@ -49,15 +49,15 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
-     * @return int|null|void
+     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $webFolder = sprintf('%s%s',
-            $this->getContainer()->getParameter('assetic.write_to'),
+            $this->getContainer()->getParameter('fm_bbcode.public_path'),
             $this->getContainer()->getParameter('fm_bbcode.emoticon.path')
         );
         @mkdir($webFolder);
@@ -68,11 +68,14 @@ class DumpEmoticonsCommand extends ContainerAwareCommand
         }
 
         if (!file_exists($emoticonsFolder) && !is_dir($emoticonsFolder)) {
-            return $output->writeln('<error>Emoticons folder does not exist</error>');
+            $output->writeln('<error>Emoticons folder does not exist</error>');
+            return 2; // ENOENT - No such file or directory
         }
 
         $this->recurseCopy($emoticonsFolder, $webFolder);
 
         $output->writeln('<comment>Emoticons dumped succesfully</comment>');
+
+        return 0;
     }
 }

@@ -15,12 +15,12 @@
             <argument type="service" id="fm_bbcode.decoda_manager"/>
         </service>
 
-        <service id="fm_bbcode.templating.helper" class="%fm_bbcode.templating.helper.class%">
+        <service id="fm_bbcode.templating.helper" class="%fm_bbcode.templating.helper.class%" public="true">
             <tag name="templating.helper" alias="bbcode" />
             <argument type="service" id="fm_bbcode.decoda_manager"/>
         </service>
 
-        <service id="fm_bbcode.decoda_manager" class="FM\BbcodeBundle\Decoda\DecodaManager">
+        <service id="fm_bbcode.decoda_manager" class="FM\BbcodeBundle\Decoda\DecodaManager" public="true">
             <argument type="service" id="service_container"/>
             <argument type="service" id="file_locator" />
             <argument type="collection">

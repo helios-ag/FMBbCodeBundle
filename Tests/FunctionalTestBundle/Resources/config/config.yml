@@ -4,11 +4,14 @@ parameters:
 
 services:
   fm_bbcode.filter.bar:
-    class: %fm_bbcode.filter.bar.class%
+    class: '%fm_bbcode.filter.bar.class%'
+    public: true
     tags:
          - { name: fm_bbcode.decoda.filter, id: bar }
+
   fm_bbcode.hook.bar:
-    class: %fm_bbcode.hook.bar.class%
+    class: '%fm_bbcode.hook.bar.class%'
+    public: true
     tags:
          - { name: fm_bbcode.decoda.hook, id: bar }
 
@@ -20,9 +23,9 @@ fm_bbcode:
       - path: "@FunctionalTestBundle/Resources/views/templates"
     messages: "%kernel.root_dir%/FunctionalTestBundle/Resources/config/messages.json"
     filters:
-      - { classname: foo, class: %fm_bbcode.filter.bar.class% }
+      - { classname: foo, class: '%fm_bbcode.filter.bar.class%' }
     hooks:
-      - { classname: foo, class: %fm_bbcode.hook.bar.class% }
+      - { classname: foo, class: '%fm_bbcode.hook.bar.class%' }
   filter_sets:
     default_filter:
       locale: ru
@@ -79,5 +82,5 @@ framework:
   session: ~
 
 twig:
-  debug: %kernel.debug%
-  strict_variables: %kernel.debug%
+  debug: '%kernel.debug%'
+  strict_variables: '%kernel.debug%'

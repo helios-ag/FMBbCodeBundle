@@ -2,13 +2,15 @@
 
 namespace FM\BbcodeBundle\Tests\Command;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use FM\BbcodeBundle\Command\DumpEmoticonsCommand;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Alexandre Quercia <alquerci@email.com>
  */
-class DumpEmoticonsCommandTest extends \PHPUnit_Framework_TestCase
+class DumpEmoticonsCommandTest extends TestCase
 {
     private $rootDir;
     private $webDir;
@@ -57,14 +59,14 @@ class DumpEmoticonsCommandTest extends \PHPUnit_Framework_TestCase
         $rootDir        = $this->rootDir;
         $emoticonFolder = $this->emoticonFolder;
 
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container = $this->createMock(ContainerInterface::class);
         $container
             ->expects($this->any())
             ->method('getParameter')
             ->withAnyParameters()
             ->will($this->returnCallback(function ($v) use ($webDir, $emoticonPath, $rootDir, $emoticonFolder) {
                 switch ($v) {
-                    case 'assetic.write_to':
+                    case 'fm_bbcode.public_path':
                         return $webDir;
                     case 'fm_bbcode.emoticon.path':
                         return $emoticonPath;
