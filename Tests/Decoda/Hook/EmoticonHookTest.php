@@ -2,12 +2,12 @@
 
 namespace FM\BbcodeBundle\Tests\Decoda\Hook;
 
+use FM\BbcodeBundle\Decoda\Hook\EmoticonHook;
 use FM\BbcodeBundle\Emoticon\Emoticon;
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
-use FM\BbcodeBundle\Decoda\Hook\EmoticonHook;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use FM\BbcodeBundle\Emoticon\Loader\FileLoader;
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class EmoticonHookTest extends TestCase
 {

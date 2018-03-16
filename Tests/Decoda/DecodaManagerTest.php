@@ -2,13 +2,13 @@
 
 namespace FM\BbcodeBundle\Tests\Decoda;
 
-use FM\BbcodeBundle\Decoda\DecodaManager;
-use Symfony\Component\HttpKernel\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Decoda\Filter;
 use Decoda\Hook;
-use \PHPUnit\Framework\TestCase;
+use FM\BbcodeBundle\Decoda\DecodaManager;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class DecodaManagerTest extends TestCase
 {

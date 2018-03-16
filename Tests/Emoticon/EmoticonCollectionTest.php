@@ -4,11 +4,11 @@ namespace FM\BbcodeBundle\Tests\Emoticon;
 
 use FM\BbcodeBundle\Emoticon\Emoticon;
 use FM\BbcodeBundle\Emoticon\EmoticonCollection;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Alexandre Quercia <alquerci@email.com>
- */use \PHPUnit\Framework\TestCase;
-
+ */
 class EmoticonCollectionTest extends TestCase
 {
     public function testAddOverriddenEmoticon()

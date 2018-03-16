@@ -3,7 +3,7 @@
 namespace FM\BbcodeBundle\Tests\Decoda;
 
 use FM\BbcodeBundle\Decoda\Decoda;
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DecodaTest extends TestCase
 {

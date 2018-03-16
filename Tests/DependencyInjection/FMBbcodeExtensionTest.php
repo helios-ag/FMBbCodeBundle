@@ -10,7 +10,7 @@ namespace FM\BbcodeBundle\Tests\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use FM\BbcodeBundle\DependencyInjection\FMBbcodeExtension;
 use Symfony\Component\Yaml\Parser;
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class FMBbcodeExtensionTest extends TestCase
 {

@@ -2,17 +2,17 @@
 
 namespace FM\BbcodeBundle\Tests\Emoticon\Loader;
 
-use Symfony\Component\Config\FileLocator;
 use FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\FileLocator;
 
 /**
  * @author Alexandre Quercia <alquerci@email.com>
- */use \PHPUnit\Framework\TestCase;
-
+ */
 class PhpFileLoaderTest extends TestCase
 {
     /**
-     * @covers FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader::supports
+     * @covers \FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader::supports
      */
     public function testSupports()
     {
@@ -23,7 +23,7 @@ class PhpFileLoaderTest extends TestCase
     }
 
     /**
-     * @covers FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader::load
+     * @covers \FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader::load
      */
     public function testLoad()
     {
@@ -37,7 +37,7 @@ class PhpFileLoaderTest extends TestCase
     }
 
     /**
-     * @covers FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader::load
+     * @covers \FM\BbcodeBundle\Emoticon\Loader\PhpFileLoader::load
      */
     public function testLoadSupportImport()
     {
