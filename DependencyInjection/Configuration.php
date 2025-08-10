@@ -23,10 +23,10 @@ class Configuration implements ConfigurationInterface
      *
      * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('fm_bbcode', 'array');
+        $treeBuilder = new TreeBuilder('fm_bbcode');
+        $rootNode    = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()

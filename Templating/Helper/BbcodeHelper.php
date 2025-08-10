@@ -2,8 +2,8 @@
 
 namespace FM\BbcodeBundle\Templating\Helper;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Templating\Helper\Helper;
+use Twig\Error\RuntimeError;
 use FM\BbcodeBundle\Decoda\DecodaManager as DecodaManager;
 
 /**
@@ -27,17 +27,17 @@ class BbcodeHelper extends Helper
     }
 
     /**
-     * @param $value
-     * @param $filterSet
+     * @param mixed $value
+     * @param string $filterSet
      *
      * @return string
      *
-     * @throws \Twig_Error_Runtime
+     * @throws RuntimeError
      */
-    public function filter($value, $filterSet = DecodaManager::DECODA_DEFAULT)
+    public function filter($value, string $filterSet = DecodaManager::DECODA_DEFAULT): string
     {
         if (!is_string($value)) {
-            throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
+            throw new RuntimeError('The filter can be applied to strings only.');
         }
 
         return $this->decodaManager->get($value, $filterSet)->parse();
@@ -46,17 +46,17 @@ class BbcodeHelper extends Helper
     /**
      * Strip tags.
      *
-     * @param $value
-     * @param $filterSet
+     * @param mixed $value
+     * @param string $filterSet
      *
      * @return string
      *
-     * @throws \Twig_Error_Runtime
+     * @throws RuntimeError
      */
-    public function clean($value, $filterSet = DecodaManager::DECODA_DEFAULT)
+    public function clean($value, string $filterSet = DecodaManager::DECODA_DEFAULT): string
     {
         if (!is_string($value)) {
-            throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
+            throw new RuntimeError('The filter can be applied to strings only.');
         }
 
         return $this->decodaManager->get($value, $filterSet)->strip(true);

@@ -1,9 +1,14 @@
 FMBBCodeBundle
 ==============
 
-[PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony2
+[PHP-Decoda](https://github.com/milesj/decoda) integration in Symfony
 
 A lightweight lexical string parser for BBCode styled markup.
+
+## Requirements
+
+- PHP 8.1 or higher
+- Symfony 6.4+ or 7.x
 
 ## Contributors
 
@@ -36,22 +41,15 @@ Using Composer, just add the following configuration to your `composer.json`:
 
 Or you can use composer to install this bundle:
 
-For symfony <3.0, use latest ~6 version
-
-```sh
-composer require helios-ag/fm-bbcode-bundle:~6
-```
-
-for Symfony 3
+For Symfony 6.4+ and 7.x
 
 ```sh
 composer require helios-ag/fm-bbcode-bundle
 ```
-or
 
-```sh
-composer require helios-ag/fm-bbcode-bundle:~7
-```
+For legacy versions:
+- Symfony 3.x: use `~7.0`
+- Symfony 2.x: use `~6.0`
 
 ### Step 2: Enable the bundle
 
